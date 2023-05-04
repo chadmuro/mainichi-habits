@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from "react-native";
 export default function Today() {
   return (
     <View style={styles.container}>
-      <Text>Hello World</Text>
+      <Text>Today Screen</Text>
       <StatusBar style="auto" />
     </View>
   );

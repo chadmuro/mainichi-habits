@@ -1,4 +1,4 @@
-import { Text } from "react-native";
+import Text from "../../components/styled/Text";
 import TabLayout from "../../components/TabLayout";
 
 export default function Month() {

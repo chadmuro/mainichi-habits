@@ -6,6 +6,15 @@ const palette = {
   white: "#F0F2F3",
 };
 
+const habitColors = {
+  red: "#FFABAB",
+  blue: "#6EB5FF",
+  green: "#BFFCC6",
+  yellow: "#FFF5BA",
+  pink: "#FF9CEE",
+  purple: "#C5A3FF",
+};
+
 export const theme = {
   colors: {
     text: palette.white,
@@ -15,6 +24,9 @@ export const theme = {
     success: palette.green,
     danger: palette.red,
     failure: palette.red,
+    habit: {
+      ...habitColors,
+    },
   },
   spacing: {
     s: 8,

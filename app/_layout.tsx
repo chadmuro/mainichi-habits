@@ -4,21 +4,43 @@ import Check from "../assets/navigation/check.svg";
 import Month from "../assets/navigation/month.svg";
 import Settings from "../assets/navigation/settings.svg";
 import Year from "../assets/navigation/year.svg";
+import { theme } from "../theme";
 
-export default function BaseLayout() {
+export default function TabsLayout() {
   return (
-    <Tabs>
+    <Tabs
+      screenOptions={{
+        tabBarStyle: {
+          backgroundColor: theme.colors.background,
+        },
+        headerStyle: {
+          backgroundColor: theme.colors.background,
+        },
+        headerTitleStyle: {
+          color: theme.colors.text,
+        },
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
           title: "Today",
           tabBarLabel: ({ focused }) => (
-            <Text style={{ fontSize: 10, color: focused ? "#000" : "#a5a5a5" }}>
+            <Text
+              style={{
+                fontSize: 10,
+                color: focused ? theme.colors.primary : theme.colors.text,
+              }}
+            >
               Today
             </Text>
           ),
           tabBarIcon: ({ focused }) => (
-            <Check height={28} width={28} fill={focused ? "#000" : "#a5a5a5"} />
+            <Check
+              height={28}
+              width={28}
+              fill={focused ? theme.colors.primary : theme.colors.text}
+            />
           ),
         }}
       />
@@ -27,12 +49,21 @@ export default function BaseLayout() {
         options={{
           title: "Month",
           tabBarLabel: ({ focused }) => (
-            <Text style={{ fontSize: 10, color: focused ? "#000" : "#a5a5a5" }}>
+            <Text
+              style={{
+                fontSize: 10,
+                color: focused ? theme.colors.primary : theme.colors.text,
+              }}
+            >
               Month
             </Text>
           ),
           tabBarIcon: ({ focused }) => (
-            <Month height={28} width={28} fill={focused ? "#000" : "#a5a5a5"} />
+            <Month
+              height={28}
+              width={28}
+              fill={focused ? theme.colors.primary : theme.colors.text}
+            />
           ),
         }}
       />
@@ -41,12 +72,21 @@ export default function BaseLayout() {
         options={{
           title: "Year",
           tabBarLabel: ({ focused }) => (
-            <Text style={{ fontSize: 10, color: focused ? "#000" : "#a5a5a5" }}>
+            <Text
+              style={{
+                fontSize: 10,
+                color: focused ? theme.colors.primary : theme.colors.text,
+              }}
+            >
               Year
             </Text>
           ),
           tabBarIcon: ({ focused }) => (
-            <Year height={28} width={28} fill={focused ? "#000" : "#a5a5a5"} />
+            <Year
+              height={28}
+              width={28}
+              fill={focused ? theme.colors.primary : theme.colors.text}
+            />
           ),
         }}
       />
@@ -55,7 +95,12 @@ export default function BaseLayout() {
         options={{
           title: "Settings",
           tabBarLabel: ({ focused }) => (
-            <Text style={{ fontSize: 10, color: focused ? "#000" : "#a5a5a5" }}>
+            <Text
+              style={{
+                fontSize: 10,
+                color: focused ? theme.colors.primary : theme.colors.text,
+              }}
+            >
               Settings
             </Text>
           ),
@@ -63,7 +108,7 @@ export default function BaseLayout() {
             <Settings
               height={28}
               width={28}
-              fill={focused ? "#000" : "#a5a5a5"}
+              fill={focused ? theme.colors.primary : theme.colors.text}
             />
           ),
         }}

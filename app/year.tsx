@@ -1,20 +1,10 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { Text } from "react-native";
+import TabLayout from "../components/TabLayout";
 
 export default function Year() {
   return (
-    <View style={styles.container}>
+    <TabLayout>
       <Text>Year Screen</Text>
-      <StatusBar style="auto" />
-    </View>
+    </TabLayout>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

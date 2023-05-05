@@ -1,10 +1,5 @@
-import { Text } from "react-native";
-import TabLayout from "../components/TabLayout";
+import { Redirect } from "expo-router";
 
-export default function Today() {
-  return (
-    <TabLayout>
-      <Text>Today Screen</Text>
-    </TabLayout>
-  );
+export default function App() {
+  return <Redirect href="/home" />;
 }

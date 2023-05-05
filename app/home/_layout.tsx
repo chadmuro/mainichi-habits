@@ -1,10 +1,7 @@
 import { Text } from "react-native";
 import { Tabs } from "expo-router";
-import Check from "../assets/navigation/check.svg";
-import Month from "../assets/navigation/month.svg";
-import Settings from "../assets/navigation/settings.svg";
-import Year from "../assets/navigation/year.svg";
-import { theme } from "../theme";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { theme } from "../../theme";
 
 export default function TabsLayout() {
   return (
@@ -22,7 +19,7 @@ export default function TabsLayout() {
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="today"
         options={{
           title: "Today",
           tabBarLabel: ({ focused }) => (
@@ -36,10 +33,10 @@ export default function TabsLayout() {
             </Text>
           ),
           tabBarIcon: ({ focused }) => (
-            <Check
-              height={28}
-              width={28}
-              fill={focused ? theme.colors.primary : theme.colors.text}
+            <Ionicons
+              name="checkmark-circle-outline"
+              size={24}
+              color={focused ? theme.colors.primary : theme.colors.text}
             />
           ),
         }}
@@ -59,10 +56,10 @@ export default function TabsLayout() {
             </Text>
           ),
           tabBarIcon: ({ focused }) => (
-            <Month
-              height={28}
-              width={28}
-              fill={focused ? theme.colors.primary : theme.colors.text}
+            <Ionicons
+              name="today-outline"
+              size={24}
+              color={focused ? theme.colors.primary : theme.colors.text}
             />
           ),
         }}
@@ -82,10 +79,10 @@ export default function TabsLayout() {
             </Text>
           ),
           tabBarIcon: ({ focused }) => (
-            <Year
-              height={28}
-              width={28}
-              fill={focused ? theme.colors.primary : theme.colors.text}
+            <Ionicons
+              name="calendar-outline"
+              size={24}
+              color={focused ? theme.colors.primary : theme.colors.text}
             />
           ),
         }}
@@ -105,10 +102,10 @@ export default function TabsLayout() {
             </Text>
           ),
           tabBarIcon: ({ focused }) => (
-            <Settings
-              height={28}
-              width={28}
-              fill={focused ? theme.colors.primary : theme.colors.text}
+            <Ionicons
+              name="settings-outline"
+              size={24}
+              color={focused ? theme.colors.primary : theme.colors.text}
             />
           ),
         }}

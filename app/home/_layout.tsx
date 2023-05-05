@@ -1,5 +1,5 @@
-import { Text } from "react-native";
-import { Tabs } from "expo-router";
+import { Pressable, Text } from "react-native";
+import { Link, Tabs } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { theme } from "../../theme";
 
@@ -38,6 +38,17 @@ export default function TabsLayout() {
               size={24}
               color={focused ? theme.colors.primary : theme.colors.text}
             />
+          ),
+          headerRight: () => (
+            <Link href="home/today/add" asChild>
+              <Pressable>
+                <Ionicons
+                  name="add-outline"
+                  size={24}
+                  color={theme.colors.text}
+                />
+              </Pressable>
+            </Link>
           ),
         }}
       />

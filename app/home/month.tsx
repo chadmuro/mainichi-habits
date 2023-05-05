@@ -4,7 +4,7 @@ import TabLayout from "../../components/TabLayout";
 export default function Month() {
   return (
     <TabLayout>
-      <Text>Month Screen</Text>
+      <Text>Coming soon...</Text>
     </TabLayout>
   );
 }

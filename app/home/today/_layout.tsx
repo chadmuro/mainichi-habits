@@ -1,7 +1,6 @@
 import { Link, Stack } from "expo-router";
 import React from "react";
 import { Pressable } from "react-native";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { theme } from "../../../theme";
 import Text from "../../../components/styled/Text";
 

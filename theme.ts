@@ -6,7 +6,7 @@ const palette = {
   white: "#F0F2F3",
 };
 
-const habitColors = {
+export const habitColors = {
   red: "#FFABAB",
   blue: "#6EB5FF",
   green: "#BFFCC6",

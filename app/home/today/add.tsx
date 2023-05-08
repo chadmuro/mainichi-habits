@@ -1,6 +1,10 @@
-import { TouchableOpacity, View, StyleSheet, Button } from "react-native";
+import { TouchableOpacity, View, StyleSheet, Text } from "react-native";
 import { useState } from "react";
+import DateTimePicker, {
+  DateTimePickerEvent,
+} from "@react-native-community/datetimepicker";
 import * as Crypto from "expo-crypto";
+import dayjs from "dayjs";
 import TextInput from "../../../components/styled/TextInput";
 import TextLabel from "../../../components/styled/TextLabel";
 import TabLayout from "../../../components/TabLayout";
@@ -10,6 +14,7 @@ import { useDatabase } from "../../../contexts/databaseContext";
 export default function Add() {
   const [habit, setHabit] = useState("");
   const [daysPerWeek, setDaysPerWeek] = useState("");
+  const [startDate, setStartDate] = useState(dayjs().startOf("date").toDate());
   const [color, setColor] = useState<string | null>(null);
   const { db } = useDatabase();
 
@@ -18,8 +23,8 @@ export default function Add() {
     db.transaction(
       (tx) => {
         tx.executeSql(
-          "insert into habits (id, title, days_per_week, color) values (?, ?, ?, ?)",
-          [UUID, title, daysPerWeek, color]
+          "insert into habits (id, title, days_per_week, color, start_date) values (?, ?, ?, ?, ?)",
+          [UUID, title, daysPerWeek, color, String(startDate)]
         );
         tx.executeSql("select * from habits", [], (_, { rows }) =>
           console.log(JSON.stringify(rows))
@@ -39,6 +44,14 @@ export default function Add() {
     addHabit(habit, Number(daysPerWeek), color);
   }
 
+  const onDateChange = (event: DateTimePickerEvent, date?: Date) => {
+    if (!date) return;
+    const selectedDate = date;
+    setStartDate(selectedDate);
+  };
+
+  console.log(startDate);
+
   return (
     <TabLayout>
       <View style={styles.container}>
@@ -48,6 +61,17 @@ export default function Add() {
             placeholder="New habit"
             value={habit}
             onChangeText={(habit: string) => setHabit(habit)}
+          />
+        </View>
+        <View style={styles.inputWrapper}>
+          <TextLabel title="Start date" />
+          <DateTimePicker
+            value={startDate}
+            display="spinner"
+            mode="date"
+            onChange={onDateChange}
+            textColor={theme.colors.text}
+            maximumDate={new Date()}
           />
         </View>
         <View style={styles.inputWrapper}>
@@ -83,7 +107,9 @@ export default function Add() {
             ))}
           </View>
         </View>
-        <Button title="Save" onPress={onSubmit} />
+        <TouchableOpacity style={styles.buttonContainer} onPress={onSubmit}>
+          <Text style={styles.buttonText}>Save</Text>
+        </TouchableOpacity>
       </View>
     </TabLayout>
   );
@@ -108,5 +134,16 @@ const styles = StyleSheet.create({
     width: 44,
     borderRadius: 44 / 2,
     borderWidth: 2,
+  },
+  buttonContainer: {
+    backgroundColor: theme.colors.primary,
+    width: "100%",
+    alignItems: "center",
+    paddingVertical: 12,
+    borderRadius: 8,
+  },
+  buttonText: {
+    color: theme.colors.text,
+    fontSize: 18,
   },
 });

@@ -39,7 +39,7 @@ const DatabaseProvider = ({ children }: PropsWithChildren<{}>) => {
     console.log("set up db");
     db.transaction((tx) => {
       tx.executeSql(
-        "create table if not exists habits (id string primary key not null, title text, days_per_week int, color text);"
+        "create table if not exists habits (id string primary key not null, title text, days_per_week int, color text, start_date text);"
       );
     });
   }, []);

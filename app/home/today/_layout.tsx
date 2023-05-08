@@ -34,13 +34,6 @@ export default function Layout() {
               </Pressable>
             </Link>
           ),
-          headerRight: () => (
-            <Link href="home/today" asChild>
-              <Pressable>
-                <Text>Save</Text>
-              </Pressable>
-            </Link>
-          ),
         }}
       />
     </Stack>

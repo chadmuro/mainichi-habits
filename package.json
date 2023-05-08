@@ -9,7 +9,9 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@react-native-community/datetimepicker": "6.7.3",
     "@types/react": "~18.0.27",
+    "dayjs": "^1.11.7",
     "expo": "~48.0.15",
     "expo-constants": "~14.2.1",
     "expo-crypto": "~12.2.1",

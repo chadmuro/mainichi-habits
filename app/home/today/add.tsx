@@ -3,37 +3,19 @@ import { useState } from "react";
 import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
-import * as Crypto from "expo-crypto";
 import dayjs from "dayjs";
 import TextInput from "../../../components/styled/TextInput";
 import TextLabel from "../../../components/styled/TextLabel";
 import TabLayout from "../../../components/TabLayout";
 import { habitColors, theme } from "../../../theme";
-import { useDatabase } from "../../../contexts/databaseContext";
+import { useHabitState } from "../../../store/habits";
 
 export default function Add() {
   const [habit, setHabit] = useState("");
   const [daysPerWeek, setDaysPerWeek] = useState("");
   const [startDate, setStartDate] = useState(dayjs().startOf("date").toDate());
   const [color, setColor] = useState<string | null>(null);
-  const { db } = useDatabase();
-
-  function addHabit(title: string, daysPerWeek: number, color: string) {
-    const UUID = Crypto.randomUUID();
-    db.transaction(
-      (tx) => {
-        tx.executeSql(
-          "insert into habits (id, title, days_per_week, color, start_date) values (?, ?, ?, ?, ?)",
-          [UUID, title, daysPerWeek, color, String(startDate)]
-        );
-        tx.executeSql("select * from habits", [], (_, { rows }) =>
-          console.log(JSON.stringify(rows))
-        );
-      },
-      () => console.log("error"),
-      () => console.log("success")
-    );
-  }
+  const { addHabit } = useHabitState();
 
   function onColorChange(color: string) {
     setColor(color);
@@ -41,7 +23,7 @@ export default function Add() {
 
   function onSubmit() {
     if (!color) return;
-    addHabit(habit, Number(daysPerWeek), color);
+    addHabit(habit, Number(daysPerWeek), color, startDate);
   }
 
   const onDateChange = (event: DateTimePickerEvent, date?: Date) => {
@@ -49,8 +31,6 @@ export default function Add() {
     const selectedDate = date;
     setStartDate(selectedDate);
   };
-
-  console.log(startDate);
 
   return (
     <TabLayout>

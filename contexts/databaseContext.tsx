@@ -41,6 +41,9 @@ const DatabaseProvider = ({ children }: PropsWithChildren<{}>) => {
       tx.executeSql(
         "create table if not exists habits (id string primary key not null, title text, days_per_week int, color text, start_date text);"
       );
+      tx.executeSql(
+        "create table if not exists checks (id string primary key not null, habit_id string, date text);"
+      );
     });
   }, []);
 

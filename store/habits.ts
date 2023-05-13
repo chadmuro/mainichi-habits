@@ -22,14 +22,14 @@ export const useHabitState = () => {
     title: string,
     daysPerWeek: number,
     color: string,
-    startDate: Date
+    startDate: string
   ) {
     const UUID = Crypto.randomUUID();
     db.transaction(
       (tx) => {
         tx.executeSql(
           "insert into habits (id, title, days_per_week, color, start_date) values (?, ?, ?, ?, ?)",
-          [UUID, title, daysPerWeek, color, String(startDate)]
+          [UUID, title, daysPerWeek, color, startDate]
         );
         tx.executeSql(
           "select * from habits where id = ?",

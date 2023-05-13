@@ -5,3 +5,9 @@ export type Habit = {
   color: string;
   start_date: string;
 };
+
+export type Check = {
+  id: string;
+  habit_id: string;
+  date: string;
+};

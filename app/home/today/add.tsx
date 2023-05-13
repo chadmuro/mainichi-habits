@@ -23,7 +23,7 @@ export default function Add() {
 
   function onSubmit() {
     if (!color) return;
-    addHabit(habit, Number(daysPerWeek), color, startDate);
+    addHabit(habit, Number(daysPerWeek), color, dayjs(startDate).toISOString());
   }
 
   const onDateChange = (event: DateTimePickerEvent, date?: Date) => {

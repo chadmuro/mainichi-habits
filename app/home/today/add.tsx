@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   buttonText: {
-    color: theme.colors.text,
+    color: theme.colors.background,
     fontSize: 18,
   },
 });

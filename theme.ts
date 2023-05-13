@@ -1,5 +1,5 @@
 const palette = {
-  purple: "#5A31F4",
+  yellow: "#EEE600",
   green: "#0ECD9D",
   red: "#CD0E61",
   black: "#0B0B0B",
@@ -20,7 +20,7 @@ export const theme = {
     text: palette.white,
     background: palette.black,
     foreground: palette.white,
-    primary: palette.purple,
+    primary: palette.yellow,
     success: palette.green,
     danger: palette.red,
     failure: palette.red,

@@ -7,7 +7,7 @@ interface Props extends TextProps {
 
 export default function Text({ children, ...props }: Props) {
   return (
-    <RNText {...props} style={[props.style, styles.text]}>
+    <RNText {...props} style={[styles.text, props.style]}>
       {children}
     </RNText>
   );

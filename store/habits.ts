@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { hookstate, useHookstate } from "@hookstate/core";
 import * as Crypto from "expo-crypto";
 import { Habit } from "../types";

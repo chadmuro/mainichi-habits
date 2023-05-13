@@ -30,7 +30,7 @@ export default function Layout() {
           headerLeft: () => (
             <Link href="home/today" asChild>
               <Pressable>
-                <Text>Cancel</Text>
+                <Text style={{ color: theme.colors.primary }}>Cancel</Text>
               </Pressable>
             </Link>
           ),

@@ -45,7 +45,7 @@ export default function TabsLayout() {
                 <Ionicons
                   name="add-outline"
                   size={24}
-                  color={theme.colors.text}
+                  color={theme.colors.primary}
                 />
               </Pressable>
             </Link>

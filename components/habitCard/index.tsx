@@ -1,10 +1,13 @@
 import { View, StyleSheet, Pressable, Vibration } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
+import dayjs from "dayjs";
 import { theme } from "../../theme";
 import { Habit } from "../../types";
 import Text from "../styled/Text";
 import { useCheckState } from "../../store/checks";
-import dayjs from "dayjs";
+import { adjustColor } from "../../utils/adjustColor";
+import { calculateStreak } from "../../utils/calculateStreak";
 
 interface Props {
   habit: Habit;
@@ -12,10 +15,21 @@ interface Props {
 
 export default function HabitCard({ habit }: Props) {
   const { addCheck, deleteCheck, checks } = useCheckState();
-  const today = dayjs().startOf("date").toISOString();
+  const today = dayjs().format("YYYY-MM-DD");
 
-  const checked = checks.get().find((check) => {
-    return check.habit_id === habit.id && check.date === today;
+  const habitChecks = checks.get().filter((check) => {
+    return check.habit_id === habit.id;
+  });
+
+  const checked = habitChecks.find((check) => {
+    return check.date === today;
+  });
+
+  const completedColor = adjustColor(habit.color, -100);
+  const streak = calculateStreak({
+    checks: habitChecks,
+    daysPerWeek: habit.days_per_week,
+    today,
   });
 
   function onCheckPress() {
@@ -28,7 +42,15 @@ export default function HabitCard({ habit }: Props) {
   }
 
   return (
-    <View style={[styles.container, { borderColor: habit.color }]}>
+    <View
+      style={[
+        styles.container,
+        {
+          borderColor: checked ? completedColor : habit.color,
+          backgroundColor: checked ? completedColor : undefined,
+        },
+      ]}
+    >
       <View
         style={{
           flexDirection: "row",
@@ -36,7 +58,22 @@ export default function HabitCard({ habit }: Props) {
           alignItems: "center",
         }}
       >
-        <Text>Streak</Text>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <MaterialIcons
+            name="local-fire-department"
+            size={30}
+            color={checked ? habit.color : theme.colors.text}
+          />
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: "700",
+              paddingLeft: theme.spacing.s / 2,
+            }}
+          >
+            {streak}
+          </Text>
+        </View>
         {checked ? (
           <Pressable onPress={onCheckPress}>
             <Ionicons name="checkmark-circle" size={30} color={habit.color} />

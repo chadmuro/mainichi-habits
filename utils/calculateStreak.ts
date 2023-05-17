@@ -35,20 +35,21 @@ export function calculateStreak({ checks, daysPerWeek, today }: Props) {
   return "";
 }
 
-function checkPreviousDay(checks: Check[], day: string) {
+function checkPreviousDay(
+  checks: Check[],
+  day: string,
+  streak?: number
+): number {
   const prevDay = dayjs(day).subtract(1, "day").format("YYYY-MM-DD");
-  let streak = 1;
+  let newStreak: number = streak || 1;
 
   const checked = checks.find((check) => {
     return check.date === prevDay;
   });
 
-  if (!checked) return streak;
-  streak = streak + 1;
-
-  if (checked) {
-    streak = streak + 1;
-    checkPreviousDay(checks, prevDay);
+  if (!checked) {
+    return newStreak;
   }
-  return streak;
+  newStreak = newStreak + 1;
+  return checkPreviousDay(checks, prevDay, newStreak);
 }

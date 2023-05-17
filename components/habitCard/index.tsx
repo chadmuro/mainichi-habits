@@ -8,6 +8,7 @@ import Text from "../styled/Text";
 import { useCheckState } from "../../store/checks";
 import { adjustColor } from "../../utils/adjustColor";
 import { calculateStreak } from "../../utils/calculateStreak";
+import DaysOfTheWeek from "./DaysOfTheWeek";
 
 interface Props {
   habit: Habit;
@@ -58,7 +59,13 @@ export default function HabitCard({ habit }: Props) {
           alignItems: "center",
         }}
       >
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            paddingBottom: theme.spacing.xs,
+          }}
+        >
           <MaterialIcons
             name="local-fire-department"
             size={30}
@@ -88,8 +95,13 @@ export default function HabitCard({ habit }: Props) {
           </Pressable>
         )}
       </View>
-      <Text>{habit.title}</Text>
-      <Text>{`Days per week goal: ${habit.days_per_week}`}</Text>
+      <Text style={{ fontSize: 16, paddingBottom: theme.spacing.xs }}>
+        {habit.title}
+      </Text>
+      <Text
+        style={{ paddingBottom: theme.spacing.s }}
+      >{`Days per week goal: ${habit.days_per_week}`}</Text>
+      <DaysOfTheWeek checks={habitChecks} color={completedColor} />
     </View>
   );
 }

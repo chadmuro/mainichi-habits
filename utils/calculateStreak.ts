@@ -8,7 +8,6 @@ interface Props {
 }
 
 export function calculateStreak({ checks, daysPerWeek, today }: Props) {
-  console.log(checks, daysPerWeek, today);
   let interval: "days" | "weeks" = "weeks";
   if (daysPerWeek === 7) {
     // Calculate day streak

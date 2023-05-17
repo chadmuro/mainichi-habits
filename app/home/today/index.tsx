@@ -36,6 +36,7 @@ export default function Today() {
           width: "100%",
           height: "100%",
           paddingVertical: theme.spacing.m,
+          paddingHorizontal: theme.spacing.xs,
           gap: theme.spacing.m,
           justifyContent: "flex-start",
         }}

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { View } from "react-native";
+import { View, ScrollView } from "react-native";
 import Text from "../../../components/styled/Text";
 import HabitCard from "../../../components/habitCard";
 import TabLayout from "../../../components/TabLayout";
@@ -31,18 +31,20 @@ export default function Today() {
 
   return (
     <TabLayout>
-      <View
-        style={{
-          width: "100%",
-          height: "100%",
-          paddingVertical: theme.spacing.m,
-          paddingHorizontal: theme.spacing.xs,
-          gap: theme.spacing.m,
-          justifyContent: "flex-start",
-        }}
-      >
-        {habitCards}
-      </View>
+      <ScrollView style={{ width: "100%" }}>
+        <View
+          style={{
+            width: "100%",
+            height: "100%",
+            paddingVertical: theme.spacing.m,
+            paddingHorizontal: theme.spacing.xs,
+            gap: theme.spacing.m,
+            justifyContent: "flex-start",
+          }}
+        >
+          {habitCards}
+        </View>
+      </ScrollView>
     </TabLayout>
   );
 }

@@ -1,4 +1,5 @@
 import { View, StyleSheet, Pressable, Vibration } from "react-native";
+import { useMemo } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import dayjs from "dayjs";
@@ -21,17 +22,20 @@ export default function HabitCard({ habit }: Props) {
   const habitChecks = checks.get().filter((check) => {
     return check.habit_id === habit.id;
   });
+  const numHabitChecks = habitChecks.length;
 
   const checked = habitChecks.find((check) => {
     return check.date === today;
   });
 
   const completedColor = adjustColor(habit.color, -100);
-  const streak = calculateStreak({
-    checks: habitChecks,
-    daysPerWeek: habit.days_per_week,
-    today,
-  });
+  const streak = useMemo(() => {
+    return calculateStreak({
+      checks: habitChecks,
+      daysPerWeek: habit.days_per_week,
+      today,
+    });
+  }, [numHabitChecks]);
 
   function onCheckPress() {
     if (!checked) {

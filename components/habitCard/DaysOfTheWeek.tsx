@@ -2,9 +2,10 @@ import { View, StyleSheet } from "react-native";
 import dayjs from "dayjs";
 import Text from "../styled/Text";
 import { theme } from "../../theme";
-import { Check } from "../../types";
+import { Check, Habit } from "../../types";
 
 interface Props {
+  habit: Habit;
   checks: Check[];
   color: string;
 }
@@ -15,7 +16,7 @@ function checkDayOfTheWeek(date: string, checks: Check[]) {
   return false;
 }
 
-export default function DaysOfTheWeek({ checks, color }: Props) {
+export default function DaysOfTheWeek({ habit, checks, color }: Props) {
   const firstDay = dayjs().startOf("week");
   const sunday = firstDay.format("YYYY-MM-DD");
   const monday = firstDay.add(1, "day").format("YYYY-MM-DD");
@@ -39,23 +40,41 @@ export default function DaysOfTheWeek({ checks, color }: Props) {
     { text: "S", date: saturday, checked: checkDayOfTheWeek(saturday, checks) },
   ];
 
+  const checkedDays = days.filter((day) => day.checked);
+
   return (
-    <View style={styles.daysContainer}>
-      {days.map((day) => (
-        <View
-          key={day.date}
-          style={[
-            styles.dayContainer,
-            {
-              borderColor: theme.colors.text,
-              backgroundColor: day.checked ? color : theme.colors.background,
-            },
-          ]}
-        >
-          <Text>{day.text}</Text>
-        </View>
-      ))}
-    </View>
+    <>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          paddingBottom: theme.spacing.s,
+        }}
+      >
+        <Text style={{ fontSize: 16, paddingBottom: theme.spacing.xs }}>
+          {habit.title}
+        </Text>
+        <Text
+          style={{ paddingBottom: theme.spacing.s }}
+        >{`Goal: ${checkedDays.length} / ${habit.days_per_week}`}</Text>
+      </View>
+      <View style={styles.daysContainer}>
+        {days.map((day) => (
+          <View
+            key={day.date}
+            style={[
+              styles.dayContainer,
+              {
+                borderColor: theme.colors.text,
+                backgroundColor: day.checked ? color : theme.colors.background,
+              },
+            ]}
+          >
+            <Text>{day.text}</Text>
+          </View>
+        ))}
+      </View>
+    </>
   );
 }
 

@@ -60,14 +60,14 @@ export default function HabitCard({ habit }: Props) {
         style={{
           flexDirection: "row",
           justifyContent: "space-between",
-          alignItems: "center",
+          alignItems: "flex-start",
         }}
       >
         <View
           style={{
             flexDirection: "row",
             alignItems: "center",
-            paddingBottom: theme.spacing.xs,
+            paddingBottom: theme.spacing.s,
           }}
         >
           <MaterialIcons
@@ -99,13 +99,11 @@ export default function HabitCard({ habit }: Props) {
           </Pressable>
         )}
       </View>
-      <Text style={{ fontSize: 16, paddingBottom: theme.spacing.xs }}>
-        {habit.title}
-      </Text>
-      <Text
-        style={{ paddingBottom: theme.spacing.s }}
-      >{`Days per week goal: ${habit.days_per_week}`}</Text>
-      <DaysOfTheWeek checks={habitChecks} color={completedColor} />
+      <DaysOfTheWeek
+        habit={habit}
+        checks={habitChecks}
+        color={completedColor}
+      />
     </View>
   );
 }

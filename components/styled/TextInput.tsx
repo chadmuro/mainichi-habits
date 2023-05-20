@@ -13,7 +13,7 @@ export default function TextInput({ ...props }: Props) {
       {...props}
       style={[props.style, styles.input]}
       placeholderTextColor="#a5a5a5"
-      selectionColor={theme.colors.text}
+      selectionColor={theme.colors.primary}
     />
   );
 }
@@ -21,7 +21,7 @@ export default function TextInput({ ...props }: Props) {
 const styles = StyleSheet.create({
   input: {
     borderRadius: 8,
-    width: "100%%",
+    width: "100%",
     height: 48,
     fontSize: 16,
     padding: 10,

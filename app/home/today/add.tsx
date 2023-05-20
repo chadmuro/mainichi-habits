@@ -1,4 +1,10 @@
-import { TouchableOpacity, View, StyleSheet, Text } from "react-native";
+import {
+  TouchableOpacity,
+  View,
+  StyleSheet,
+  Text,
+  Pressable,
+} from "react-native";
 import { useState } from "react";
 import DateTimePicker, {
   DateTimePickerEvent,
@@ -9,6 +15,7 @@ import TextLabel from "../../../components/styled/TextLabel";
 import TabLayout from "../../../components/TabLayout";
 import { habitColors, theme } from "../../../theme";
 import { useHabitState } from "../../../store/habits";
+import { Link, Stack } from "expo-router";
 
 export default function Add() {
   const [habit, setHabit] = useState("");
@@ -39,6 +46,26 @@ export default function Add() {
 
   return (
     <TabLayout>
+      <Stack.Screen
+        options={{
+          presentation: "modal",
+          title: "New habit",
+          headerLeft: () => (
+            <Link href="home/today" asChild>
+              <Pressable>
+                <Text style={{ color: theme.colors.primary }}>Cancel</Text>
+              </Pressable>
+            </Link>
+          ),
+          headerRight: () => (
+            <Link href="home/today" asChild>
+              <Pressable onPress={onSubmit}>
+                <Text style={{ color: theme.colors.primary }}>Save</Text>
+              </Pressable>
+            </Link>
+          ),
+        }}
+      />
       <View style={styles.container}>
         <View style={styles.inputWrapper}>
           <TextLabel title="New habit" />
@@ -92,9 +119,6 @@ export default function Add() {
             ))}
           </View>
         </View>
-        <TouchableOpacity style={styles.buttonContainer} onPress={onSubmit}>
-          <Text style={styles.buttonText}>Save</Text>
-        </TouchableOpacity>
       </View>
     </TabLayout>
   );
@@ -119,16 +143,5 @@ const styles = StyleSheet.create({
     width: 44,
     borderRadius: 44 / 2,
     borderWidth: 2,
-  },
-  buttonContainer: {
-    backgroundColor: theme.colors.primary,
-    width: "100%",
-    alignItems: "center",
-    paddingVertical: 12,
-    borderRadius: 8,
-  },
-  buttonText: {
-    color: theme.colors.background,
-    fontSize: 18,
   },
 });

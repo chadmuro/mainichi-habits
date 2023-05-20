@@ -1,3 +1,4 @@
+import { theme } from "../../theme";
 import Text from "./Text";
 
 interface Props {
@@ -6,7 +7,13 @@ interface Props {
 
 export default function TextLabel({ title }: Props) {
   return (
-    <Text style={{ alignSelf: "flex-start", paddingBottom: 4, fontSize: 16 }}>
+    <Text
+      style={{
+        alignSelf: "flex-start",
+        paddingBottom: theme.spacing.s,
+        fontSize: 16,
+      }}
+    >
       {title}
     </Text>
   );

@@ -21,7 +21,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="today"
         options={{
-          title: "Today",
+          headerShown: false,
           tabBarLabel: ({ focused }) => (
             <Text
               style={{
@@ -38,17 +38,6 @@ export default function TabsLayout() {
               size={24}
               color={focused ? theme.colors.primary : theme.colors.text}
             />
-          ),
-          headerRight: () => (
-            <Link href="home/today/add" asChild>
-              <Pressable>
-                <Ionicons
-                  name="add-outline"
-                  size={24}
-                  color={theme.colors.primary}
-                />
-              </Pressable>
-            </Link>
           ),
         }}
       />

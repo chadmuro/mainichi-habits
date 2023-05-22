@@ -6,6 +6,7 @@ import {
   Pressable,
 } from "react-native";
 import { useState } from "react";
+import { Link, Stack } from "expo-router";
 import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
@@ -15,7 +16,6 @@ import TextLabel from "../../../components/styled/TextLabel";
 import TabLayout from "../../../components/TabLayout";
 import { habitColors, theme } from "../../../theme";
 import { useHabitState } from "../../../store/habits";
-import { Link, Stack } from "expo-router";
 
 export default function Add() {
   const [habit, setHabit] = useState("");
@@ -58,11 +58,9 @@ export default function Add() {
             </Link>
           ),
           headerRight: () => (
-            <Link href="home/today" asChild>
-              <Pressable onPress={onSubmit}>
-                <Text style={{ color: theme.colors.primary }}>Save</Text>
-              </Pressable>
-            </Link>
+            <Pressable onPress={onSubmit}>
+              <Text style={{ color: theme.colors.primary }}>Save</Text>
+            </Pressable>
           ),
         }}
       />
@@ -126,9 +124,10 @@ export default function Add() {
 
 const styles = StyleSheet.create({
   container: {
-    width: "90%",
+    width: "100%",
     height: "100%",
     alignItems: "center",
+    paddingHorizontal: theme.spacing.s,
   },
   inputWrapper: {
     width: "100%",

@@ -10,6 +10,7 @@ import { useCheckState } from "../../store/checks";
 import { adjustColor } from "../../utils/adjustColor";
 import { calculateStreak } from "../../utils/calculateStreak";
 import DaysOfTheWeek from "./DaysOfTheWeek";
+import { Link } from "expo-router";
 
 interface Props {
   habit: Habit;
@@ -47,7 +48,8 @@ export default function HabitCard({ habit }: Props) {
   }
 
   return (
-    <View
+    <Link
+      href={`home/today/${habit.id}`}
       style={[
         styles.container,
         {
@@ -55,56 +57,59 @@ export default function HabitCard({ habit }: Props) {
           backgroundColor: checked ? completedColor : undefined,
         },
       ]}
+      asChild
     >
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "flex-start",
-        }}
-      >
+      <Pressable>
         <View
           style={{
             flexDirection: "row",
-            alignItems: "center",
-            paddingBottom: theme.spacing.s,
+            justifyContent: "space-between",
+            alignItems: "flex-start",
           }}
         >
-          <MaterialIcons
-            name="local-fire-department"
-            size={30}
-            color={checked ? habit.color : theme.colors.text}
-          />
-          <Text
+          <View
             style={{
-              fontSize: 20,
-              fontWeight: "700",
-              paddingLeft: theme.spacing.s / 2,
+              flexDirection: "row",
+              alignItems: "center",
+              paddingBottom: theme.spacing.s,
             }}
           >
-            {streak}
-          </Text>
-        </View>
-        {checked ? (
-          <Pressable onPress={onCheckPress}>
-            <Ionicons name="checkmark-circle" size={30} color={habit.color} />
-          </Pressable>
-        ) : (
-          <Pressable onPress={onCheckPress}>
-            <Ionicons
-              name="checkmark-circle-outline"
+            <MaterialIcons
+              name="local-fire-department"
               size={30}
-              color={habit.color}
+              color={checked ? habit.color : theme.colors.text}
             />
-          </Pressable>
-        )}
-      </View>
-      <DaysOfTheWeek
-        habit={habit}
-        checks={habitChecks}
-        color={completedColor}
-      />
-    </View>
+            <Text
+              style={{
+                fontSize: 20,
+                fontWeight: "700",
+                paddingLeft: theme.spacing.s / 2,
+              }}
+            >
+              {streak}
+            </Text>
+          </View>
+          {checked ? (
+            <Pressable onPress={onCheckPress}>
+              <Ionicons name="checkmark-circle" size={30} color={habit.color} />
+            </Pressable>
+          ) : (
+            <Pressable onPress={onCheckPress}>
+              <Ionicons
+                name="checkmark-circle-outline"
+                size={30}
+                color={habit.color}
+              />
+            </Pressable>
+          )}
+        </View>
+        <DaysOfTheWeek
+          habit={habit}
+          checks={habitChecks}
+          color={completedColor}
+        />
+      </Pressable>
+    </Link>
   );
 }
 

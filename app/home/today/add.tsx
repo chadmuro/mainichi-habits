@@ -2,11 +2,11 @@ import {
   TouchableOpacity,
   View,
   StyleSheet,
-  Text,
+  Text as RNText,
   Pressable,
 } from "react-native";
 import { useState } from "react";
-import { Link, Stack } from "expo-router";
+import { Link, Stack, useRouter } from "expo-router";
 import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
@@ -15,27 +15,33 @@ import TextInput from "../../../components/styled/TextInput";
 import TextLabel from "../../../components/styled/TextLabel";
 import TabLayout from "../../../components/TabLayout";
 import { habitColors, theme } from "../../../theme";
+import Text from "../../../components/styled/Text";
 import { useHabitState } from "../../../store/habits";
+import TextError from "../../../components/styled/TextError";
+
+const days = [1, 2, 3, 4, 5, 6, 7];
 
 export default function Add() {
+  const router = useRouter();
   const [habit, setHabit] = useState("");
-  const [daysPerWeek, setDaysPerWeek] = useState("");
+  const [daysPerWeek, setDaysPerWeek] = useState(1);
   const [startDate, setStartDate] = useState(dayjs().startOf("date").toDate());
-  const [color, setColor] = useState<string | null>(null);
+  const [color, setColor] = useState("#FFABAB");
+  const [error, setError] = useState("");
   const { addHabit } = useHabitState();
 
   function onColorChange(color: string) {
     setColor(color);
   }
 
+  function onDaysChange(day: number) {
+    setDaysPerWeek(day);
+  }
+
   function onSubmit() {
-    if (!color) return;
-    addHabit(
-      habit,
-      Number(daysPerWeek),
-      color,
-      dayjs(startDate).format("YYYY-MM-DD")
-    );
+    if (!habit) return setError("Habit name is required");
+    addHabit(habit, daysPerWeek, color, dayjs(startDate).format("YYYY-MM-DD"));
+    router.push("home/today");
   }
 
   const onDateChange = (event: DateTimePickerEvent, date?: Date) => {
@@ -51,13 +57,13 @@ export default function Add() {
           headerLeft: () => (
             <Link href="home/today" asChild>
               <Pressable>
-                <Text style={{ color: theme.colors.primary }}>Cancel</Text>
+                <RNText style={{ color: theme.colors.primary }}>Cancel</RNText>
               </Pressable>
             </Link>
           ),
           headerRight: () => (
             <Pressable onPress={onSubmit}>
-              <Text style={{ color: theme.colors.primary }}>Save</Text>
+              <RNText style={{ color: theme.colors.primary }}>Save</RNText>
             </Pressable>
           ),
         }}
@@ -68,8 +74,12 @@ export default function Add() {
           <TextInput
             placeholder="New habit"
             value={habit}
-            onChangeText={(habit: string) => setHabit(habit)}
+            onChangeText={(habit: string) => {
+              if (habit) setError("");
+              setHabit(habit);
+            }}
           />
+          {error && <TextError title={error} />}
         </View>
         <View style={styles.inputWrapper}>
           <TextLabel title="Start date" />
@@ -84,16 +94,44 @@ export default function Add() {
         </View>
         <View style={styles.inputWrapper}>
           <TextLabel title="Days per week" />
-          <TextInput
-            placeholder="Days per week"
-            inputMode="numeric"
-            value={daysPerWeek}
-            onChangeText={(daysPerWeek: string) => setDaysPerWeek(daysPerWeek)}
-          />
+          <View style={styles.buttonsContainer}>
+            {days.map((day) => (
+              <TouchableOpacity key={day} onPress={() => onDaysChange(day)}>
+                <View
+                  style={[
+                    styles.color,
+                    {
+                      alignItems: "center",
+                      justifyContent: "center",
+                      backgroundColor:
+                        daysPerWeek === day
+                          ? theme.colors.primary
+                          : theme.colors.background,
+                      borderColor:
+                        daysPerWeek === day
+                          ? theme.colors.primary
+                          : theme.colors.text,
+                    },
+                  ]}
+                >
+                  <Text
+                    style={{
+                      color:
+                        daysPerWeek === day
+                          ? theme.colors.background
+                          : theme.colors.text,
+                    }}
+                  >
+                    {String(day)}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </View>
         </View>
         <View style={styles.inputWrapper}>
           <TextLabel title="Color" />
-          <View style={styles.colorContainer}>
+          <View style={styles.buttonsContainer}>
             {Object.values(habitColors).map((habitColor) => (
               <TouchableOpacity
                 key={habitColor}
@@ -131,9 +169,10 @@ const styles = StyleSheet.create({
     width: "100%",
     marginBottom: theme.spacing.m,
   },
-  colorContainer: {
+  buttonsContainer: {
     flexDirection: "row",
     gap: 10,
+    flexWrap: "wrap",
   },
   color: {
     height: 44,

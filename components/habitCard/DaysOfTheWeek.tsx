@@ -48,10 +48,11 @@ export default function DaysOfTheWeek({ habit, checks, color }: Props) {
         style={{
           flexDirection: "row",
           justifyContent: "space-between",
+          alignItems: "center",
           paddingBottom: theme.spacing.s,
         }}
       >
-        <Text style={{ fontSize: 16, paddingBottom: theme.spacing.xs }}>
+        <Text style={{ fontSize: 18, paddingBottom: theme.spacing.xs }}>
           {habit.title}
         </Text>
         <Text

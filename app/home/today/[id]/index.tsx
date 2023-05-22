@@ -1,4 +1,4 @@
-import { Link, Stack, useSearchParams } from "expo-router";
+import { Stack, useSearchParams, useRouter } from "expo-router";
 import { Alert, ScrollView, View } from "react-native";
 import Text from "../../../../components/styled/Text";
 import TabLayout from "../../../../components/TabLayout";
@@ -7,6 +7,7 @@ import { theme } from "../../../../theme";
 import Button from "../../../../components/styled/Button";
 
 export default function Details() {
+  const router = useRouter();
   const { id } = useSearchParams();
   const { habits } = useHabitState();
   const habit = habits.get().find((habit) => habit.id === id);
@@ -57,11 +58,13 @@ export default function Details() {
           }}
         >
           <View>
-            <Link href={`home/today/${habit.id}/edit`} asChild>
-              <Button color="primary" icon="pencil-outline">
-                Edit
-              </Button>
-            </Link>
+            <Button
+              color="primary"
+              icon="pencil-outline"
+              onPress={() => router.push(`home/today/${habit.id}/edit`)}
+            >
+              Edit
+            </Button>
           </View>
           <View>
             <Text>Stats</Text>

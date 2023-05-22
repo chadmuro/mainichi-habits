@@ -40,6 +40,7 @@ export default function Layout() {
           title: "New habit",
         }}
       />
+      <Stack.Screen name="[id]" />
     </Stack>
   );
 }

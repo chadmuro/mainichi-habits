@@ -48,8 +48,6 @@ export default function Add() {
     <TabLayout>
       <Stack.Screen
         options={{
-          presentation: "modal",
-          title: "New habit",
           headerLeft: () => (
             <Link href="home/today" asChild>
               <Pressable>

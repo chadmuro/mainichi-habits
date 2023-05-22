@@ -1,9 +1,10 @@
 import { Link, Stack, useSearchParams } from "expo-router";
-import { ScrollView, View, Button } from "react-native";
+import { Alert, ScrollView, View } from "react-native";
 import Text from "../../../../components/styled/Text";
 import TabLayout from "../../../../components/TabLayout";
 import { useHabitState } from "../../../../store/habits";
 import { theme } from "../../../../theme";
+import Button from "../../../../components/styled/Button";
 
 export default function Details() {
   const { id } = useSearchParams();
@@ -14,6 +15,30 @@ export default function Details() {
   if (!habit) {
     return;
   }
+
+  function onDeleteSubmit() {
+    console.log("deleted");
+  }
+
+  function onDeletePress() {
+    Alert.alert(
+      "Are you sure you want to delete this habit?",
+      "Once deleted, the data cannot be retrieved.",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+
+        {
+          text: "Delete",
+          onPress: onDeleteSubmit,
+          style: "destructive",
+        },
+      ]
+    );
+  }
+
   return (
     <TabLayout>
       <Stack.Screen
@@ -33,7 +58,9 @@ export default function Details() {
         >
           <View>
             <Link href={`home/today/${habit.id}/edit`} asChild>
-              <Button title="Edit" />
+              <Button color="primary" icon="pencil-outline">
+                Edit
+              </Button>
             </Link>
           </View>
           <View>
@@ -41,6 +68,11 @@ export default function Details() {
           </View>
           <View>
             <Text>Year Chart</Text>
+          </View>
+          <View>
+            <Button color="danger" icon="trash-outline" onPress={onDeletePress}>
+              Delete
+            </Button>
           </View>
         </View>
       </ScrollView>

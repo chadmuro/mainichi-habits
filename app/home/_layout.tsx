@@ -16,6 +16,7 @@ export default function TabsLayout() {
         headerTitleStyle: {
           color: theme.colors.text,
         },
+        headerShadowVisible: false,
       }}
     >
       <Tabs.Screen

@@ -52,8 +52,6 @@ export default function Details() {
           style={{
             width: "100%",
             height: "100%",
-            paddingVertical: theme.spacing.m,
-            paddingHorizontal: theme.spacing.s,
             gap: theme.spacing.m,
           }}
         >

@@ -80,7 +80,7 @@ export default function Details() {
         >
           <View>
             <Button
-              color="primary"
+              color={habit.color}
               icon="pencil-outline"
               onPress={() => router.push(`home/today/${habit.id}/edit`)}
             >
@@ -104,11 +104,15 @@ export default function Details() {
               </View>
             </View>
           </View>
-          <View>
-            <Text>Year Chart</Text>
+          <View style={styles.container}>
+            <Text style={styles.title}>Year chart</Text>
           </View>
           <View>
-            <Button color="danger" icon="trash-outline" onPress={onDeletePress}>
+            <Button
+              color={theme.colors.danger}
+              icon="trash-outline"
+              onPress={onDeletePress}
+            >
               Delete
             </Button>
           </View>

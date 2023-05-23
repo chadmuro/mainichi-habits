@@ -9,27 +9,22 @@ import { theme } from "../../theme";
 
 interface Props extends PressableProps {
   children: string;
-  color: keyof typeof theme.colors;
+  color: string;
   icon?: string;
 }
 
 export default function Pressable({ children, color, icon, ...props }: Props) {
   return (
-    <RNPressable
-      style={[styles.container, { borderColor: theme.colors[color] as string }]}
-      {...props}
-    >
+    <RNPressable style={[styles.container, { borderColor: color }]} {...props}>
       {icon && (
         <Ionicons
           name={icon as any}
           size={24}
-          color={theme.colors[color] as string}
+          color={color}
           style={{ paddingRight: theme.spacing.s }}
         />
       )}
-      <Text style={[styles.text, { color: theme.colors[color] as string }]}>
-        {children}
-      </Text>
+      <Text style={[styles.text, { color: color }]}>{children}</Text>
     </RNPressable>
   );
 }

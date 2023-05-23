@@ -1,10 +1,4 @@
-import {
-  TouchableOpacity,
-  View,
-  StyleSheet,
-  Text as RNText,
-  Pressable,
-} from "react-native";
+import { TouchableOpacity, View, StyleSheet, Pressable } from "react-native";
 import { useState } from "react";
 import { Link, Stack, useRouter } from "expo-router";
 import DateTimePicker, {
@@ -57,13 +51,13 @@ export default function Add() {
           headerLeft: () => (
             <Link href="home/today" asChild>
               <Pressable>
-                <RNText style={{ color: theme.colors.primary }}>Cancel</RNText>
+                <Text style={{ color: theme.colors.primary }}>Cancel</Text>
               </Pressable>
             </Link>
           ),
           headerRight: () => (
             <Pressable onPress={onSubmit}>
-              <RNText style={{ color: theme.colors.primary }}>Save</RNText>
+              <Text style={{ color: theme.colors.primary }}>Save</Text>
             </Pressable>
           ),
         }}

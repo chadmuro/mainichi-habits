@@ -42,6 +42,33 @@ export const useHabitState = () => {
     );
   }
 
+  function updateHabit(
+    id: string,
+    title: string,
+    daysPerWeek: number,
+    color: string,
+    startDate: string
+  ) {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "update habits set title = ?, days_per_week = ?, color = ?, start_date = ? where id = ?",
+        [title, daysPerWeek, color, startDate, id]
+      );
+      tx.executeSql(
+        "select * from habits where id = ?",
+        [id],
+        (_, { rows: { _array } }) => {
+          const index = habits.get().findIndex((habit) => {
+            return habit.id === id;
+          });
+          if (index !== -1) {
+            habits[index].set(_array[0]);
+          }
+        }
+      );
+    });
+  }
+
   function deleteHabit(id: string) {
     db.transaction(
       (tx) => {
@@ -64,6 +91,7 @@ export const useHabitState = () => {
     habits,
     getHabits,
     addHabit,
+    updateHabit,
     deleteHabit,
   };
 };

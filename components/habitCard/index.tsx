@@ -11,6 +11,7 @@ import { adjustColor } from "../../utils/adjustColor";
 import { calculateStreak } from "../../utils/calculateStreak";
 import DaysOfTheWeek from "./DaysOfTheWeek";
 import { Link } from "expo-router";
+import { checkDays } from "../../utils/checkDays";
 
 interface Props {
   habit: Habit;
@@ -37,6 +38,8 @@ export default function HabitCard({ habit }: Props) {
       today,
     });
   }, [numHabitChecks]);
+
+  const { checkedDays, days } = checkDays(habitChecks);
 
   function onCheckPress() {
     if (!checked) {
@@ -65,49 +68,76 @@ export default function HabitCard({ habit }: Props) {
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "flex-start",
+            paddingBottom: theme.spacing.s,
           }}
         >
           <View
             style={{
-              flexDirection: "row",
-              alignItems: "center",
-              paddingBottom: theme.spacing.s,
+              paddingBottom: theme.spacing.xs,
+              width: "80%",
             }}
           >
-            <MaterialIcons
-              name="local-fire-department"
-              size={30}
-              color={checked ? habit.color : theme.colors.text}
-            />
-            <Text
+            <View
               style={{
-                fontSize: 20,
-                fontWeight: "700",
-                paddingLeft: theme.spacing.s / 2,
+                flexDirection: "row",
+                alignItems: "center",
+                paddingBottom: theme.spacing.s,
+                width: "100%",
               }}
             >
-              {streak}
-            </Text>
+              <MaterialIcons
+                name="local-fire-department"
+                size={30}
+                color={checked ? habit.color : theme.colors.text}
+              />
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontWeight: "700",
+                  paddingLeft: theme.spacing.s / 2,
+                }}
+              >
+                {streak}
+              </Text>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "flex-end",
+              }}
+            >
+              <Text style={{ fontSize: 18, flex: 1 }}>{habit.title}</Text>
+              <Text
+                style={{}}
+              >{`Goal: ${checkedDays.length} / ${habit.days_per_week}`}</Text>
+            </View>
           </View>
           {checked ? (
             <Pressable onPress={onCheckPress}>
-              <Ionicons name="checkmark-circle" size={30} color={habit.color} />
+              <Ionicons
+                name="checkmark-circle"
+                size={60}
+                color={habit.color}
+                style={{
+                  position: "absolute",
+                  left: -50,
+                  top: -5,
+                }}
+              />
             </Pressable>
           ) : (
             <Pressable onPress={onCheckPress}>
               <Ionicons
                 name="checkmark-circle-outline"
-                size={30}
+                size={60}
                 color={habit.color}
+                style={{ position: "absolute", left: -50, top: -5 }}
               />
             </Pressable>
           )}
         </View>
-        <DaysOfTheWeek
-          habit={habit}
-          checks={habitChecks}
-          color={completedColor}
-        />
+        <DaysOfTheWeek days={days} color={completedColor} />
       </Pressable>
     </Link>
   );

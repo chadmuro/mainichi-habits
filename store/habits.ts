@@ -1,4 +1,4 @@
-import { hookstate, useHookstate } from "@hookstate/core";
+import { hookstate, none, useHookstate } from "@hookstate/core";
 import * as Crypto from "expo-crypto";
 import { Habit } from "../types";
 import { useDatabase } from "../contexts/databaseContext";
@@ -42,9 +42,28 @@ export const useHabitState = () => {
     );
   }
 
+  function deleteHabit(id: string) {
+    db.transaction(
+      (tx) => {
+        tx.executeSql("delete from habits where id = ?", [id]);
+        tx.executeSql("delete from checks where habit_id = ?", [id]);
+
+        const index = habits.get().findIndex((habit) => {
+          return habit.id === id;
+        });
+        if (index !== -1) {
+          habits[index].set(none);
+        }
+      },
+      () => console.log("error"),
+      () => console.log("success")
+    );
+  }
+
   return {
     habits,
     getHabits,
     addHabit,
+    deleteHabit,
   };
 };

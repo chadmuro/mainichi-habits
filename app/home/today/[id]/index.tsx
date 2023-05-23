@@ -9,7 +9,7 @@ import Button from "../../../../components/styled/Button";
 export default function Details() {
   const router = useRouter();
   const { id } = useSearchParams();
-  const { habits } = useHabitState();
+  const { habits, deleteHabit } = useHabitState();
   const habit = habits.get().find((habit) => habit.id === id);
 
   // TODO: Show no data page
@@ -18,7 +18,10 @@ export default function Details() {
   }
 
   function onDeleteSubmit() {
-    console.log("deleted");
+    if (habit) {
+      deleteHabit(habit.id);
+    }
+    router.back();
   }
 
   function onDeletePress() {

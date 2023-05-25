@@ -32,7 +32,7 @@ export default function YearGrid({ color, checks, startDate }: Props) {
       <View style={styles.container}>
         {days.map((day) => {
           let dayColor = color;
-          if (day < startDate) {
+          if (day < startDate || day > todayFormatted) {
             dayColor = adjustColor(theme.colors.background, 40);
           } else {
             const index = checks.findIndex((check) => check.date === day);

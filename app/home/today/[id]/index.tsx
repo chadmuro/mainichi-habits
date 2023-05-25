@@ -9,6 +9,7 @@ import { useCheckState } from "../../../../store/checks";
 import dayjs from "dayjs";
 import { useMemo } from "react";
 import { calculateStreak } from "../../../../utils/calculateStreak";
+import YearGrid from "../../../../components/yearGrid";
 
 export default function Details() {
   const router = useRouter();
@@ -105,7 +106,12 @@ export default function Details() {
             </View>
           </View>
           <View style={styles.container}>
-            <Text style={styles.title}>Year chart</Text>
+            <Text style={styles.title}>Last 365 days</Text>
+            <YearGrid
+              color={habit.color}
+              checks={habitChecks}
+              startDate={habit.start_date}
+            />
           </View>
           <View>
             <Button

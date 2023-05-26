@@ -43,6 +43,13 @@ export default function Layout() {
             title: "Edit habit",
           }}
         />
+        <Stack.Screen
+          name="past"
+          options={{
+            presentation: "modal",
+            title: "Past dates",
+          }}
+        />
       </Stack>
     </>
   );

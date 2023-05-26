@@ -79,15 +79,20 @@ export default function Details() {
             gap: theme.spacing.m,
           }}
         >
-          <View>
-            <Button
-              color={habit.color}
-              icon="pencil-outline"
-              onPress={() => router.push(`home/today/${habit.id}/edit`)}
-            >
-              Edit
-            </Button>
-          </View>
+          <Button
+            color={habit.color}
+            icon="pencil-outline"
+            onPress={() => router.push(`home/today/${habit.id}/edit`)}
+          >
+            Edit habit
+          </Button>
+          <Button
+            color={habit.color}
+            icon="today-outline"
+            onPress={() => router.push(`home/today/${habit.id}/past`)}
+          >
+            Past dates
+          </Button>
           <View style={styles.container}>
             <Text style={styles.title}>Stats</Text>
             <View style={{ flexDirection: "row" }}>
@@ -113,15 +118,13 @@ export default function Details() {
               startDate={habit.start_date}
             />
           </View>
-          <View>
-            <Button
-              color={theme.colors.danger}
-              icon="trash-outline"
-              onPress={onDeletePress}
-            >
-              Delete
-            </Button>
-          </View>
+          <Button
+            color={theme.colors.danger}
+            icon="trash-outline"
+            onPress={onDeletePress}
+          >
+            Delete
+          </Button>
         </View>
       </ScrollView>
     </TabLayout>

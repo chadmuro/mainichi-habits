@@ -1,5 +1,5 @@
-import { Pressable, Text } from "react-native";
-import { Link, Tabs } from "expo-router";
+import { Text } from "react-native";
+import { Tabs } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { theme } from "../../theme";
 
@@ -9,6 +9,7 @@ export default function TabsLayout() {
       screenOptions={{
         tabBarStyle: {
           backgroundColor: theme.colors.background,
+          borderTopWidth: 0,
         },
         headerStyle: {
           backgroundColor: theme.colors.background,
@@ -45,6 +46,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="month"
         options={{
+          href: null,
           title: "Month",
           tabBarLabel: ({ focused }) => (
             <Text
@@ -68,6 +70,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="year"
         options={{
+          href: null,
           title: "Year",
           tabBarLabel: ({ focused }) => (
             <Text

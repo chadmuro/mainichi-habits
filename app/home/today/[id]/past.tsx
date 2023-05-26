@@ -56,13 +56,14 @@ export default function Past() {
           markedDates={markedDates}
           enableSwipeMonths={true}
           onDayPress={(day) => handleDayPress(day)}
-          disableAllTouchEventsForDisabledDays={true}
+          hideExtraDays={false}
+          disableMonthChange={true}
           disableAllTouchEventsForInactiveDays={true}
           theme={{
             backgroundColor: theme.colors.background,
             calendarBackground: theme.colors.background,
             textSectionTitleColor: theme.colors.text,
-            textSectionTitleDisabledColor: "red",
+            // textSectionTitleDisabledColor: "red",
             selectedDayBackgroundColor: adjustColor(habit.color, -100),
             selectedDayTextColor: theme.colors.text,
             todayTextColor: habit.color,

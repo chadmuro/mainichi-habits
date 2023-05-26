@@ -23,6 +23,7 @@ export default function YearGrid({ color, checks, startDate }: Props) {
 
   return (
     <ScrollView
+      showsHorizontalScrollIndicator={false}
       horizontal={true}
       ref={scrollViewRef}
       onContentSizeChange={() =>
@@ -40,7 +41,7 @@ export default function YearGrid({ color, checks, startDate }: Props) {
               dayColor = adjustColor(color, -100);
             }
           }
-          return <YearDay key={day} color={dayColor} date={day} />;
+          return <YearDay key={day} color={dayColor} />;
         })}
       </View>
     </ScrollView>

@@ -124,7 +124,9 @@ export default function Details() {
               { borderColor: theme.colors.text, padding: theme.spacing.m },
             ]}
           >
-            <Text style={styles.title}>Last 365 days</Text>
+            <Text style={[styles.title, { paddingBottom: theme.spacing.s }]}>
+              Last 365 days
+            </Text>
             <YearGrid
               color={habit.color}
               checks={habitChecks}

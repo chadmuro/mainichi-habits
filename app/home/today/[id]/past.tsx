@@ -10,7 +10,7 @@ import { useCheckState } from "../../../../store/checks";
 import { useTheme } from "../../../../contexts/themeContext";
 
 export default function Past() {
-  const { theme } = useTheme();
+  const { theme, selectedTheme } = useTheme();
   const { habits } = useHabitState();
   const { checks, addCheck, deleteCheck } = useCheckState();
   const params = useLocalSearchParams();
@@ -63,11 +63,17 @@ export default function Past() {
             calendarBackground: theme.colors.background,
             textSectionTitleColor: theme.colors.text,
             // textSectionTitleDisabledColor: "red",
-            selectedDayBackgroundColor: adjustColor(habit.color, -100),
+            selectedDayBackgroundColor: adjustColor(
+              habit.color,
+              selectedTheme === "dark" ? -100 : 100
+            ),
             selectedDayTextColor: theme.colors.text,
             todayTextColor: habit.color,
             dayTextColor: theme.colors.text,
-            textDisabledColor: adjustColor(theme.colors.background, 50),
+            textDisabledColor: adjustColor(
+              theme.colors.background,
+              selectedTheme === "dark" ? 50 : -50
+            ),
             // dotColor: "#00adf5",
             // selectedDotColor:theme.colors.background,
             arrowColor: habit.color,

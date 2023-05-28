@@ -14,7 +14,7 @@ interface Props {
 }
 
 export default function YearGrid({ color, checks, startDate }: Props) {
-  const { theme } = useTheme();
+  const { theme, selectedTheme } = useTheme();
   const today = dayjs();
   const todayFormatted = today.format("YYYY-MM-DD");
   const scrollViewRef = useRef<ScrollView | null>(null);
@@ -35,7 +35,10 @@ export default function YearGrid({ color, checks, startDate }: Props) {
         {days.map((day) => {
           let dayColor = color;
           if (day < startDate || day > todayFormatted) {
-            dayColor = adjustColor(theme.colors.background, 40);
+            dayColor = adjustColor(
+              theme.colors.background,
+              selectedTheme === "dark" ? 50 : -50
+            );
           } else {
             const index = checks.findIndex((check) => check.date === day);
             if (index === -1) {

@@ -22,7 +22,7 @@ export default function Add() {
   const [habit, setHabit] = useState("");
   const [daysPerWeek, setDaysPerWeek] = useState(1);
   const [startDate, setStartDate] = useState(dayjs().startOf("date").toDate());
-  const [color, setColor] = useState("#FFABAB");
+  const [color, setColor] = useState(theme.colors.habit.red);
   const [error, setError] = useState("");
   const { addHabit } = useHabitState();
 

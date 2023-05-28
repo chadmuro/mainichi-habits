@@ -18,7 +18,7 @@ interface Props {
 }
 
 export default function HabitCard({ habit }: Props) {
-  const { theme } = useTheme();
+  const { theme, selectedTheme } = useTheme();
   const { addCheck, deleteCheck, checks } = useCheckState();
   const today = dayjs().format("YYYY-MM-DD");
 
@@ -32,7 +32,10 @@ export default function HabitCard({ habit }: Props) {
     return check.date === today;
   });
 
-  const completedColor = adjustColor(habit.color, -100);
+  const completedColor = adjustColor(
+    habit.color,
+    selectedTheme === "dark" ? -100 : 100
+  );
   const streak = useMemo(() => {
     return calculateStreak({
       checks: habitChecks,

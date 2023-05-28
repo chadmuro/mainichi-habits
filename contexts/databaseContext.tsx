@@ -44,6 +44,10 @@ const DatabaseProvider = ({ children }: PropsWithChildren<{}>) => {
       tx.executeSql(
         "create table if not exists checks (id string primary key not null, habit_id string, date text);"
       );
+      tx.executeSql(
+        "create table if not exists settings (id string primary key not null, theme string default 'auto' not null);"
+      );
+      tx.executeSql("insert or ignore into settings (id) values('1')");
     });
   }, []);
 

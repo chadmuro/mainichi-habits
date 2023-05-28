@@ -11,3 +11,7 @@ export type Check = {
   habit_id: string;
   date: string;
 };
+
+export type Settings = {
+  theme: "auto" | "dark" | "light";
+};

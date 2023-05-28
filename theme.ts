@@ -19,9 +19,9 @@ export const habitColors = {
 
 export const theme = {
   colors: {
-    text: palette.white,
-    background: palette.black,
-    foreground: palette.white,
+    text: palette.black,
+    background: palette.white,
+    foreground: palette.black,
     primary:
       Platform.OS === "ios"
         ? PlatformColor("systemBlue")
@@ -50,5 +50,15 @@ export const theme = {
       fontFamily: "Merriweather",
       fontSize: 16,
     },
+  },
+};
+
+export const darkTheme = {
+  ...theme,
+  colors: {
+    ...theme.colors,
+    text: palette.white,
+    background: palette.black,
+    foreground: palette.white,
   },
 };

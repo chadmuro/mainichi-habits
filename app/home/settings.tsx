@@ -4,7 +4,10 @@ import TabLayout from "../../components/TabLayout";
 export default function Settings() {
   return (
     <TabLayout>
-      <Text>Settings Screen</Text>
+      <Text>Theme</Text>
+      <Text>Reorder habits</Text>
+      <Text>Write a review</Text>
+      <Text>Contact me</Text>
     </TabLayout>
   );
 }

@@ -11,7 +11,13 @@ export default function Today() {
 
   // TODO implemenet logic to keep splash screen visibile while data is fetching
   // https://github.com/expo/expo/issues/21662
-  console.log(appLoaded);
+  if (!appLoaded) {
+    return (
+      <TabLayout>
+        <View></View>
+      </TabLayout>
+    );
+  }
 
   let habitCards: React.ReactElement | null = null;
   if (habits.get().length === 0) {

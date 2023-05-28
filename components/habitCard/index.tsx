@@ -26,6 +26,7 @@ export default function HabitCard({ habit }: Props) {
   });
   const numHabitChecks = habitChecks.length;
 
+  // TODO - Check if date has changed to reset habit card ui
   const checked = habitChecks.find((check) => {
     return check.date === today;
   });

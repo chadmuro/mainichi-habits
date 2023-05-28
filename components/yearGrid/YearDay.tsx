@@ -12,5 +12,6 @@ const styles = StyleSheet.create({
   container: {
     height: 10,
     width: 10,
+    borderRadius: 2,
   },
 });

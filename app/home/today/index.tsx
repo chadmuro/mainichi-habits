@@ -1,20 +1,17 @@
-import { useEffect } from "react";
 import { View, ScrollView } from "react-native";
 import Text from "../../../components/styled/Text";
 import HabitCard from "../../../components/habitCard";
 import TabLayout from "../../../components/TabLayout";
 import { useHabitState } from "../../../store/habits";
 import { theme } from "../../../theme";
-import { useCheckState } from "../../../store/checks";
-
+import { useInitialLoad } from "../../../hooks/useInitialLoad";
 export default function Today() {
-  const { getHabits, habits } = useHabitState();
-  const { getChecks } = useCheckState();
+  const { habits } = useHabitState();
+  const { appLoaded } = useInitialLoad();
 
-  useEffect(() => {
-    getHabits();
-    getChecks();
-  }, []);
+  // TODO implemenet logic to keep splash screen visibile while data is fetching
+  // https://github.com/expo/expo/issues/21662
+  console.log(appLoaded);
 
   let habitCards: React.ReactElement | null = null;
   if (habits.get().length === 0) {

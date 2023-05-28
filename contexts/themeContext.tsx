@@ -1,6 +1,8 @@
 import { createContext, PropsWithChildren, useContext, useEffect } from "react";
 import { useColorScheme } from "react-native";
 import { theme, darkTheme } from "../theme";
+import { useSettingsState } from "../store/settings";
+import { Theme } from "../types";
 
 type ThemeContextType = {
   theme: typeof theme;
@@ -9,11 +11,25 @@ type ThemeContextType = {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 const ThemeProvider = ({ children }: PropsWithChildren<{}>) => {
+  const { settings } = useSettingsState();
   const colorScheme = useColorScheme();
 
-  const selectedTheme = colorScheme === "dark" ? darkTheme : theme;
+  let selectedTheme: Theme = "dark";
 
-  const value = { theme: selectedTheme };
+  if (settings.get()?.theme === "auto") {
+    selectedTheme = colorScheme ?? "dark";
+  } else {
+    selectedTheme = settings.get()?.theme ?? "dark";
+  }
+
+  let themeValue = darkTheme;
+  if (selectedTheme === "dark") {
+    themeValue = darkTheme;
+  } else {
+    themeValue = theme;
+  }
+
+  const value = { theme: themeValue };
 
   return (
     <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>

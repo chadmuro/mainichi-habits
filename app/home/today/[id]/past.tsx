@@ -29,8 +29,6 @@ export default function Past() {
   }
 
   function handleDayPress(day: DateData) {
-    console.log(day);
-
     const selectedCheck = habitChecks.find(
       (habitCheck) => habitCheck.date === day.dateString
     );

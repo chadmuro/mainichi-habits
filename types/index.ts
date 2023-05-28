@@ -12,6 +12,8 @@ export type Check = {
   date: string;
 };
 
+export type Theme = "dark" | "light";
+
 export type Settings = {
-  theme: "auto" | "dark" | "light";
+  theme: Theme & "auto";
 };

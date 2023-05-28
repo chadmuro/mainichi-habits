@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { hookstate, useHookstate } from "@hookstate/core";
 import { useDatabase } from "../contexts/databaseContext";
-import { Settings } from "react-native/types";
+import { Settings } from "../types";
 
 const settingsState = hookstate<Settings | null>(null);
 

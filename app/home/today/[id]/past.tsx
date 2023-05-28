@@ -3,13 +3,14 @@ import dayjs from "dayjs";
 import { Calendar, DateData } from "react-native-calendars";
 import TabLayout from "../../../../components/TabLayout";
 import Text from "../../../../components/styled/Text";
-import { theme } from "../../../../theme";
 import { useLocalSearchParams } from "expo-router";
 import { adjustColor } from "../../../../utils/adjustColor";
 import { useHabitState } from "../../../../store/habits";
 import { useCheckState } from "../../../../store/checks";
+import { useTheme } from "../../../../contexts/themeContext";
 
 export default function Past() {
+  const { theme } = useTheme();
   const { habits } = useHabitState();
   const { checks, addCheck, deleteCheck } = useCheckState();
   const params = useLocalSearchParams();

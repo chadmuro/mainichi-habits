@@ -1,12 +1,23 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
-import { theme } from "../theme";
+import { useTheme } from "../contexts/themeContext";
 
 export default function Today({ children }: { children: React.ReactNode }) {
+  const { selectedTheme, theme } = useTheme();
+
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {
+          backgroundColor: theme.colors.background,
+          paddingVertical: theme.spacing.m,
+          paddingHorizontal: theme.spacing.s,
+        },
+      ]}
+    >
       {children}
-      <StatusBar style="light" />
+      <StatusBar style={selectedTheme === "dark" ? "light" : "dark"} />
     </View>
   );
 }
@@ -14,9 +25,6 @@ export default function Today({ children }: { children: React.ReactNode }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.colors.background,
     alignItems: "center",
-    paddingVertical: theme.spacing.m,
-    paddingHorizontal: theme.spacing.s,
   },
 });

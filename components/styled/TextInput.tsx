@@ -3,16 +3,25 @@ import {
   TextInputProps,
   StyleSheet,
 } from "react-native";
-import { theme } from "../../theme";
+import { useTheme } from "../../contexts/themeContext";
 
 interface Props extends TextInputProps {}
 
 export default function TextInput({ ...props }: Props) {
+  const { theme } = useTheme();
+
   return (
     <RNTextInput
       {...props}
-      style={[props.style, styles.input]}
-      placeholderTextColor="#a5a5a5"
+      style={[
+        props.style,
+        styles.input,
+        {
+          color: theme.colors.text,
+          backgroundColor: theme.colors.inputBackground,
+        },
+      ]}
+      placeholderTextColor={theme.colors.inputColor}
       selectionColor={theme.colors.primary}
     />
   );
@@ -25,7 +34,5 @@ const styles = StyleSheet.create({
     height: 48,
     fontSize: 16,
     padding: 10,
-    backgroundColor: "#2a2727",
-    color: theme.colors.text,
   },
 });

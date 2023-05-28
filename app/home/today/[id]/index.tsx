@@ -3,15 +3,16 @@ import { Alert, ScrollView, View, StyleSheet } from "react-native";
 import Text from "../../../../components/styled/Text";
 import TabLayout from "../../../../components/TabLayout";
 import { useHabitState } from "../../../../store/habits";
-import { theme } from "../../../../theme";
 import Button from "../../../../components/styled/Button";
 import { useCheckState } from "../../../../store/checks";
 import dayjs from "dayjs";
 import { useMemo } from "react";
 import { calculateStreak } from "../../../../utils/calculateStreak";
 import YearGrid from "../../../../components/yearGrid";
+import { useTheme } from "../../../../contexts/themeContext";
 
 export default function Details() {
+  const { theme } = useTheme();
   const router = useRouter();
   const { id } = useSearchParams();
   const { habits, deleteHabit } = useHabitState();
@@ -93,8 +94,15 @@ export default function Details() {
           >
             Past dates
           </Button>
-          <View style={styles.container}>
-            <Text style={styles.title}>Stats</Text>
+          <View
+            style={[
+              styles.container,
+              { borderColor: theme.colors.text, padding: theme.spacing.m },
+            ]}
+          >
+            <Text style={[styles.title, { paddingBottom: theme.spacing.s }]}>
+              Stats
+            </Text>
             <View style={{ flexDirection: "row" }}>
               <View style={{ paddingRight: theme.spacing.m, gap: 5 }}>
                 <Text style={styles.subTitle}>Days per week goal</Text>
@@ -110,7 +118,12 @@ export default function Details() {
               </View>
             </View>
           </View>
-          <View style={styles.container}>
+          <View
+            style={[
+              styles.container,
+              { borderColor: theme.colors.text, padding: theme.spacing.m },
+            ]}
+          >
             <Text style={styles.title}>Last 365 days</Text>
             <YearGrid
               color={habit.color}
@@ -133,17 +146,14 @@ export default function Details() {
 
 const styles = StyleSheet.create({
   container: {
-    borderColor: theme.colors.text,
     borderWidth: 1,
     borderRadius: 8,
-    padding: theme.spacing.m,
     justifyContent: "center",
     alignItems: "flex-start",
   },
   title: {
     fontSize: 20,
     fontWeight: "700",
-    paddingBottom: theme.spacing.s,
   },
   subTitle: {
     color: "#a5a5a5",

@@ -1,7 +1,7 @@
 import { View, StyleSheet } from "react-native";
 import Text from "../styled/Text";
-import { theme } from "../../theme";
 import { CheckDay } from "../../utils/checkDays";
+import { useTheme } from "../../contexts/themeContext";
 
 interface Props {
   days: CheckDay[];
@@ -9,8 +9,10 @@ interface Props {
 }
 
 export default function DaysOfTheWeek({ days, color }: Props) {
+  const { theme } = useTheme();
+
   return (
-    <View style={styles.daysContainer}>
+    <View style={[styles.daysContainer, { gap: theme.spacing.s }]}>
       {days.map((day) => (
         <View
           key={day.date}
@@ -19,6 +21,7 @@ export default function DaysOfTheWeek({ days, color }: Props) {
             {
               borderColor: theme.colors.text,
               backgroundColor: day.checked ? color : theme.colors.background,
+              padding: theme.spacing.s,
             },
           ]}
         >
@@ -32,10 +35,8 @@ export default function DaysOfTheWeek({ days, color }: Props) {
 const styles = StyleSheet.create({
   daysContainer: {
     flexDirection: "row",
-    gap: theme.spacing.s,
   },
   dayContainer: {
-    padding: theme.spacing.s,
     borderRadius: 10,
     borderWidth: 1,
     overflow: "hidden",

@@ -3,7 +3,6 @@ import { useMemo } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import dayjs from "dayjs";
-import { theme } from "../../theme";
 import { Habit } from "../../types";
 import Text from "../styled/Text";
 import { useCheckState } from "../../store/checks";
@@ -12,12 +11,14 @@ import { calculateStreak } from "../../utils/calculateStreak";
 import DaysOfTheWeek from "./DaysOfTheWeek";
 import { Link } from "expo-router";
 import { checkDays } from "../../utils/checkDays";
+import { useTheme } from "../../contexts/themeContext";
 
 interface Props {
   habit: Habit;
 }
 
 export default function HabitCard({ habit }: Props) {
+  const { theme } = useTheme();
   const { addCheck, deleteCheck, checks } = useCheckState();
   const today = dayjs().format("YYYY-MM-DD");
 
@@ -59,6 +60,7 @@ export default function HabitCard({ habit }: Props) {
         {
           borderColor: checked ? completedColor : habit.color,
           backgroundColor: checked ? completedColor : undefined,
+          padding: theme.spacing.m,
         },
       ]}
       asChild
@@ -148,7 +150,6 @@ const styles = StyleSheet.create({
   container: {
     borderWidth: 1,
     width: "100%",
-    padding: theme.spacing.m,
     borderRadius: 8,
   },
 });

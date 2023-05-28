@@ -8,14 +8,16 @@ import dayjs from "dayjs";
 import TextInput from "../../../components/styled/TextInput";
 import TextLabel from "../../../components/styled/TextLabel";
 import TabLayout from "../../../components/TabLayout";
-import { habitColors, theme } from "../../../theme";
+import { habitColors } from "../../../theme";
 import Text from "../../../components/styled/Text";
 import { useHabitState } from "../../../store/habits";
 import TextError from "../../../components/styled/TextError";
+import { useTheme } from "../../../contexts/themeContext";
 
 const days = [1, 2, 3, 4, 5, 6, 7];
 
 export default function Add() {
+  const { theme } = useTheme();
   const router = useRouter();
   const [habit, setHabit] = useState("");
   const [daysPerWeek, setDaysPerWeek] = useState(1);
@@ -63,7 +65,7 @@ export default function Add() {
         }}
       />
       <View style={styles.container}>
-        <View style={styles.inputWrapper}>
+        <View style={[styles.inputWrapper, { marginBottom: theme.spacing.m }]}>
           <TextLabel title="New habit" />
           <TextInput
             placeholder="New habit"
@@ -75,7 +77,7 @@ export default function Add() {
           />
           {error && <TextError title={error} />}
         </View>
-        <View style={styles.inputWrapper}>
+        <View style={[styles.inputWrapper, { marginBottom: theme.spacing.m }]}>
           <TextLabel title="Start date" />
           <DateTimePicker
             value={startDate}
@@ -86,7 +88,7 @@ export default function Add() {
             maximumDate={new Date()}
           />
         </View>
-        <View style={styles.inputWrapper}>
+        <View style={[styles.inputWrapper, { marginBottom: theme.spacing.m }]}>
           <TextLabel title="Days per week" />
           <View style={styles.buttonsContainer}>
             {days.map((day) => (
@@ -123,7 +125,7 @@ export default function Add() {
             ))}
           </View>
         </View>
-        <View style={styles.inputWrapper}>
+        <View style={[styles.inputWrapper, { marginBottom: theme.spacing.m }]}>
           <TextLabel title="Color" />
           <View style={styles.buttonsContainer}>
             {Object.values(habitColors).map((habitColor) => (
@@ -160,7 +162,6 @@ const styles = StyleSheet.create({
   },
   inputWrapper: {
     width: "100%",
-    marginBottom: theme.spacing.m,
   },
   buttonsContainer: {
     flexDirection: "row",

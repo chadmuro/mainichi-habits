@@ -1,9 +1,10 @@
 import { Stack, useSearchParams } from "expo-router";
 import React from "react";
-import { theme } from "../../../../theme";
 import { useHabitState } from "../../../../store/habits";
+import { useTheme } from "../../../../contexts/themeContext";
 
 export default function Layout() {
+  const { theme } = useTheme();
   const { id } = useSearchParams();
   const { habits } = useHabitState();
   const habit = habits.get().find((habit) => habit.id === id);

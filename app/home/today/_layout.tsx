@@ -2,9 +2,11 @@ import { Link, Stack } from "expo-router";
 import { Pressable } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React from "react";
-import { theme } from "../../../theme";
+import { useTheme } from "../../../contexts/themeContext";
 
 export default function Layout() {
+  const { theme } = useTheme();
+
   return (
     <Stack
       screenOptions={{

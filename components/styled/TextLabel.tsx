@@ -1,4 +1,4 @@
-import { theme } from "../../theme";
+import { useTheme } from "../../contexts/themeContext";
 import Text from "./Text";
 
 interface Props {
@@ -6,6 +6,8 @@ interface Props {
 }
 
 export default function TextLabel({ title }: Props) {
+  const { theme } = useTheme();
+
   return (
     <Text
       style={{

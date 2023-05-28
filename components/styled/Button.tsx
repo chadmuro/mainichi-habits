@@ -5,7 +5,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { theme } from "../../theme";
+import { useTheme } from "../../contexts/themeContext";
 
 interface Props extends PressableProps {
   children: string;
@@ -14,8 +14,16 @@ interface Props extends PressableProps {
 }
 
 export default function Pressable({ children, color, icon, ...props }: Props) {
+  const { theme } = useTheme();
+
   return (
-    <RNPressable style={[styles.container, { borderColor: color }]} {...props}>
+    <RNPressable
+      style={[
+        styles.container,
+        { borderColor: color, padding: theme.spacing.m },
+      ]}
+      {...props}
+    >
       {icon && (
         <Ionicons
           name={icon as any}
@@ -33,7 +41,6 @@ const styles = StyleSheet.create({
   container: {
     borderWidth: 1,
     borderRadius: 8,
-    padding: theme.spacing.m,
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",

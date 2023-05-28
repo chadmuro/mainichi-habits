@@ -22,6 +22,8 @@ export const theme = {
     text: palette.black,
     background: palette.white,
     foreground: palette.black,
+    inputBackground: "#d8d9da",
+    inputColor: "#787979",
     primary:
       Platform.OS === "ios"
         ? PlatformColor("systemBlue")
@@ -60,5 +62,7 @@ export const darkTheme = {
     text: palette.white,
     background: palette.black,
     foreground: palette.white,
+    inputBackground: "#2a2727",
+    inputColor: "#a5a5a5",
   },
 };

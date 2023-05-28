@@ -4,8 +4,8 @@ import { getLast365Days } from "../../utils/getLast365Days";
 import { useMemo, useRef } from "react";
 import { Check } from "../../types";
 import { adjustColor } from "../../utils/adjustColor";
-import { theme } from "../../theme";
 import dayjs from "dayjs";
+import { useTheme } from "../../contexts/themeContext";
 
 interface Props {
   color: string;
@@ -14,6 +14,7 @@ interface Props {
 }
 
 export default function YearGrid({ color, checks, startDate }: Props) {
+  const { theme } = useTheme();
   const today = dayjs();
   const todayFormatted = today.format("YYYY-MM-DD");
   const scrollViewRef = useRef<ScrollView | null>(null);

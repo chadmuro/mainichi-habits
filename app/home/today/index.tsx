@@ -3,9 +3,11 @@ import Text from "../../../components/styled/Text";
 import HabitCard from "../../../components/habitCard";
 import TabLayout from "../../../components/TabLayout";
 import { useHabitState } from "../../../store/habits";
-import { theme } from "../../../theme";
 import { useInitialLoad } from "../../../hooks/useInitialLoad";
+import { useTheme } from "../../../contexts/themeContext";
+
 export default function Today() {
+  const { theme } = useTheme();
   const { habits } = useHabitState();
   const { appLoaded } = useInitialLoad();
 

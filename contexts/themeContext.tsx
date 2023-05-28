@@ -6,6 +6,7 @@ import { Theme } from "../types";
 
 type ThemeContextType = {
   theme: typeof theme;
+  selectedTheme: Theme;
 };
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -29,7 +30,7 @@ const ThemeProvider = ({ children }: PropsWithChildren<{}>) => {
     themeValue = theme;
   }
 
-  const value = { theme: themeValue };
+  const value = { theme: themeValue, selectedTheme };
 
   return (
     <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>

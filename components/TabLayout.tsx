@@ -2,7 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
 import { useTheme } from "../contexts/themeContext";
 
-export default function Today({ children }: { children: React.ReactNode }) {
+export default function TabLayout({ children }: { children: React.ReactNode }) {
   const { selectedTheme, theme } = useTheme();
 
   return (

@@ -14,6 +14,8 @@ export type Check = {
 
 export type Theme = "dark" | "light";
 
+export type SettingsTheme = Theme | "auto";
+
 export type Settings = {
-  theme: Theme & "auto";
+  theme: SettingsTheme;
 };

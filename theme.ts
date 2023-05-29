@@ -1,5 +1,3 @@
-import { Platform, PlatformColor } from "react-native";
-
 const palette = {
   yellow: "#EEE600",
   green: "#0ECD9D",
@@ -36,10 +34,7 @@ export const theme = {
     foreground: palette.black,
     inputBackground: "#d8d9da",
     inputColor: "#787979",
-    primary:
-      Platform.OS === "ios"
-        ? PlatformColor("systemBlue")
-        : PlatformColor("?attr/colorPrimary"),
+    primary: "#007AFF",
     success: palette.green,
     danger: palette.red,
     failure: palette.red,

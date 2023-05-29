@@ -17,10 +17,10 @@ const ThemeProvider = ({ children }: PropsWithChildren<{}>) => {
 
   let selectedTheme: Theme = "dark";
 
-  if (settings.get()?.theme === "auto") {
+  if (settings.get()?.theme == "auto") {
     selectedTheme = colorScheme ?? "dark";
   } else {
-    selectedTheme = settings.get()?.theme ?? "dark";
+    selectedTheme = (settings.get()?.theme as Theme) ?? "dark";
   }
 
   let themeValue = darkTheme;

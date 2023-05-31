@@ -4,13 +4,16 @@ import TabLayout from "../../components/TabLayout";
 import { useTheme } from "../../contexts/themeContext";
 import SmallButton from "../../components/styled/SmallButton";
 import { useSettingsState } from "../../store/settings";
-import { SettingsTheme } from "../../types";
+import { Habit, SettingsTheme } from "../../types";
+import { useHabitState } from "../../store/habits";
+import SortHabits from "../../components/SortHabits";
 
 const themes: SettingsTheme[] = ["auto", "dark", "light"];
 
 export default function Settings() {
   const { theme } = useTheme();
   const { settings, updateSettings } = useSettingsState();
+  const { habits } = useHabitState();
 
   const settingsTheme = settings.get()?.theme;
 
@@ -55,7 +58,17 @@ export default function Settings() {
               })}
             </View>
           </View>
-          <Text>Reorder habits</Text>
+          <View
+            style={[
+              styles.container,
+              { borderColor: theme.colors.text, padding: theme.spacing.m },
+            ]}
+          >
+            <Text style={[styles.title, { paddingBottom: theme.spacing.s }]}>
+              Reorder habits
+            </Text>
+            <SortHabits habits={habits.get() as Habit[]} />
+          </View>
           <Text>Write a review</Text>
           <Text>Contact me</Text>
         </View>

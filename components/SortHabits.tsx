@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TouchableOpacity } from "react-native";
 import DraggableFlatList, {
   RenderItemParams,
@@ -8,6 +8,8 @@ import Text from "./styled/Text";
 import { Habit } from "../types";
 import { theme } from "../theme";
 import { adjustColor } from "../utils/adjustColor";
+import { useHabitState } from "../store/habits";
+import { getHabitSeq } from "../utils/getHabitSeq";
 
 if (__DEV__) {
   const ignoreWarns = [
@@ -30,7 +32,12 @@ interface Props {
 }
 
 export default function SortHabits({ habits }: Props) {
-  const [data, setData] = useState(habits);
+  const [data, setData] = useState<Habit[]>([]);
+  const { updateHabitSeq } = useHabitState();
+
+  useEffect(() => {
+    setData(habits);
+  }, [habits]);
 
   const renderItem = ({ item, drag, isActive }: RenderItemParams<Habit>) => {
     return (
@@ -51,15 +58,18 @@ export default function SortHabits({ habits }: Props) {
   };
 
   return (
-    <DraggableFlatList
-      containerStyle={{ width: "100%" }}
-      data={data}
-      onDragEnd={({ data }) => {
-        console.log(data);
-        setData(data);
-      }}
-      keyExtractor={(item) => item.id}
-      renderItem={renderItem}
-    />
+    <>
+      <DraggableFlatList
+        containerStyle={{ width: "100%" }}
+        data={data}
+        onDragEnd={({ data }) => {
+          setData(data);
+          const seqHabits = getHabitSeq(data);
+          updateHabitSeq(seqHabits);
+        }}
+        keyExtractor={(item) => item.id}
+        renderItem={renderItem}
+      />
+    </>
   );
 }

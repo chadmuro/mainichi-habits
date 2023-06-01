@@ -15,8 +15,10 @@ export const useHabitState = () => {
     db.transaction(
       (tx) => {
         console.log("get habits");
-        tx.executeSql(`select * from habits;`, [], (_, { rows: { _array } }) =>
-          habits.set(_array)
+        tx.executeSql(
+          `select * from habits order by seq asc;`,
+          [],
+          (_, { rows: { _array } }) => habits.set(_array)
         );
       },
       () => {
@@ -37,10 +39,12 @@ export const useHabitState = () => {
     startDate: string
   ) {
     const UUID = Crypto.randomUUID();
+    const lastSeq = habits.get()[habits.get().length - 1].seq;
+    const nextSeq = lastSeq + 1;
     db.transaction((tx) => {
       tx.executeSql(
-        "insert into habits (id, title, days_per_week, color, start_date) values (?, ?, ?, ?, ?)",
-        [UUID, title, daysPerWeek, color, startDate]
+        "insert into habits (id, title, days_per_week, color, start_date, seq) values (?, ?, ?, ?, ?, ?)",
+        [UUID, title, daysPerWeek, color, startDate, nextSeq]
       );
       tx.executeSql(
         "select * from habits where id = ?",
@@ -91,6 +95,22 @@ export const useHabitState = () => {
     });
   }
 
+  function updateHabitSeq(seqHabits: Habit[]) {
+    db.transaction((tx) => {
+      seqHabits.map((habit) => {
+        tx.executeSql("update habits set seq = ? where id = ?", [
+          habit.seq,
+          habit.id,
+        ]);
+      });
+      tx.executeSql(
+        `select * from habits order by seq asc;`,
+        [],
+        (_, { rows: { _array } }) => habits.set(_array)
+      );
+    });
+  }
+
   return {
     habits,
     loaded,
@@ -98,5 +118,6 @@ export const useHabitState = () => {
     addHabit,
     updateHabit,
     deleteHabit,
+    updateHabitSeq,
   };
 };

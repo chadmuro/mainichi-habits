@@ -4,6 +4,7 @@ export type Habit = {
   days_per_week: number;
   color: string;
   start_date: string;
+  seq: number;
 };
 
 export type Check = {

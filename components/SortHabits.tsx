@@ -6,10 +6,10 @@ import DraggableFlatList, {
 } from "react-native-draggable-flatlist";
 import Text from "./styled/Text";
 import { Habit } from "../types";
-import { theme } from "../theme";
 import { adjustColor } from "../utils/adjustColor";
 import { useHabitState } from "../store/habits";
 import { getHabitSeq } from "../utils/getHabitSeq";
+import { useTheme } from "../contexts/themeContext";
 
 if (__DEV__) {
   const ignoreWarns = [
@@ -34,6 +34,7 @@ interface Props {
 export default function SortHabits({ habits }: Props) {
   const [data, setData] = useState<Habit[]>([]);
   const { updateHabitSeq } = useHabitState();
+  const { theme, selectedTheme } = useTheme();
 
   useEffect(() => {
     setData(habits);
@@ -46,7 +47,10 @@ export default function SortHabits({ habits }: Props) {
           onPressIn={drag}
           disabled={isActive}
           style={{
-            backgroundColor: adjustColor(item.color, -100),
+            backgroundColor:
+              selectedTheme === "dark"
+                ? adjustColor(item.color, -100)
+                : adjustColor(item.color, 100),
             width: "100%",
             padding: theme.spacing.m,
           }}

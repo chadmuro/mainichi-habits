@@ -1,4 +1,10 @@
-import { TouchableOpacity, View, StyleSheet, Pressable } from "react-native";
+import {
+  TouchableOpacity,
+  View,
+  StyleSheet,
+  Pressable,
+  ScrollView,
+} from "react-native";
 import { useState } from "react";
 import { Link, Stack, useRouter, useSearchParams } from "expo-router";
 import DateTimePicker, {
@@ -80,7 +86,7 @@ export default function Edit() {
           ),
         }}
       />
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <View style={[styles.inputWrapper, { marginBottom: theme.spacing.m }]}>
           <TextLabel title="New habit" />
           <TextInput
@@ -165,7 +171,7 @@ export default function Edit() {
             ))}
           </View>
         </View>
-      </View>
+      </ScrollView>
     </TabLayout>
   );
 }
@@ -174,7 +180,6 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     height: "100%",
-    alignItems: "center",
   },
   inputWrapper: {
     width: "100%",

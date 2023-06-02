@@ -39,8 +39,8 @@ export const useHabitState = () => {
     startDate: string
   ) {
     const UUID = Crypto.randomUUID();
-    const lastSeq = habits.get()[habits.get().length - 1].seq;
-    const nextSeq = lastSeq + 1;
+    const lastSeq = habits.get()[habits.get().length - 1]?.seq;
+    const nextSeq = (lastSeq ?? 0) + 1;
     db.transaction((tx) => {
       tx.executeSql(
         "insert into habits (id, title, days_per_week, color, start_date, seq) values (?, ?, ?, ?, ?, ?)",

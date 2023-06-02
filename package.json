@@ -17,6 +17,7 @@
     "expo-clipboard": "~4.1.2",
     "expo-constants": "~14.2.1",
     "expo-crypto": "~12.2.1",
+    "expo-haptics": "~12.2.1",
     "expo-linking": "~4.0.1",
     "expo-router": "^1.5.3",
     "expo-sqlite": "~11.1.1",

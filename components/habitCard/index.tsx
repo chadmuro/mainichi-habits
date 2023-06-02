@@ -1,5 +1,6 @@
-import { View, StyleSheet, Pressable, Vibration } from "react-native";
+import { View, StyleSheet, Pressable } from "react-native";
 import { useMemo } from "react";
+import * as Haptics from "expo-haptics";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import dayjs from "dayjs";
@@ -49,10 +50,11 @@ export default function HabitCard({ habit }: Props) {
   function onCheckPress() {
     if (!checked) {
       addCheck(habit.id, today);
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     } else {
       deleteCheck(checked.id);
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     }
-    Vibration.vibrate();
   }
 
   return (

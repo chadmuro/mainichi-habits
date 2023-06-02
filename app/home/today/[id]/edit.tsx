@@ -23,7 +23,7 @@ import { useTheme } from "../../../../contexts/themeContext";
 const days = [1, 2, 3, 4, 5, 6, 7];
 
 export default function Edit() {
-  const { theme } = useTheme();
+  const { theme, selectedTheme } = useTheme();
   const router = useRouter();
   const { id } = useSearchParams();
   const { habits, updateHabit } = useHabitState();
@@ -108,6 +108,7 @@ export default function Edit() {
             onChange={onDateChange}
             textColor={theme.colors.text}
             maximumDate={new Date()}
+            themeVariant={selectedTheme}
           />
         </View>
         <View style={[styles.inputWrapper, { marginBottom: theme.spacing.m }]}>

@@ -23,7 +23,7 @@ import { useTheme } from "../../../contexts/themeContext";
 const days = [1, 2, 3, 4, 5, 6, 7];
 
 export default function Add() {
-  const { theme } = useTheme();
+  const { theme, selectedTheme } = useTheme();
   const router = useRouter();
   const [habit, setHabit] = useState("");
   const [daysPerWeek, setDaysPerWeek] = useState(1);
@@ -92,6 +92,7 @@ export default function Add() {
             onChange={onDateChange}
             textColor={theme.colors.text}
             maximumDate={new Date()}
+            themeVariant={selectedTheme}
           />
         </View>
         <View style={[styles.inputWrapper, { marginBottom: theme.spacing.m }]}>

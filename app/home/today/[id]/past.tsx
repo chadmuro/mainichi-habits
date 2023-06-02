@@ -1,6 +1,7 @@
 import { View } from "react-native";
 import dayjs from "dayjs";
 import { Calendar, DateData } from "react-native-calendars";
+import * as Haptics from "expo-haptics";
 import TabLayout from "../../../../components/TabLayout";
 import Text from "../../../../components/styled/Text";
 import { useLocalSearchParams } from "expo-router";
@@ -36,8 +37,10 @@ export default function Past() {
     if (habit) {
       if (selectedCheck) {
         deleteCheck(selectedCheck.id);
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       } else {
         addCheck(habit?.id, day.dateString);
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       }
     }
   }

@@ -1,4 +1,4 @@
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, RefreshControl } from "react-native";
 import Text from "../../../components/styled/Text";
 import HabitCard from "../../../components/habitCard";
 import TabLayout from "../../../components/TabLayout";
@@ -9,7 +9,7 @@ import { useTheme } from "../../../contexts/themeContext";
 export default function Today() {
   const { theme } = useTheme();
   const { habits } = useHabitState();
-  const { appLoaded } = useInitialLoad();
+  const { appLoaded, refreshing, refreshData } = useInitialLoad();
 
   // TODO implemenet logic to keep splash screen visibile while data is fetching
   // https://github.com/expo/expo/issues/21662
@@ -36,7 +36,12 @@ export default function Today() {
 
   return (
     <TabLayout>
-      <ScrollView style={{ width: "100%" }}>
+      <ScrollView
+        style={{ width: "100%" }}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={refreshData} />
+        }
+      >
         <View
           style={{
             width: "100%",

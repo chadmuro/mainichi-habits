@@ -12,6 +12,7 @@ export const useHabitState = () => {
   const [loaded, setLoaded] = useState(false);
 
   function getHabits() {
+    setLoaded(false);
     db.transaction(
       (tx) => {
         console.log("get habits");

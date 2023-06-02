@@ -11,6 +11,7 @@ export const useSettingsState = () => {
   const [loaded, setLoaded] = useState(false);
 
   function getSettings() {
+    setLoaded(false);
     db.transaction(
       (tx) => {
         console.log("get settings");

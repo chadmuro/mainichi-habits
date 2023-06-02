@@ -12,6 +12,7 @@ export const useCheckState = () => {
   const [loaded, setLoaded] = useState(false);
 
   function getChecks() {
+    setLoaded(false);
     db.transaction(
       (tx) => {
         console.log("get checks");

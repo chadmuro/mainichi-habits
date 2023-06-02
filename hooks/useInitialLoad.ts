@@ -5,9 +5,17 @@ import { useSettingsState } from "../store/settings";
 
 export function useInitialLoad() {
   const [appLoaded, setAppLoaded] = useState(false);
+  const [refreshing, setRefreshing] = useState(true);
   const { getHabits, loaded: habitsLoaded } = useHabitState();
   const { getChecks, loaded: checksLoaded } = useCheckState();
   const { getSettings, loaded: settingsLoaded } = useSettingsState();
+
+  function refreshData() {
+    setRefreshing(true);
+    getHabits();
+    getChecks();
+    getSettings();
+  }
 
   useEffect(() => {
     getHabits();
@@ -18,8 +26,9 @@ export function useInitialLoad() {
   useEffect(() => {
     if (habitsLoaded && checksLoaded && settingsLoaded) {
       setAppLoaded(true);
+      setRefreshing(false);
     }
   }, [habitsLoaded, checksLoaded, settingsLoaded]);
 
-  return { appLoaded };
+  return { appLoaded, refreshData, refreshing };
 }

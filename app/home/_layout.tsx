@@ -20,12 +20,12 @@ export default function TabsLayout() {
           color: theme.colors.text,
         },
         headerShadowVisible: false,
+        headerShown: false,
       }}
     >
       <Tabs.Screen
         name="today"
         options={{
-          headerShown: false,
           tabBarLabel: ({ focused }) => (
             <Text
               style={{

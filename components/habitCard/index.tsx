@@ -48,6 +48,14 @@ export default function HabitCard({ habit }: Props) {
   const { checkedDays, days } = checkDays(habitChecks);
 
   function onCheckPress() {
+    // If midnight has passed, checking habit card will add new day check
+    const checkedToday = dayjs().format("YYYY-MM-DD");
+    if (checkedToday !== today) {
+      addCheck(habit.id, checkedToday);
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      return;
+    }
+
     if (!checked) {
       addCheck(habit.id, today);
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);

@@ -72,9 +72,9 @@ export default function Add() {
       />
       <ScrollView style={styles.container}>
         <View style={[styles.inputWrapper, { marginBottom: theme.spacing.m }]}>
-          <TextLabel title="New habit" />
+          <TextLabel title="Habit title" />
           <TextInput
-            placeholder="New habit"
+            placeholder="Habit title"
             value={habit}
             onChangeText={(habit: string) => {
               if (habit) setError("");
@@ -89,6 +89,7 @@ export default function Add() {
             value={startDate}
             display="spinner"
             mode="date"
+            locale="en"
             onChange={onDateChange}
             textColor={theme.colors.text}
             maximumDate={new Date()}

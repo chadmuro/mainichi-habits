@@ -88,9 +88,9 @@ export default function Edit() {
       />
       <ScrollView style={styles.container}>
         <View style={[styles.inputWrapper, { marginBottom: theme.spacing.m }]}>
-          <TextLabel title="New habit" />
+          <TextLabel title="Habit title" />
           <TextInput
-            placeholder="New habit"
+            placeholder="Habit title"
             value={habitTitle}
             onChangeText={(habit: string) => {
               if (habit) setError("");
@@ -105,6 +105,7 @@ export default function Edit() {
             value={startDate}
             display="spinner"
             mode="date"
+            locale="en"
             onChange={onDateChange}
             textColor={theme.colors.text}
             maximumDate={new Date()}

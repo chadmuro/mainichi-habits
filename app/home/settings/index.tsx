@@ -18,6 +18,7 @@ import { Habit, SettingsTheme } from "../../../types";
 import { useHabitState } from "../../../store/habits";
 import SortHabits from "../../../components/SortHabits";
 import Button from "../../../components/styled/Button";
+import { useNotificationState } from "../../../store/notifications";
 
 const themes: SettingsTheme[] = ["auto", "dark", "light"];
 
@@ -25,6 +26,9 @@ export default function Settings() {
   const { theme } = useTheme();
   const { settings, updateSettings } = useSettingsState();
   const { habits } = useHabitState();
+  const { notifications } = useNotificationState();
+
+  console.log(notifications.get());
 
   const settingsTheme = settings.get()?.theme;
 

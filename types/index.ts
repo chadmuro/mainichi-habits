@@ -20,3 +20,10 @@ export type SettingsTheme = Theme | "auto";
 export type Settings = {
   theme: SettingsTheme;
 };
+
+export type Notification = {
+  id: string;
+  habit_id: string;
+  days: string;
+  time: string;
+};

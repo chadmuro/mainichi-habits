@@ -51,6 +51,13 @@ export default function Layout() {
             title: "Past dates",
           }}
         />
+        <Stack.Screen
+          name="notification"
+          options={{
+            presentation: "modal",
+            title: "Notification",
+          }}
+        />
       </Stack>
     </>
   );

@@ -1,10 +1,10 @@
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
 import dayjs from "dayjs";
 import { Calendar, DateData } from "react-native-calendars";
+import { Link, Stack, useLocalSearchParams } from "expo-router";
 import * as Haptics from "expo-haptics";
 import TabLayout from "../../../../components/TabLayout";
 import Text from "../../../../components/styled/Text";
-import { useLocalSearchParams } from "expo-router";
 import { adjustColor } from "../../../../utils/adjustColor";
 import { useHabitState } from "../../../../store/habits";
 import { useCheckState } from "../../../../store/checks";
@@ -47,6 +47,17 @@ export default function Past() {
 
   return (
     <TabLayout>
+      <Stack.Screen
+        options={{
+          headerLeft: () => (
+            <Link href={`home/today/${habit.id}`} asChild>
+              <Pressable>
+                <Text style={{ color: theme.colors.primary }}>Close</Text>
+              </Pressable>
+            </Link>
+          ),
+        }}
+      />
       <Text style={{ paddingBottom: theme.spacing.m }}>
         Select day to add or remove past dates
       </Text>

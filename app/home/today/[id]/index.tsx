@@ -94,6 +94,13 @@ export default function Details() {
           >
             Past dates
           </Button>
+          <Button
+            color={habit.color}
+            icon="notifications-outline"
+            onPress={() => router.push(`home/today/${habit.id}/notification`)}
+          >
+            Notification
+          </Button>
           <View
             style={[
               styles.container,

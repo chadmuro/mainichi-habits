@@ -1,5 +1,5 @@
 import { Stack, useSearchParams, useRouter } from "expo-router";
-import { Alert, ScrollView, View, StyleSheet } from "react-native";
+import { Alert, ScrollView, View, StyleSheet, Linking } from "react-native";
 import Text from "../../../../components/styled/Text";
 import TabLayout from "../../../../components/TabLayout";
 import { useHabitState } from "../../../../store/habits";
@@ -10,12 +10,15 @@ import { useMemo } from "react";
 import { calculateStreak } from "../../../../utils/calculateStreak";
 import YearGrid from "../../../../components/yearGrid";
 import { useTheme } from "../../../../contexts/themeContext";
+import { Habit } from "../../../../types";
+import { useNotifications } from "../../../../hooks/useNotifications";
 
 export default function Details() {
   const { theme } = useTheme();
   const router = useRouter();
   const { id } = useSearchParams();
   const { habits, deleteHabit } = useHabitState();
+  const { requestPermissionsAsync } = useNotifications();
   const habit = habits.get().find((habit) => habit.id === id);
 
   // TODO: Show no data page
@@ -44,6 +47,27 @@ export default function Details() {
       deleteHabit(habit.id);
     }
     router.back();
+  }
+
+  async function onNotificationPress(habit: Habit) {
+    const permission = await requestPermissionsAsync();
+    if (!permission.granted) {
+      return Alert.alert(
+        "Turn on notification permissions",
+        "To use this feature, you must habe permissions turned on.",
+        [
+          {
+            text: "Cancel",
+            style: "cancel",
+          },
+          {
+            text: "Go to settings",
+            onPress: () => Linking.openSettings(),
+          },
+        ]
+      );
+    }
+    router.push(`home/today/${habit.id}/notification`);
   }
 
   function onDeletePress() {
@@ -97,7 +121,7 @@ export default function Details() {
           <Button
             color={habit.color}
             icon="notifications-outline"
-            onPress={() => router.push(`home/today/${habit.id}/notification`)}
+            onPress={() => onNotificationPress(habit)}
           >
             Notification
           </Button>

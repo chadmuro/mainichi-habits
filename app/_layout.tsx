@@ -1,7 +1,18 @@
 import { Slot } from "expo-router";
+import * as Notifications from "expo-notifications";
 import { DatabaseProvider } from "../contexts/databaseContext";
 import { ThemeProvider } from "../contexts/themeContext";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+
+// First, set the handler that will cause the notification to show the alert
+console.log("set notification handler");
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 
 export default function Layout() {
   return (

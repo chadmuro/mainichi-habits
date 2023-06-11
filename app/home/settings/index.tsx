@@ -7,7 +7,7 @@ import {
   Pressable,
 } from "react-native";
 import * as Clipboard from "expo-clipboard";
-import { Link } from "expo-router";
+import { useRouter } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Text from "../../../components/styled/Text";
 import TabLayout from "../../../components/TabLayout";
@@ -19,12 +19,15 @@ import { useHabitState } from "../../../store/habits";
 import SortHabits from "../../../components/SortHabits";
 import Button from "../../../components/styled/Button";
 import { useNotificationState } from "../../../store/notifications";
+import { useNotifications } from "../../../hooks/useNotifications";
 
 const themes: SettingsTheme[] = ["auto", "dark", "light"];
 
 export default function Settings() {
   const { theme } = useTheme();
+  const router = useRouter();
   const { settings, updateSettings } = useSettingsState();
+  const { requestPermissionsAsync } = useNotifications();
   const { habits } = useHabitState();
   const { notifications } = useNotificationState();
 
@@ -43,6 +46,27 @@ export default function Settings() {
       "👋 Looking forward to hearing from you soon!"
     );
   };
+
+  async function onNotificationPress() {
+    const permission = await requestPermissionsAsync();
+    if (!permission.granted) {
+      return Alert.alert(
+        "Turn on notification permissions",
+        "To use this feature, you must habe permissions turned on.",
+        [
+          {
+            text: "Cancel",
+            style: "cancel",
+          },
+          {
+            text: "Go to settings",
+            onPress: () => Linking.openSettings(),
+          },
+        ]
+      );
+    }
+    router.push(`home/settings/notifications`);
+  }
 
   return (
     <TabLayout>
@@ -108,15 +132,13 @@ export default function Settings() {
               <Text style={[styles.title, { paddingBottom: theme.spacing.s }]}>
                 Notifications
               </Text>
-              <Link href="home/settings/notifications" asChild>
-                <Pressable>
-                  <Ionicons
-                    name="add-outline"
-                    size={24}
-                    color={theme.colors.primary}
-                  />
-                </Pressable>
-              </Link>
+              <Pressable onPress={() => onNotificationPress()}>
+                <Ionicons
+                  name="add-outline"
+                  size={24}
+                  color={theme.colors.primary}
+                />
+              </Pressable>
             </View>
 
             <View style={{ width: "100%" }}>

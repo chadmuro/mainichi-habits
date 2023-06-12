@@ -44,7 +44,8 @@ export default function SortHabits({ habits }: Props) {
     return (
       <ScaleDecorator>
         <TouchableOpacity
-          onPressIn={drag}
+          // onPressIn={drag}
+          onLongPress={drag}
           disabled={isActive}
           style={{
             backgroundColor:

@@ -41,7 +41,7 @@ export const useNotificationState = () => {
   ) {
     db.transaction((tx) => {
       tx.executeSql(
-        "insert into notifications (id, habit_id, day, hour, minute) values (?, ?, ?, ?)",
+        "insert into notifications (id, habit_id, day, hour, minute) values (?, ?, ?, ?, ?)",
         [identifier, habitId, day, hour, minute]
       );
       tx.executeSql(

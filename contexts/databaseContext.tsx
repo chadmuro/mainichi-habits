@@ -48,8 +48,9 @@ const DatabaseProvider = ({ children }: PropsWithChildren<{}>) => {
         "create table if not exists settings (id string primary key not null, theme string default 'auto' not null);"
       );
       tx.executeSql("insert or ignore into settings (id) values('1')");
+      // tx.executeSql("drop table notifications");
       tx.executeSql(
-        "create table if not exists notifications (id string primary key not null, habit_id string, days text, time text);"
+        "create table if not exists notifications (id string primary key not null, habit_id string, days integer, hour integer, minute integer);"
       );
     });
   }, []);

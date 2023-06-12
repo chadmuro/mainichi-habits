@@ -1,4 +1,4 @@
-import { Link, Stack, useSearchParams } from "expo-router";
+import { Link, Stack, useRouter, useSearchParams } from "expo-router";
 import {
   Pressable,
   ScrollView,
@@ -17,25 +17,29 @@ import TextLabel from "../../../../components/styled/TextLabel";
 import { useState } from "react";
 import { useTheme } from "../../../../contexts/themeContext";
 import dayjs from "dayjs";
+import { useNotifications } from "../../../../hooks/useNotifications";
+import { Weekday } from "../../../../types";
 
-type Day = { val: number; text: string };
+type Day = { val: Weekday; text: string };
 
 const days: Day[] = [
-  { val: 0, text: "Sun" },
-  { val: 1, text: "Mon" },
-  { val: 2, text: "Tue" },
-  { val: 3, text: "Wed" },
-  { val: 4, text: "Thu" },
-  { val: 5, text: "Fri" },
-  { val: 6, text: "Sat" },
+  { val: 1, text: "Sun" },
+  { val: 2, text: "Mon" },
+  { val: 3, text: "Tue" },
+  { val: 4, text: "Wed" },
+  { val: 5, text: "Thu" },
+  { val: 6, text: "Fri" },
+  { val: 7, text: "Sat" },
 ];
 
 export default function Notification() {
   const { id } = useSearchParams();
+  const router = useRouter();
   const { theme, selectedTheme } = useTheme();
-  const [selectedDays, setSelectedDays] = useState<number[]>([]);
+  const [selectedDays, setSelectedDays] = useState<Weekday[]>([]);
   const [startDate, setStartDate] = useState(new Date());
-  const { habits, updateHabit } = useHabitState();
+  const { habits } = useHabitState();
+  const { createNotification } = useNotifications();
   const habit = habits.get().find((habit) => habit.id === id);
 
   // TODO: Show no data page
@@ -49,7 +53,7 @@ export default function Notification() {
     setStartDate(selectedDate);
   };
 
-  function onDaySelect(dayVal: number) {
+  function onDaySelect(dayVal: Weekday) {
     if (selectedDays.includes(dayVal)) {
       setSelectedDays((prev) => prev.filter((prevItem) => prevItem !== dayVal));
     } else {
@@ -57,7 +61,21 @@ export default function Notification() {
     }
   }
 
-  console.log(selectedDays);
+  async function onSavePress() {
+    let weekday: Weekday[] | "daily" = [];
+    const hour = startDate.getHours();
+    const minute = startDate.getMinutes();
+    if (selectedDays.length === 7) {
+      weekday = "daily";
+    } else {
+      weekday = [...selectedDays];
+    }
+
+    if (habit) {
+      await createNotification(habit.id, habit.title, hour, minute, weekday);
+      router.push(`home/today/${habit.id}`);
+    }
+  }
 
   return (
     <TabLayout>
@@ -71,7 +89,7 @@ export default function Notification() {
             </Link>
           ),
           headerRight: () => (
-            <Pressable onPress={() => console.log("save")}>
+            <Pressable onPress={() => onSavePress()}>
               <Text style={{ color: theme.colors.primary }}>Save</Text>
             </Pressable>
           ),

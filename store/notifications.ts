@@ -1,5 +1,4 @@
 import { useState } from "react";
-import * as Crypto from "expo-crypto";
 import { hookstate, useHookstate } from "@hookstate/core";
 import { useDatabase } from "../contexts/databaseContext";
 import { Notification } from "../types";
@@ -33,16 +32,21 @@ export const useNotificationState = () => {
     );
   }
 
-  function addNotification(habitId: string, days: string, time: string) {
-    const UUID = Crypto.randomUUID();
+  function addNotification(
+    identifier: string,
+    habitId: string,
+    day: number,
+    hour: number,
+    minute: number
+  ) {
     db.transaction((tx) => {
       tx.executeSql(
-        "insert into notifications (id, habit_id, daysk, time) values (?, ?, ?, ?)",
-        [UUID, habitId, days, time]
+        "insert into notifications (id, habit_id, day, hour, minute) values (?, ?, ?, ?)",
+        [identifier, habitId, day, hour, minute]
       );
       tx.executeSql(
         "select * from notifications where id = ?",
-        [UUID],
+        [identifier],
         (_, { rows: { _array } }) => notifications.merge([..._array])
       );
     });

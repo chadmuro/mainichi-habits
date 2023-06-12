@@ -25,5 +25,8 @@ export type Notification = {
   id: string;
   habit_id: string;
   days: string;
-  time: string;
+  hour: number;
+  minute: number;
 };
+
+export type Weekday = 1 | 2 | 3 | 4 | 5 | 6 | 7;

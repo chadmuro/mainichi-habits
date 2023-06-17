@@ -6,8 +6,8 @@ export function useNotifications() {
   const { addNotification } = useNotificationState();
   async function requestPermissionsAsync() {
     // await Notifications.cancelAllScheduledNotificationsAsync();
-    // const notifs = await Notifications.getAllScheduledNotificationsAsync();
-    // console.log(notifs);
+    const notifs = await Notifications.getAllScheduledNotificationsAsync();
+    console.log(notifs);
     return await Notifications.requestPermissionsAsync({
       ios: {
         allowAlert: true,
@@ -40,7 +40,7 @@ export function useNotifications() {
         trigger,
       });
 
-      addNotification(identifier, habitId, 0, hour, minute);
+      addNotification(habitId, "0", identifier, hour, minute);
       return identifier;
     }
 
@@ -58,19 +58,20 @@ export function useNotifications() {
           body: `Don't forget to ${body} today!`,
         },
         trigger,
-      }).then((res) => ({
-        identifier: res,
-        weekday: day,
-      }));
+      });
 
       return notificationPromise;
     });
 
     const identifiers = await Promise.all(notificationPromises);
 
-    identifiers.forEach((id) => {
-      addNotification(id.identifier, habitId, id.weekday, hour, minute);
-    });
+    addNotification(
+      habitId,
+      weekday.join(","),
+      identifiers.join(","),
+      hour,
+      minute
+    );
     return identifiers;
   }
 

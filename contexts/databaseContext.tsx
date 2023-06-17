@@ -50,7 +50,7 @@ const DatabaseProvider = ({ children }: PropsWithChildren<{}>) => {
       tx.executeSql("insert or ignore into settings (id) values('1')");
       // tx.executeSql("drop table notifications");
       tx.executeSql(
-        "create table if not exists notifications (id string primary key not null, habit_id string, day integer, hour integer, minute integer);"
+        "create table if not exists notifications (id string primary key not null, habit_id string, days text, identifiers text, hour integer, minute integer);"
       );
     });
   }, []);

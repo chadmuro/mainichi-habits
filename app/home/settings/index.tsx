@@ -132,17 +132,22 @@ export default function Settings() {
               <Text style={[styles.title, { paddingBottom: theme.spacing.s }]}>
                 Notifications
               </Text>
-              <Pressable onPress={() => onNotificationPress()}>
+              {/* <Pressable onPress={() => onNotificationPress()}>
                 <Ionicons
                   name="add-outline"
                   size={24}
                   color={theme.colors.primary}
                 />
-              </Pressable>
+              </Pressable> */}
             </View>
-
             <View style={{ width: "100%" }}>
-              <Text>Notification One</Text>
+              {notifications.get()?.length! > 0 ? (
+                notifications
+                  .get()
+                  ?.map((notif) => <Text>{notif.habit_id}</Text>)
+              ) : (
+                <Text>No notifications</Text>
+              )}
             </View>
           </View>
           <View

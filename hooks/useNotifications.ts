@@ -3,7 +3,7 @@ import { Weekday } from "../types";
 import { useNotificationState } from "../store/notifications";
 
 export function useNotifications() {
-  const { addNotification } = useNotificationState();
+  const { addNotification, deleteDbNotification } = useNotificationState();
   async function requestPermissionsAsync() {
     // await Notifications.cancelAllScheduledNotificationsAsync();
     const notifs = await Notifications.getAllScheduledNotificationsAsync();
@@ -75,5 +75,20 @@ export function useNotifications() {
     return identifiers;
   }
 
-  return { requestPermissionsAsync, createNotification };
+  async function deleteNotification(
+    notificationId: string,
+    identifiers: string
+  ) {
+    const identifiersArray = identifiers.split(",");
+    const identifiersPromises = identifiersArray.map((identifier) => {
+      const cancelPromise =
+        Notifications.cancelScheduledNotificationAsync(identifier);
+      return cancelPromise;
+    });
+
+    const cancelledIdentifiers = await Promise.all(identifiersPromises);
+    deleteDbNotification(notificationId);
+  }
+
+  return { requestPermissionsAsync, createNotification, deleteNotification };
 }

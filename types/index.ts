@@ -24,7 +24,8 @@ export type Settings = {
 export type Notification = {
   id: string;
   habit_id: string;
-  day: number;
+  days: string;
+  identifiers: string;
   hour: number;
   minute: number;
 };

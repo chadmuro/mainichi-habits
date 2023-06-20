@@ -5,20 +5,22 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
 import TabLayout from "../../../../components/TabLayout";
-import { theme } from "../../../../theme";
 import Text from "../../../../components/styled/Text";
 import { useHabitState } from "../../../../store/habits";
 import TextLabel from "../../../../components/styled/TextLabel";
 import { useState } from "react";
 import { useTheme } from "../../../../contexts/themeContext";
-import dayjs from "dayjs";
+import Button from "../../../../components/styled/Button";
 import { useNotifications } from "../../../../hooks/useNotifications";
 import { Weekday } from "../../../../types";
+import { useNotificationState } from "../../../../store/notifications";
+import TextError from "../../../../components/styled/TextError";
 
 type Day = { val: Weekday; text: string };
 
@@ -38,9 +40,14 @@ export default function Notification() {
   const { theme, selectedTheme } = useTheme();
   const [selectedDays, setSelectedDays] = useState<Weekday[]>([]);
   const [startDate, setStartDate] = useState(new Date());
+  const [error, setError] = useState("");
   const { habits } = useHabitState();
-  const { createNotification } = useNotifications();
+  const { createNotification, deleteNotification } = useNotifications();
+  const { notifications } = useNotificationState();
   const habit = habits.get().find((habit) => habit.id === id);
+  const notificationData = notifications
+    .get()
+    .find((notif) => notif.habit_id === habit?.id);
 
   // TODO: Show no data page
   if (!habit) {
@@ -54,6 +61,7 @@ export default function Notification() {
   };
 
   function onDaySelect(dayVal: Weekday) {
+    setError("");
     if (selectedDays.includes(dayVal)) {
       setSelectedDays((prev) => prev.filter((prevItem) => prevItem !== dayVal));
     } else {
@@ -61,7 +69,37 @@ export default function Notification() {
     }
   }
 
+  console.log(notificationData);
+
+  function onDeletePress(notificationId: string, identifiers: string) {
+    Alert.alert(
+      "Are you sure you want to delete this reminder?",
+      "Once deleted, the data cannot be retrieved.",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+
+        {
+          text: "Delete",
+          onPress: () => onDeleteSubmit(notificationId, identifiers),
+          style: "destructive",
+        },
+      ]
+    );
+  }
+
+  function onDeleteSubmit(notificationId: string, identifiers: string) {
+    console.log("delete notif");
+    deleteNotification(notificationId, identifiers);
+  }
+
   async function onSavePress() {
+    if (selectedDays.length === 0) {
+      setError("At least one day must be selected");
+      return;
+    }
     let weekday: Weekday[] | "daily" = [];
     const hour = startDate.getHours();
     const minute = startDate.getMinutes();
@@ -100,7 +138,7 @@ export default function Notification() {
           <Text style={{ fontSize: 20 }}>{habit.title}</Text>
         </View>
         <View style={[styles.inputWrapper, { marginBottom: theme.spacing.m }]}>
-          <TextLabel title="Notification time" />
+          <TextLabel title="Reminder time" />
           <DateTimePicker
             value={startDate}
             display="spinner"
@@ -146,8 +184,22 @@ export default function Notification() {
                 </View>
               </TouchableOpacity>
             ))}
+            {error && <TextError title={error} />}
           </View>
         </View>
+        {notificationData && (
+          <View style={{ paddingTop: theme.spacing.m }}>
+            <Button
+              color={theme.colors.danger}
+              icon="trash-outline"
+              onPress={() =>
+                onDeletePress(notificationData.id, notificationData.identifiers)
+              }
+            >
+              Delete
+            </Button>
+          </View>
+        )}
       </ScrollView>
     </TabLayout>
   );

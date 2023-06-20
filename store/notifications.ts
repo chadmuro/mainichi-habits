@@ -1,10 +1,10 @@
 import { useState } from "react";
 import * as Crypto from "expo-crypto";
-import { hookstate, useHookstate } from "@hookstate/core";
+import { hookstate, none, useHookstate } from "@hookstate/core";
 import { useDatabase } from "../contexts/databaseContext";
 import { Notification } from "../types";
 
-const notificationState = hookstate<Notification[] | null>(null);
+const notificationState = hookstate<Notification[]>([]);
 
 export const useNotificationState = () => {
   const { db } = useDatabase();
@@ -54,5 +54,24 @@ export const useNotificationState = () => {
     });
   }
 
-  return { loaded, getNotifications, addNotification, notifications };
+  function deleteDbNotification(notificationId: string) {
+    db.transaction((tx) => {
+      tx.executeSql("delete from notifications where id = ?", [notificationId]);
+
+      const index = notifications.get().findIndex((notification) => {
+        return notification.id === notificationId;
+      });
+      if (index !== -1) {
+        notifications[index].set(none);
+      }
+    });
+  }
+
+  return {
+    loaded,
+    getNotifications,
+    addNotification,
+    notifications,
+    deleteDbNotification,
+  };
 };

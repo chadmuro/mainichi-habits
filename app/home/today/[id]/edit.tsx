@@ -64,7 +64,7 @@ export default function Edit() {
         color,
         dayjs(startDate).format("YYYY-MM-DD")
       );
-      router.push(`home/today/${habit.id}`);
+      router.push(`/home/today/${habit.id}`);
     }
   }
 
@@ -73,7 +73,7 @@ export default function Edit() {
       <Stack.Screen
         options={{
           headerLeft: () => (
-            <Link href={`home/today/${habit.id}`} asChild>
+            <Link href={`/home/today/${habit.id}`} asChild>
               <Pressable>
                 <Text style={{ color: theme.colors.primary }}>Cancel</Text>
               </Pressable>
@@ -86,7 +86,7 @@ export default function Edit() {
           ),
         }}
       />
-      <ScrollView style={styles.container}>
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         <View style={[styles.inputWrapper, { marginBottom: theme.spacing.m }]}>
           <TextLabel title="Habit title" />
           <TextInput

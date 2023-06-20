@@ -37,6 +37,7 @@ export default function Today() {
   return (
     <TabLayout>
       <ScrollView
+        showsVerticalScrollIndicator={false}
         style={{ width: "100%" }}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={refreshData} />

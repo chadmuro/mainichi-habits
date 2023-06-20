@@ -50,7 +50,7 @@ export default function Past() {
       <Stack.Screen
         options={{
           headerLeft: () => (
-            <Link href={`home/today/${habit.id}`} asChild>
+            <Link href={`/home/today/${habit.id}`} asChild>
               <Pressable>
                 <Text style={{ color: theme.colors.primary }}>Close</Text>
               </Pressable>

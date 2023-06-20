@@ -1,5 +1,6 @@
 import { Stack, useSearchParams, useRouter } from "expo-router";
 import { Alert, ScrollView, View, StyleSheet, Linking } from "react-native";
+import * as Haptics from "expo-haptics";
 import Text from "../../../../components/styled/Text";
 import TabLayout from "../../../../components/TabLayout";
 import { useHabitState } from "../../../../store/habits";
@@ -67,10 +68,11 @@ export default function Details() {
         ]
       );
     }
-    router.push(`home/today/${habit.id}/notification`);
+    router.push(`/home/today/${habit.id}/notification`);
   }
 
   function onDeletePress() {
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
     Alert.alert(
       "Are you sure you want to delete this habit?",
       "Once deleted, the data cannot be retrieved.",
@@ -96,7 +98,10 @@ export default function Details() {
           title: habit.title,
         }}
       />
-      <ScrollView style={{ width: "100%" }}>
+      <ScrollView
+        style={{ width: "100%" }}
+        showsVerticalScrollIndicator={false}
+      >
         <View
           style={{
             width: "100%",
@@ -107,14 +112,14 @@ export default function Details() {
           <Button
             color={habit.color}
             icon="pencil-outline"
-            onPress={() => router.push(`home/today/${habit.id}/edit`)}
+            onPress={() => router.push(`/home/today/${habit.id}/edit`)}
           >
             Edit habit
           </Button>
           <Button
             color={habit.color}
             icon="today-outline"
-            onPress={() => router.push(`home/today/${habit.id}/past`)}
+            onPress={() => router.push(`/home/today/${habit.id}/past`)}
           >
             Past dates
           </Button>

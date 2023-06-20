@@ -23,7 +23,7 @@ export default function Layout() {
         options={{
           title: "Today",
           headerRight: () => (
-            <Link href="home/today/add" asChild>
+            <Link href="/home/today/add" asChild>
               <Pressable>
                 <Ionicons
                   name="add-outline"

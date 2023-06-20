@@ -43,7 +43,7 @@ export default function Add() {
   function onSubmit() {
     if (!habit) return setError("Habit name is required");
     addHabit(habit, daysPerWeek, color, dayjs(startDate).format("YYYY-MM-DD"));
-    router.push("home/today");
+    router.push("/home/today");
   }
 
   const onDateChange = (event: DateTimePickerEvent, date?: Date) => {
@@ -57,7 +57,7 @@ export default function Add() {
       <Stack.Screen
         options={{
           headerLeft: () => (
-            <Link href="home/today" asChild>
+            <Link href="/home/today" asChild>
               <Pressable>
                 <Text style={{ color: theme.colors.primary }}>Cancel</Text>
               </Pressable>
@@ -70,7 +70,7 @@ export default function Add() {
           ),
         }}
       />
-      <ScrollView style={styles.container}>
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         <View style={[styles.inputWrapper, { marginBottom: theme.spacing.m }]}>
           <TextLabel title="Habit title" />
           <TextInput

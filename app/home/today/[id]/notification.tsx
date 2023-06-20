@@ -114,7 +114,7 @@ export default function Notification() {
 
     if (habit) {
       await createNotification(habit.id, habit.title, hour, minute, weekday);
-      router.push(`home/today/${habit.id}`);
+      router.push(`/home/today/${habit.id}`);
     }
   }
 
@@ -123,7 +123,7 @@ export default function Notification() {
       <Stack.Screen
         options={{
           headerLeft: () => (
-            <Link href={`home/today/${habit.id}`} asChild>
+            <Link href={`/home/today/${habit.id}`} asChild>
               <Pressable>
                 <Text style={{ color: theme.colors.primary }}>Cancel</Text>
               </Pressable>
@@ -136,7 +136,7 @@ export default function Notification() {
           ),
         }}
       />
-      <ScrollView style={styles.container}>
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         <View style={[styles.inputWrapper, { marginBottom: theme.spacing.m }]}>
           <Text style={{ fontSize: 20 }}>{habit.title}</Text>
         </View>

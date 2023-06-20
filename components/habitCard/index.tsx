@@ -67,7 +67,7 @@ export default function HabitCard({ habit }: Props) {
 
   return (
     <Link
-      href={`home/today/${habit.id}`}
+      href={`/home/today/${habit.id}`}
       style={[
         styles.container,
         {

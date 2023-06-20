@@ -1,6 +1,5 @@
-import { Stack, useSearchParams, useRouter } from "expo-router";
+import { useSearchParams, useRouter } from "expo-router";
 import { Alert, ScrollView, View, StyleSheet, Linking } from "react-native";
-import * as Haptics from "expo-haptics";
 import Text from "../../../../components/styled/Text";
 import TabLayout from "../../../../components/TabLayout";
 import { useHabitState } from "../../../../store/habits";
@@ -18,7 +17,7 @@ export default function Details() {
   const { theme } = useTheme();
   const router = useRouter();
   const { id } = useSearchParams();
-  const { habits, deleteHabit } = useHabitState();
+  const { habits } = useHabitState();
   const { requestPermissionsAsync } = useNotifications();
   const habit = habits.get().find((habit) => habit.id === id);
 
@@ -43,13 +42,6 @@ export default function Details() {
     });
   }, [numHabitChecks, habit.days_per_week]);
 
-  function onDeleteSubmit() {
-    if (habit) {
-      deleteHabit(habit.id);
-    }
-    router.back();
-  }
-
   async function onNotificationPress(habit: Habit) {
     const permission = await requestPermissionsAsync();
     if (!permission.granted) {
@@ -71,33 +63,8 @@ export default function Details() {
     router.push(`/home/today/${habit.id}/notification`);
   }
 
-  function onDeletePress() {
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
-    Alert.alert(
-      "Are you sure you want to delete this habit?",
-      "Once deleted, the data cannot be retrieved.",
-      [
-        {
-          text: "Cancel",
-          style: "cancel",
-        },
-
-        {
-          text: "Delete",
-          onPress: onDeleteSubmit,
-          style: "destructive",
-        },
-      ]
-    );
-  }
-
   return (
     <TabLayout>
-      <Stack.Screen
-        options={{
-          title: habit.title,
-        }}
-      />
       <ScrollView
         style={{ width: "100%" }}
         showsVerticalScrollIndicator={false}
@@ -169,13 +136,6 @@ export default function Details() {
               startDate={habit.start_date}
             />
           </View>
-          <Button
-            color={theme.colors.danger}
-            icon="trash-outline"
-            onPress={onDeletePress}
-          >
-            Delete
-          </Button>
         </View>
       </ScrollView>
     </TabLayout>

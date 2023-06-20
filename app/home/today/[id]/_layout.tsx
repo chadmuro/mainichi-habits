@@ -1,4 +1,7 @@
-import { Stack, useSearchParams } from "expo-router";
+import { Alert, Pressable } from "react-native";
+import { Stack, useRouter, useSearchParams } from "expo-router";
+import * as Haptics from "expo-haptics";
+import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { useHabitState } from "../../../../store/habits";
 import { useTheme } from "../../../../contexts/themeContext";
@@ -6,7 +9,8 @@ import { useTheme } from "../../../../contexts/themeContext";
 export default function Layout() {
   const { theme } = useTheme();
   const { id } = useSearchParams();
-  const { habits } = useHabitState();
+  const router = useRouter();
+  const { habits, deleteHabit } = useHabitState();
   const habit = habits.get().find((habit) => habit.id === id);
 
   // TODO: Show no data page
@@ -14,11 +18,47 @@ export default function Layout() {
     return;
   }
 
+  function onDeleteSubmit() {
+    if (habit) {
+      deleteHabit(habit.id);
+    }
+    router.back();
+  }
+
+  function onDeletePress() {
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
+    Alert.alert(
+      "Are you sure you want to delete this habit?",
+      "Once deleted, the data cannot be retrieved.",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+
+        {
+          text: "Delete",
+          onPress: onDeleteSubmit,
+          style: "destructive",
+        },
+      ]
+    );
+  }
+
   return (
     <>
       <Stack.Screen
         options={{
           title: habit.title,
+          headerRight: () => (
+            <Pressable onPress={onDeletePress}>
+              <Ionicons
+                name="trash-outline"
+                size={20}
+                color={theme.colors.danger}
+              />
+            </Pressable>
+          ),
         }}
       />
       <Stack

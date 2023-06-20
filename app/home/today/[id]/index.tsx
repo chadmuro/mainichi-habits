@@ -54,7 +54,7 @@ export default function Details() {
     if (!permission.granted) {
       return Alert.alert(
         "Turn on notification permissions",
-        "To use this feature, you must habe permissions turned on.",
+        "To use this feature, you must have permissions turned on.",
         [
           {
             text: "Cancel",
@@ -123,7 +123,7 @@ export default function Details() {
             icon="notifications-outline"
             onPress={() => onNotificationPress(habit)}
           >
-            Notification
+            Reminder
           </Button>
           <View
             style={[

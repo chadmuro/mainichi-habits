@@ -55,7 +55,7 @@ export default function Layout() {
           name="notification"
           options={{
             presentation: "modal",
-            title: "Notification",
+            title: "Reminder",
           }}
         />
       </Stack>

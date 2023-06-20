@@ -23,9 +23,9 @@ export function useNotifications() {
     body: string,
     hour: number,
     minute: number,
-    weekday: Weekday[] | "daily"
+    weekday: Weekday[]
   ) {
-    if (weekday === "daily") {
+    if (weekday.length === 7) {
       const trigger: Notifications.NotificationTriggerInput = {
         hour,
         minute,
@@ -40,7 +40,7 @@ export function useNotifications() {
         trigger,
       });
 
-      addNotification(habitId, "0", identifier, hour, minute);
+      addNotification(habitId, weekday.join(","), identifier, hour, minute);
       return identifier;
     }
 

@@ -38,8 +38,6 @@ export default function Notification() {
   const { id } = useSearchParams();
   const router = useRouter();
   const { theme, selectedTheme } = useTheme();
-  const [selectedDays, setSelectedDays] = useState<Weekday[]>([]);
-  const [startDate, setStartDate] = useState(new Date());
   const [error, setError] = useState("");
   const { habits } = useHabitState();
   const { createNotification, deleteNotification } = useNotifications();
@@ -48,6 +46,15 @@ export default function Notification() {
   const notificationData = notifications
     .get()
     .find((notif) => notif.habit_id === habit?.id);
+  const defaultDays: Weekday[] = notificationData
+    ? (notificationData.days.split(",").map((day) => Number(day)) as Weekday[])
+    : [];
+  const defaultDate = new Date();
+  if (notificationData) {
+    defaultDate.setHours(notificationData.hour, notificationData.minute, 0);
+  }
+  const [selectedDays, setSelectedDays] = useState<Weekday[]>(defaultDays);
+  const [reminderTime, setReminderTime] = useState(defaultDate);
 
   // TODO: Show no data page
   if (!habit) {
@@ -57,7 +64,7 @@ export default function Notification() {
   const onDateChange = (event: DateTimePickerEvent, date?: Date) => {
     if (!date) return;
     const selectedDate = date;
-    setStartDate(selectedDate);
+    setReminderTime(selectedDate);
   };
 
   function onDaySelect(dayVal: Weekday) {
@@ -101,13 +108,9 @@ export default function Notification() {
       return;
     }
     let weekday: Weekday[] | "daily" = [];
-    const hour = startDate.getHours();
-    const minute = startDate.getMinutes();
-    if (selectedDays.length === 7) {
-      weekday = "daily";
-    } else {
-      weekday = [...selectedDays];
-    }
+    const hour = reminderTime.getHours();
+    const minute = reminderTime.getMinutes();
+    weekday = [...selectedDays];
 
     if (habit) {
       await createNotification(habit.id, habit.title, hour, minute, weekday);
@@ -140,7 +143,7 @@ export default function Notification() {
         <View style={[styles.inputWrapper, { marginBottom: theme.spacing.m }]}>
           <TextLabel title="Reminder time" />
           <DateTimePicker
-            value={startDate}
+            value={reminderTime}
             display="spinner"
             mode="time"
             locale="en"

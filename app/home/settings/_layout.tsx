@@ -23,7 +23,7 @@ export default function Layout() {
         }}
       />
       <Stack.Screen
-        name="notifications"
+        name="notifications/[id]"
         options={{
           presentation: "modal",
           title: "Notifications",

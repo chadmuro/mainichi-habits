@@ -49,7 +49,10 @@ export const useNotificationState = () => {
         [UUID, habitId, days, identifiers, hour, minute]
       );
       tx.executeSql(
-        "select * from notifications where id = ?",
+        `select n.id, n.habit_id, n.days, n.identifiers, n.hour, n.minute, h.title
+        from notifications n
+        inner join habits h on h.id = n.habit_id
+        where id = ?;`,
         [UUID],
         (_, { rows: { _array } }) => notifications.merge([..._array])
       );

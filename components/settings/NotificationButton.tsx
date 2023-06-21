@@ -33,7 +33,7 @@ export default function NotificationButton({ notification }: Props) {
         ]
       );
     }
-    router.push(`/home/settings/notifications`);
+    router.push(`/home/settings/notifications/${notification.habit_id}`);
   }
 
   return (
@@ -53,12 +53,13 @@ export default function NotificationButton({ notification }: Props) {
       <View
         style={{
           flexDirection: "row",
-          alignItems: "center",
-          gap: 10,
+          alignItems: "flex-start",
         }}
       >
-        <Text style={{ fontSize: 16 }}>{notification.title}</Text>
-        <Text>{`${formatTime(notification.hour)}:${formatTime(
+        <Text style={{ fontSize: 16, flex: 1, paddingRight: theme.spacing.s }}>
+          {notification.title}
+        </Text>
+        <Text>{`@ ${formatTime(notification.hour)}:${formatTime(
           notification.minute
         )}`}</Text>
       </View>
@@ -74,7 +75,7 @@ export default function NotificationButton({ notification }: Props) {
                 borderWidth: 1,
                 borderRadius: 10,
                 padding: theme.spacing.xs,
-                minWidth: 30,
+                minWidth: 35,
                 alignItems: "center",
                 justifyContent: "center",
               }}

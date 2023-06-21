@@ -28,6 +28,29 @@ export type Notification = {
   identifiers: string;
   hour: number;
   minute: number;
+  title: string;
 };
 
 export type Weekday = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+
+type Day = { val: Weekday; text: string };
+
+export const days: Day[] = [
+  { val: 1, text: "Sun" },
+  { val: 2, text: "Mon" },
+  { val: 3, text: "Tue" },
+  { val: 4, text: "Wed" },
+  { val: 5, text: "Thu" },
+  { val: 6, text: "Fri" },
+  { val: 7, text: "Sat" },
+];
+
+export const weekday: { [key: string]: string } = {
+  "1": "Sun",
+  "2": "Mon",
+  "3": "Tue",
+  "4": "Wed",
+  "5": "Thu",
+  "6": "Fri",
+  "7": "Sat",
+};

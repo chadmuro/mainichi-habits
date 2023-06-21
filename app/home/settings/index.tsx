@@ -1,37 +1,25 @@
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  Alert,
-  Linking,
-  Pressable,
-} from "react-native";
+import { View, StyleSheet, ScrollView, Alert, Linking } from "react-native";
 import * as Clipboard from "expo-clipboard";
-import { useRouter } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Text from "../../../components/styled/Text";
 import TabLayout from "../../../components/TabLayout";
 import { useTheme } from "../../../contexts/themeContext";
 import SmallButton from "../../../components/styled/SmallButton";
 import { useSettingsState } from "../../../store/settings";
-import { Habit, SettingsTheme } from "../../../types";
+import { Habit, SettingsTheme, weekday } from "../../../types";
 import { useHabitState } from "../../../store/habits";
 import SortHabits from "../../../components/SortHabits";
 import Button from "../../../components/styled/Button";
 import { useNotificationState } from "../../../store/notifications";
-import { useNotifications } from "../../../hooks/useNotifications";
+import NotificationButton from "../../../components/settings/NotificationButton";
 
 const themes: SettingsTheme[] = ["auto", "dark", "light"];
 
 export default function Settings() {
   const { theme } = useTheme();
-  const router = useRouter();
   const { settings, updateSettings } = useSettingsState();
-  const { requestPermissionsAsync } = useNotifications();
   const { habits } = useHabitState();
   const { notifications } = useNotificationState();
-
-  console.log(notifications.get());
 
   const settingsTheme = settings.get()?.theme;
 
@@ -47,30 +35,14 @@ export default function Settings() {
     );
   };
 
-  async function onNotificationPress() {
-    const permission = await requestPermissionsAsync();
-    if (!permission.granted) {
-      return Alert.alert(
-        "Turn on notification permissions",
-        "To use this feature, you must habe permissions turned on.",
-        [
-          {
-            text: "Cancel",
-            style: "cancel",
-          },
-          {
-            text: "Go to settings",
-            onPress: () => Linking.openSettings(),
-          },
-        ]
-      );
-    }
-    router.push(`home/settings/notifications`);
-  }
+  console.log(notifications.get());
 
   return (
     <TabLayout>
-      <ScrollView style={{ width: "100%" }}>
+      <ScrollView
+        style={{ width: "100%" }}
+        showsVerticalScrollIndicator={false}
+      >
         <View
           style={{
             width: "100%",
@@ -84,9 +56,7 @@ export default function Settings() {
               { borderColor: theme.colors.text, padding: theme.spacing.m },
             ]}
           >
-            <Text style={[styles.title, { paddingBottom: theme.spacing.s }]}>
-              Theme
-            </Text>
+            <Text style={styles.title}>Theme</Text>
             <View style={{ flexDirection: "row", gap: 10 }}>
               {themes.map((themeText) => {
                 let color = theme.colors.text;
@@ -111,9 +81,7 @@ export default function Settings() {
               { borderColor: theme.colors.text, padding: theme.spacing.m },
             ]}
           >
-            <Text style={[styles.title, { paddingBottom: theme.spacing.s }]}>
-              Reorder habits
-            </Text>
+            <Text style={styles.title}>Reorder habits</Text>
             <SortHabits habits={habits.get() as Habit[]} />
           </View>
           <View
@@ -129,9 +97,7 @@ export default function Settings() {
                 width: "100%",
               }}
             >
-              <Text style={[styles.title, { paddingBottom: theme.spacing.s }]}>
-                Notifications
-              </Text>
+              <Text style={styles.title}>Reminders</Text>
               {/* <Pressable onPress={() => onNotificationPress()}>
                 <Ionicons
                   name="add-outline"
@@ -140,13 +106,15 @@ export default function Settings() {
                 />
               </Pressable> */}
             </View>
-            <View style={{ width: "100%" }}>
-              {notifications.get()?.length! > 0 ? (
+            <View style={{ width: "100%", gap: 10 }}>
+              {notifications.get().length > 0 ? (
                 notifications
                   .get()
-                  ?.map((notif) => <Text>{notif.habit_id}</Text>)
+                  ?.map((notif) => (
+                    <NotificationButton notification={notif} key={notif.id} />
+                  ))
               ) : (
-                <Text>No notifications</Text>
+                <Text>No reminders</Text>
               )}
             </View>
           </View>
@@ -156,9 +124,7 @@ export default function Settings() {
               { borderColor: theme.colors.text, padding: theme.spacing.m },
             ]}
           >
-            <Text style={[styles.title, { paddingBottom: theme.spacing.s }]}>
-              Contact me
-            </Text>
+            <Text style={styles.title}>Contact me</Text>
             <View style={{ width: "100%", gap: 10 }}>
               <Button
                 color={theme.colors.primary}
@@ -187,6 +153,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: "700",
+    paddingBottom: 16,
   },
   subTitle: {
     color: "#a5a5a5",

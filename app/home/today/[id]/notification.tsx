@@ -18,21 +18,9 @@ import { useState } from "react";
 import { useTheme } from "../../../../contexts/themeContext";
 import Button from "../../../../components/styled/Button";
 import { useNotifications } from "../../../../hooks/useNotifications";
-import { Weekday } from "../../../../types";
+import { Weekday, days } from "../../../../types";
 import { useNotificationState } from "../../../../store/notifications";
 import TextError from "../../../../components/styled/TextError";
-
-type Day = { val: Weekday; text: string };
-
-const days: Day[] = [
-  { val: 1, text: "Sun" },
-  { val: 2, text: "Mon" },
-  { val: 3, text: "Tue" },
-  { val: 4, text: "Wed" },
-  { val: 5, text: "Thu" },
-  { val: 6, text: "Fri" },
-  { val: 7, text: "Sat" },
-];
 
 export default function Notification() {
   const { id } = useSearchParams();

@@ -17,7 +17,9 @@ export const useNotificationState = () => {
       (tx) => {
         console.log("get notifications");
         tx.executeSql(
-          `select * from notifications;`,
+          `select n.id, n.habit_id, n.days, n.identifiers, n.hour, n.minute, h.title
+          from notifications n
+          inner join habits h on h.id = n.habit_id;`,
           [],
           (_, { rows: { _array } }) => notifications.set(_array)
         );

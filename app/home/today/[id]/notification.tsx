@@ -1,4 +1,5 @@
 import { Link, Stack, useRouter, useSearchParams } from "expo-router";
+import * as Haptics from "expo-haptics";
 import {
   Pressable,
   ScrollView,
@@ -28,7 +29,8 @@ export default function Notification() {
   const { theme, selectedTheme } = useTheme();
   const [error, setError] = useState("");
   const { habits } = useHabitState();
-  const { createNotification, deleteNotification } = useNotifications();
+  const { createNotification, deleteNotification, updateNotification } =
+    useNotifications();
   const { notifications } = useNotificationState();
   const habit = habits.get().find((habit) => habit.id === id);
   const notificationData = notifications
@@ -64,9 +66,11 @@ export default function Notification() {
     }
   }
 
+  console.log(notifications.get());
   console.log(notificationData);
 
   function onDeletePress(notificationId: string, identifiers: string) {
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
     Alert.alert(
       "Are you sure you want to delete this reminder?",
       "Once deleted, the data cannot be retrieved.",
@@ -99,6 +103,21 @@ export default function Notification() {
     const hour = reminderTime.getHours();
     const minute = reminderTime.getMinutes();
     weekday = [...selectedDays];
+
+    if (notificationData) {
+      if (habit) {
+        await updateNotification(
+          notificationData.id,
+          habit.title,
+          weekday.join(","),
+          notificationData.identifiers,
+          hour,
+          minute
+        );
+        router.push(`/home/today/${habit.id}`);
+        return;
+      }
+    }
 
     if (habit) {
       await createNotification(habit.id, habit.title, hour, minute, weekday);

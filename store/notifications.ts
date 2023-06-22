@@ -52,9 +52,39 @@ export const useNotificationState = () => {
         `select n.id, n.habit_id, n.days, n.identifiers, n.hour, n.minute, h.title
         from notifications n
         inner join habits h on h.id = n.habit_id
-        where id = ?;`,
+        where n.id = ?;`,
         [UUID],
         (_, { rows: { _array } }) => notifications.merge([..._array])
+      );
+    });
+  }
+
+  function updateDbNotification(
+    id: string,
+    days: string,
+    identifiers: string,
+    hour: number,
+    minute: number
+  ) {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "update notifications set days = ?, identifiers = ?, hour = ?, minute = ? where id = ?",
+        [days, identifiers, hour, minute, id]
+      );
+      tx.executeSql(
+        `select n.id, n.habit_id, n.days, n.identifiers, n.hour, n.minute, h.title
+        from notifications n
+        inner join habits h on h.id = n.habit_id
+        where n.id = ?;`,
+        [id],
+        (_, { rows: { _array } }) => {
+          const index = notifications.get().findIndex((notification) => {
+            return notification.id === id;
+          });
+          if (index !== -1) {
+            notifications[index].set(_array[0]);
+          }
+        }
       );
     });
   }
@@ -75,8 +105,9 @@ export const useNotificationState = () => {
   return {
     loaded,
     getNotifications,
-    addNotification,
     notifications,
+    addNotification,
+    updateDbNotification,
     deleteDbNotification,
   };
 };

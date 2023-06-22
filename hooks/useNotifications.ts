@@ -3,7 +3,8 @@ import { Weekday } from "../types";
 import { useNotificationState } from "../store/notifications";
 
 export function useNotifications() {
-  const { addNotification, deleteDbNotification } = useNotificationState();
+  const { addNotification, deleteDbNotification, updateDbNotification } =
+    useNotificationState();
   async function requestPermissionsAsync() {
     // await Notifications.cancelAllScheduledNotificationsAsync();
     const notifs = await Notifications.getAllScheduledNotificationsAsync();
@@ -75,6 +76,77 @@ export function useNotifications() {
     return identifiers;
   }
 
+  async function updateNotification(
+    notificationId: string,
+    body: string,
+    days: string,
+    identifiers: string,
+    hour: number,
+    minute: number
+  ) {
+    // Delete old notification identifiers
+    const identifiersArray = identifiers.split(",");
+    const identifiersPromises = identifiersArray.map((identifier) => {
+      const cancelPromise =
+        Notifications.cancelScheduledNotificationAsync(identifier);
+      return cancelPromise;
+    });
+
+    const cancelledIdentifiers = await Promise.all(identifiersPromises);
+
+    const weekdays = days.split(",");
+
+    // Add new notification identifiers
+    if (weekdays.length === 7) {
+      const trigger: Notifications.NotificationTriggerInput = {
+        hour,
+        minute,
+        repeats: true,
+      };
+
+      const newIdentifiers = await Notifications.scheduleNotificationAsync({
+        content: {
+          title: "Mainichi Habits",
+          body: `Don't forget to ${body} today!`,
+        },
+        trigger,
+      });
+
+      updateDbNotification(notificationId, days, newIdentifiers, hour, minute);
+      return newIdentifiers;
+    }
+
+    const notificationPromises = weekdays.map((day) => {
+      const trigger: Notifications.NotificationTriggerInput = {
+        hour,
+        minute,
+        weekday: Number(day),
+        repeats: true,
+      };
+
+      const notificationPromise = Notifications.scheduleNotificationAsync({
+        content: {
+          title: "Mainichi Habits",
+          body: `Don't forget to ${body} today!`,
+        },
+        trigger,
+      });
+
+      return notificationPromise;
+    });
+
+    const newIdentifiers = await Promise.all(notificationPromises);
+
+    updateDbNotification(
+      notificationId,
+      days,
+      newIdentifiers.join(","),
+      hour,
+      minute
+    );
+    return newIdentifiers;
+  }
+
   async function deleteNotification(
     notificationId: string,
     identifiers: string
@@ -90,5 +162,10 @@ export function useNotifications() {
     deleteDbNotification(notificationId);
   }
 
-  return { requestPermissionsAsync, createNotification, deleteNotification };
+  return {
+    requestPermissionsAsync,
+    createNotification,
+    updateNotification,
+    deleteNotification,
+  };
 }

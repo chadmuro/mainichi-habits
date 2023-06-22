@@ -3,12 +3,16 @@ import { hookstate, none, useHookstate } from "@hookstate/core";
 import * as Crypto from "expo-crypto";
 import { Habit } from "../types";
 import { useDatabase } from "../contexts/databaseContext";
+import { useNotificationState } from "./notifications";
+import { useNotifications } from "../hooks/useNotifications";
 
 const habitState = hookstate<Habit[]>([]);
 
 export const useHabitState = () => {
   const { db } = useDatabase();
   const habits = useHookstate(habitState);
+  const { notifications } = useNotificationState();
+  const { deleteNotification } = useNotifications();
   const [loaded, setLoaded] = useState(false);
 
   function getHabits() {
@@ -86,12 +90,21 @@ export const useHabitState = () => {
     db.transaction((tx) => {
       tx.executeSql("delete from habits where id = ?", [id]);
       tx.executeSql("delete from checks where habit_id = ?", [id]);
+      tx.executeSql("delete from notifications where habit_id = ?", [id]);
 
       const index = habits.get().findIndex((habit) => {
         return habit.id === id;
       });
       if (index !== -1) {
         habits[index].set(none);
+      }
+
+      const notificationData = notifications.get().find((notification) => {
+        return notification.habit_id === id;
+      });
+
+      if (notificationData) {
+        deleteNotification(notificationData.id, notificationData.identifiers);
       }
     });
   }

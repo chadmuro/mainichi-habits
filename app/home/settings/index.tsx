@@ -35,8 +35,6 @@ export default function Settings() {
     );
   };
 
-  console.log(notifications.get());
-
   return (
     <TabLayout>
       <ScrollView

@@ -93,6 +93,7 @@ export default function Notification() {
 
   async function onSavePress() {
     if (selectedDays.length === 0) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
       setError("At least one day must be selected");
       return;
     }

@@ -6,6 +6,7 @@ import {
   ScrollView,
 } from "react-native";
 import { useState } from "react";
+import * as Haptics from "expo-haptics";
 import { Link, Stack, useRouter, useSearchParams } from "expo-router";
 import DateTimePicker, {
   DateTimePickerEvent,
@@ -55,7 +56,10 @@ export default function Edit() {
   };
 
   function onSubmit() {
-    if (!habitTitle) return setError("Habit name is required");
+    if (!habitTitle) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+      return setError("Habit name is required");
+    }
     if (habit) {
       updateHabit(
         habit.id,

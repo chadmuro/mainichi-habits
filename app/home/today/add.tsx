@@ -6,6 +6,7 @@ import {
   ScrollView,
 } from "react-native";
 import { useState } from "react";
+import * as Haptics from "expo-haptics";
 import { Link, Stack, useRouter } from "expo-router";
 import DateTimePicker, {
   DateTimePickerEvent,
@@ -41,7 +42,10 @@ export default function Add() {
   }
 
   function onSubmit() {
-    if (!habit) return setError("Habit name is required");
+    if (!habit) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+      return setError("Habit name is required");
+    }
     addHabit(habit, daysPerWeek, color, dayjs(startDate).format("YYYY-MM-DD"));
     router.push("/home/today");
   }

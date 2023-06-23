@@ -88,10 +88,14 @@ export default function Notification() {
 
   function onDeleteSubmit(notificationId: string, identifiers: string) {
     deleteNotification(notificationId, identifiers);
+    if (habit) {
+      router.push(`/home/today/${habit.id}`);
+    }
   }
 
   async function onSavePress() {
     if (selectedDays.length === 0) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
       setError("At least one day must be selected");
       return;
     }

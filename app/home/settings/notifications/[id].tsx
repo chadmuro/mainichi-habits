@@ -87,7 +87,6 @@ export default function Notification() {
   }
 
   function onDeleteSubmit(notificationId: string, identifiers: string) {
-    console.log("delete notif");
     deleteNotification(notificationId, identifiers);
     router.push(`/home/settings`);
   }

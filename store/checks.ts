@@ -15,18 +15,15 @@ export const useCheckState = () => {
     setLoaded(false);
     db.transaction(
       (tx) => {
-        console.log("get checks");
         tx.executeSql(`select * from checks;`, [], (_, { rows: { _array } }) =>
           checks.set(_array)
         );
       },
       () => {
         setLoaded(true);
-        console.log("checks error");
       },
       () => {
         setLoaded(true);
-        console.log("checks success");
       }
     );
   }

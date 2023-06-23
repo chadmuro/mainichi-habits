@@ -66,9 +66,6 @@ export default function Notification() {
     }
   }
 
-  console.log(notifications.get());
-  console.log(notificationData);
-
   function onDeletePress(notificationId: string, identifiers: string) {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
     Alert.alert(
@@ -90,7 +87,6 @@ export default function Notification() {
   }
 
   function onDeleteSubmit(notificationId: string, identifiers: string) {
-    console.log("delete notif");
     deleteNotification(notificationId, identifiers);
   }
 

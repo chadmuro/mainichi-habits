@@ -19,7 +19,6 @@ export const useHabitState = () => {
     setLoaded(false);
     db.transaction(
       (tx) => {
-        console.log("get habits");
         tx.executeSql(
           `select * from habits order by seq asc;`,
           [],
@@ -28,11 +27,9 @@ export const useHabitState = () => {
       },
       () => {
         setLoaded(true);
-        console.log("habits error");
       },
       () => {
         setLoaded(true);
-        console.log("habits success");
       }
     );
   }

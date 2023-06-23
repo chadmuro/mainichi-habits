@@ -15,7 +15,6 @@ export const useNotificationState = () => {
     setLoaded(false);
     db.transaction(
       (tx) => {
-        console.log("get notifications");
         tx.executeSql(
           `select n.id, n.habit_id, n.days, n.identifiers, n.hour, n.minute, h.title
           from notifications n
@@ -26,11 +25,9 @@ export const useNotificationState = () => {
       },
       () => {
         setLoaded(true);
-        console.log("noficications error");
       },
       () => {
         setLoaded(true);
-        console.log("noficications success");
       }
     );
   }

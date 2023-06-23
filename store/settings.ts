@@ -14,7 +14,6 @@ export const useSettingsState = () => {
     setLoaded(false);
     db.transaction(
       (tx) => {
-        console.log("get settings");
         tx.executeSql(
           `select * from settings;`,
           [],
@@ -23,11 +22,9 @@ export const useSettingsState = () => {
       },
       () => {
         setLoaded(true);
-        console.log("settings error");
       },
       () => {
         setLoaded(true);
-        console.log("settings success");
       }
     );
   }

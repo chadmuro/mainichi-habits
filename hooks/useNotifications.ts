@@ -6,9 +6,6 @@ export function useNotifications() {
   const { addNotification, deleteDbNotification, updateDbNotification } =
     useNotificationState();
   async function requestPermissionsAsync() {
-    // await Notifications.cancelAllScheduledNotificationsAsync();
-    const notifs = await Notifications.getAllScheduledNotificationsAsync();
-    console.log(notifs);
     return await Notifications.requestPermissionsAsync({
       ios: {
         allowAlert: true,

@@ -7,7 +7,6 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 export { ErrorBoundary } from "expo-router";
 
 // First, set the handler that will cause the notification to show the alert
-console.log("set notification handler");
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,

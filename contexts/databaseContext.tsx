@@ -32,11 +32,9 @@ const DatabaseProvider = ({ children }: PropsWithChildren<{}>) => {
     return db;
   }
 
-  console.log("create db");
   const db = openDatabase();
 
   useEffect(() => {
-    console.log("set up db");
     db.transaction((tx) => {
       tx.executeSql(
         "create table if not exists habits (id string primary key not null, title text, days_per_week int, color text, start_date text, seq integer);"

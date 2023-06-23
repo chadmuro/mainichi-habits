@@ -23,6 +23,7 @@ export default function TextInput({ ...props }: Props) {
       ]}
       placeholderTextColor={theme.colors.inputColor}
       selectionColor={theme.colors.primary}
+      returnKeyType="done"
     />
   );
 }

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
 import DraggableFlatList, {
   RenderItemParams,
@@ -54,9 +55,18 @@ export default function SortHabits({ habits }: Props) {
                 : adjustColor(item.color, 100),
             width: "100%",
             padding: theme.spacing.m,
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            gap: 2,
           }}
         >
-          <Text style={{ fontSize: 16 }}>{item.title}</Text>
+          <Text style={{ fontSize: 16, flex: 1 }}>{item.title}</Text>
+          <Ionicons
+            name="reorder-three-outline"
+            size={24}
+            color={theme.colors.text}
+          />
         </TouchableOpacity>
       </ScaleDecorator>
     );

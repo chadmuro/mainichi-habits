@@ -49,10 +49,10 @@ export default function Past() {
     <TabLayout>
       <Stack.Screen
         options={{
-          headerLeft: () => (
+          headerRight: () => (
             <Link href={`/home/today/${habit.id}`} asChild>
               <Pressable>
-                <Text style={{ color: theme.colors.primary }}>Close</Text>
+                <Text style={{ color: theme.colors.primary }}>Done</Text>
               </Pressable>
             </Link>
           ),

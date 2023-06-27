@@ -11,8 +11,8 @@ const habitState = hookstate<Habit[]>([]);
 export const useHabitState = () => {
   const { db } = useDatabase();
   const habits = useHookstate(habitState);
-  const { notifications, getNotifications } = useNotificationState();
-  const { deleteNotification } = useNotifications();
+  const { notifications } = useNotificationState();
+  const { deleteNotification, updateNotification } = useNotifications();
   const [loaded, setLoaded] = useState(false);
 
   function getHabits() {
@@ -77,7 +77,21 @@ export const useHabitState = () => {
           });
           if (index !== -1) {
             habits[index].set(_array[0]);
-            getNotifications();
+            const notificationData = notifications
+              .get()
+              .find((notification) => {
+                return notification.habit_id === id;
+              });
+            if (notificationData) {
+              updateNotification(
+                notificationData.id,
+                title,
+                notificationData.days,
+                notificationData.identifiers,
+                notificationData.hour,
+                notificationData.minute
+              );
+            }
           }
         }
       );

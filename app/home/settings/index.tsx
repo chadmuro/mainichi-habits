@@ -80,7 +80,11 @@ export default function Settings() {
             ]}
           >
             <Text style={styles.title}>Reorder habits</Text>
-            <SortHabits habits={habits.get() as Habit[]} />
+            {habits.get().length > 0 ? (
+              <SortHabits habits={habits.get() as Habit[]} />
+            ) : (
+              <Text>No habits</Text>
+            )}
           </View>
           <View
             style={[

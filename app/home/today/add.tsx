@@ -151,9 +151,7 @@ export default function Add() {
                     {
                       backgroundColor: habitColor,
                       borderColor:
-                        habitColor === color
-                          ? theme.colors.primary
-                          : habitColor,
+                        habitColor === color ? theme.colors.text : habitColor,
                     },
                   ]}
                 />

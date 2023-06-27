@@ -23,7 +23,18 @@ export default function Today() {
 
   let habitCards: React.ReactElement | null = null;
   if (habits.get().length === 0) {
-    habitCards = <Text style={{ margin: theme.spacing.m }}>No habits</Text>;
+    habitCards = (
+      <View style={{ margin: theme.spacing.m }}>
+        <Text style={theme.textVariants.header}>
+          Welcome to Mainichi Habits!
+        </Text>
+        <Text
+          style={[theme.textVariants.body, { paddingTop: theme.spacing.m }]}
+        >
+          Add your first habit to get started
+        </Text>
+      </View>
+    );
   } else {
     habitCards = (
       <>

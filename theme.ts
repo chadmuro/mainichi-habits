@@ -1,3 +1,5 @@
+import { TextStyle } from "react-native/types";
+
 const palette = {
   yellow: "#EEE600",
   green: "#0ECD9D",
@@ -55,12 +57,11 @@ export const theme = {
   },
   textVariants: {
     header: {
-      fontFamily: "Raleway",
+      fontFamily: "Futura",
       fontSize: 36,
-      fontWeight: "bold",
+      fontWeight: "bold" as TextStyle["fontWeight"],
     },
     body: {
-      fontFamily: "Merriweather",
       fontSize: 16,
     },
   },

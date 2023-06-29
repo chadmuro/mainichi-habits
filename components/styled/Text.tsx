@@ -2,7 +2,7 @@ import { Text as RNText, TextProps } from "react-native";
 import { useTheme } from "../../contexts/themeContext";
 
 interface Props extends TextProps {
-  children: string;
+  children: string | JSX.Element;
 }
 
 export default function Text({ children, ...props }: Props) {

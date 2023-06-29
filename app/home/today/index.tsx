@@ -26,7 +26,11 @@ export default function Today() {
     habitCards = (
       <View style={{ margin: theme.spacing.m }}>
         <Text style={theme.textVariants.header}>
-          Welcome to Mainichi Habits!
+          <>
+            Welcome to{" "}
+            <Text style={{ color: theme.colors.habit.blue }}>Mainichi</Text>{" "}
+            Habits!
+          </>
         </Text>
         <Text
           style={[theme.textVariants.body, { paddingTop: theme.spacing.m }]}

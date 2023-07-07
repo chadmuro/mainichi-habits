@@ -16,7 +16,7 @@
     ],
     "scheme": "myapp",
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "bundleIdentifier": "com.chadmuro.mainichi"
     },
     "android": {

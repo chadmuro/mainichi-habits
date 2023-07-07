@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "mainichi-habits",
-    "slug": "mainichi-habits",
+    "name": "Mainichi",
+    "slug": "mainichi",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -16,7 +16,8 @@
     ],
     "scheme": "myapp",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.chadmuro.mainichi"
     },
     "android": {
       "adaptiveIcon": {
@@ -27,6 +28,12 @@
     "web": {
       "favicon": "./assets/favicon.png",
       "bundler": "metro"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "753662ab-efde-4f03-ad48-e5f47e273432"
+      }
+    },
+    "owner": "chadmuro"
   }
 }

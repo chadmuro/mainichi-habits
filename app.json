@@ -18,7 +18,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.chadmuro.mainichi",
-      "buildNubmer": "2"
+      "buildNumber": "2"
     },
     "android": {
       "adaptiveIcon": {

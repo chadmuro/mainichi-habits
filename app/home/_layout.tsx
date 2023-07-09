@@ -72,7 +72,6 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="year"
         options={{
-          href: null,
           title: "Year",
           tabBarLabel: ({ focused }) => (
             <Text

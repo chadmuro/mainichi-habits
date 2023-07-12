@@ -34,6 +34,7 @@ export default function Year() {
           if (habitData) {
             return (
               <View
+                key={habitData.id}
                 style={[
                   styles.container,
                   {

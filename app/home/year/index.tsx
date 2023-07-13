@@ -1,4 +1,4 @@
-import { ScrollView, View, StyleSheet } from "react-native";
+import { ScrollView, View, StyleSheet, TouchableHighlight } from "react-native";
 import TabLayout from "../../../components/TabLayout";
 import { useTheme } from "../../../contexts/themeContext";
 import Text from "../../../components/styled/Text";
@@ -6,9 +6,11 @@ import YearGrid from "../../../components/yearGrid";
 import { useCheckState } from "../../../store/checks";
 import { Check } from "../../../types";
 import { useHabitState } from "../../../store/habits";
+import { useRouter } from "expo-router";
 
 export default function Year() {
   const { theme } = useTheme();
+  const router = useRouter();
   const { checks } = useCheckState();
   const { habits } = useHabitState();
 
@@ -34,7 +36,8 @@ export default function Year() {
             return habit.id === key;
           });
           return (
-            <View
+            <TouchableHighlight
+              onPress={() => router.push(`/home/year/${habit.id}`)}
               key={habit.id}
               style={[
                 styles.container,
@@ -44,15 +47,19 @@ export default function Year() {
                 },
               ]}
             >
-              <Text style={[styles.title, { paddingBottom: theme.spacing.s }]}>
-                {habit.title}
-              </Text>
-              <YearGrid
-                color={habit.color}
-                checks={checkData ? checkData[1] : []}
-                startDate={habit.start_date}
-              />
-            </View>
+              <>
+                <Text
+                  style={[styles.title, { paddingBottom: theme.spacing.s }]}
+                >
+                  {habit.title}
+                </Text>
+                <YearGrid
+                  color={habit.color}
+                  checks={checkData ? checkData[1] : []}
+                  startDate={habit.start_date}
+                />
+              </>
+            </TouchableHighlight>
           );
         })}
       </>

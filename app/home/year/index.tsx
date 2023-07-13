@@ -29,33 +29,31 @@ export default function Year() {
   } else {
     yearCards = (
       <>
-        {Object.entries(results).map(([key, value]) => {
-          const habitData = habits.get().find((habit) => habit.id === key);
-          if (habitData) {
-            return (
-              <View
-                key={habitData.id}
-                style={[
-                  styles.container,
-                  {
-                    borderColor: theme.colors.text,
-                    padding: theme.spacing.m,
-                  },
-                ]}
-              >
-                <Text
-                  style={[styles.title, { paddingBottom: theme.spacing.s }]}
-                >
-                  {habitData.title}
-                </Text>
-                <YearGrid
-                  color={habitData.color}
-                  checks={value}
-                  startDate={habitData.start_date}
-                />
-              </View>
-            );
-          }
+        {habits.get().map((habit) => {
+          const checkData = Object.entries(results).find(([key, value]) => {
+            return habit.id === key;
+          });
+          return (
+            <View
+              key={habit.id}
+              style={[
+                styles.container,
+                {
+                  borderColor: theme.colors.text,
+                  padding: theme.spacing.m,
+                },
+              ]}
+            >
+              <Text style={[styles.title, { paddingBottom: theme.spacing.s }]}>
+                {habit.title}
+              </Text>
+              <YearGrid
+                color={habit.color}
+                checks={checkData ? checkData[1] : []}
+                startDate={habit.start_date}
+              />
+            </View>
+          );
         })}
       </>
     );

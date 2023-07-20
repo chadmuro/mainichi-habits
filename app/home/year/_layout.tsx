@@ -20,6 +20,13 @@ export default function Year() {
           title: "Last 365 Days",
         }}
       />
+      <Stack.Screen
+        name="[pastId]"
+        options={{
+          presentation: "modal",
+          title: "Past dates",
+        }}
+      />
     </Stack>
   );
 }

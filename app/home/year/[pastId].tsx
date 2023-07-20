@@ -3,19 +3,19 @@ import dayjs from "dayjs";
 import { Calendar, DateData } from "react-native-calendars";
 import { Link, Stack, useLocalSearchParams } from "expo-router";
 import * as Haptics from "expo-haptics";
-import TabLayout from "../../../../components/TabLayout";
-import Text from "../../../../components/styled/Text";
-import { adjustColor } from "../../../../utils/adjustColor";
-import { useHabitState } from "../../../../store/habits";
-import { useCheckState } from "../../../../store/checks";
-import { useTheme } from "../../../../contexts/themeContext";
+import TabLayout from "../../../components/TabLayout";
+import Text from "../../../components/styled/Text";
+import { adjustColor } from "../../../utils/adjustColor";
+import { useHabitState } from "../../../store/habits";
+import { useCheckState } from "../../../store/checks";
+import { useTheme } from "../../../contexts/themeContext";
 
 export default function Past() {
   const { theme, selectedTheme } = useTheme();
   const { habits } = useHabitState();
   const { checks, addCheck, deleteCheck } = useCheckState();
   const params = useLocalSearchParams();
-  const id = params.id as string;
+  const id = params.pastId as string;
   const habit = habits.get().find((habit) => habit.id === id);
   const today = dayjs().format("YYYY-MM-DD");
 
@@ -51,7 +51,7 @@ export default function Past() {
         options={{
           title: habit.title,
           headerRight: () => (
-            <Link href={`/home/today/${habit.id}`} asChild>
+            <Link href={`/home/year`} asChild>
               <Pressable>
                 <Text style={{ color: theme.colors.primary }}>Done</Text>
               </Pressable>

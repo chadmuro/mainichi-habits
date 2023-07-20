@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
   },
   buttonsContainer: {
     flexDirection: "row",
-    gap: 10,
+    gap: 8,
     flexWrap: "wrap",
   },
   color: {

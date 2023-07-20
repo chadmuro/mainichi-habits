@@ -40,31 +40,6 @@ export const habitMainColorMap = {
 export type HabitColorTitle = keyof typeof habitColors;
 
 export const habitColors = {
-  slate: {
-    light: "#cbd5e1",
-    main: "#64748b",
-    dark: "#334155",
-  },
-  gray: {
-    light: "#d1d5db",
-    main: "#6b7280",
-    dark: "#374151",
-  },
-  zinc: {
-    light: "#d4d4d8",
-    main: "#71717a",
-    dark: "#3f3f46",
-  },
-  neutral: {
-    light: "#d4d4d4",
-    main: "#737373",
-    dark: "#404040",
-  },
-  stone: {
-    light: "#d6d3d1",
-    main: "#78716c",
-    dark: "#44403c",
-  },
   red: {
     light: "#fca5a5",
     main: "#ef4444",
@@ -149,6 +124,31 @@ export const habitColors = {
     light: "#fda4af",
     main: "#f43f5e",
     dark: "#be123c",
+  },
+  slate: {
+    light: "#cbd5e1",
+    main: "#64748b",
+    dark: "#334155",
+  },
+  gray: {
+    light: "#d1d5db",
+    main: "#6b7280",
+    dark: "#374151",
+  },
+  // zinc: {
+  //   light: "#d4d4d8",
+  //   main: "#71717a",
+  //   dark: "#3f3f46",
+  // },
+  neutral: {
+    light: "#d4d4d4",
+    main: "#737373",
+    dark: "#404040",
+  },
+  stone: {
+    light: "#d6d3d1",
+    main: "#78716c",
+    dark: "#44403c",
   },
 };
 

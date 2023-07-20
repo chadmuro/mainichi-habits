@@ -28,7 +28,9 @@ export default function Today() {
         <Text style={theme.textVariants.header}>
           <>
             Welcome to{" "}
-            <Text style={{ color: theme.colors.habit.blue }}>Mainichi</Text>{" "}
+            <Text style={{ color: theme.colors.habit.blue.main }}>
+              Mainichi
+            </Text>{" "}
             Habits!
           </>
         </Text>

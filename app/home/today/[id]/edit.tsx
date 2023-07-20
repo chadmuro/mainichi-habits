@@ -156,18 +156,20 @@ export default function Edit() {
         <View style={[styles.inputWrapper, { marginBottom: theme.spacing.m }]}>
           <TextLabel title="Color" />
           <View style={styles.buttonsContainer}>
-            {Object.values(habitColors).map((habitColor) => (
+            {Object.entries(habitColors).map(([title, habitColor]) => (
               <TouchableOpacity
-                key={habitColor}
-                onPress={() => onColorChange(habitColor)}
+                key={title}
+                onPress={() => onColorChange(habitColor.main)}
               >
                 <View
                   style={[
                     styles.color,
                     {
-                      backgroundColor: habitColor,
+                      backgroundColor: habitColor.main,
                       borderColor:
-                        habitColor === color ? theme.colors.text : habitColor,
+                        habitColor.main === color
+                          ? theme.colors.text
+                          : habitColor.main,
                     },
                   ]}
                 />

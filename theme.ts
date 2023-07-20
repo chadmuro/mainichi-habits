@@ -5,7 +5,9 @@ const palette = {
   green: "#0ECD9D",
   red: "#CD0E61",
   black: "#0B0B0B",
+  offblack: "#3c3c3c",
   white: "#F0F2F3",
+  offwhite: "#D2D3D5",
 };
 
 export type HabitMainColor = keyof typeof habitMainColorMap;
@@ -154,7 +156,7 @@ export const theme = {
   colors: {
     text: palette.black,
     background: palette.white,
-    foreground: palette.black,
+    foreground: palette.offwhite,
     inputBackground: "#d8d9da",
     inputColor: "#787979",
     primary: "#007AFF",
@@ -190,7 +192,7 @@ export const darkTheme = {
     ...theme.colors,
     text: palette.white,
     background: palette.black,
-    foreground: palette.white,
+    foreground: palette.offblack,
     inputBackground: "#2a2727",
     inputColor: "#a5a5a5",
   },

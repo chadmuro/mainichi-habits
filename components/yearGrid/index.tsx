@@ -3,9 +3,13 @@ import YearDay from "./YearDay";
 import { getLast365Days } from "../../utils/getLast365Days";
 import { useMemo, useRef } from "react";
 import { Check } from "../../types";
-import { adjustColor } from "../../utils/adjustColor";
 import dayjs from "dayjs";
 import { useTheme } from "../../contexts/themeContext";
+import {
+  HabitColorTitle,
+  HabitMainColor,
+  habitMainColorMap,
+} from "../../theme";
 
 interface Props {
   color: string;
@@ -35,14 +39,22 @@ export default function YearGrid({ color, checks, startDate }: Props) {
         {days.map((day) => {
           let dayColor = color;
           if (day < startDate || day > todayFormatted) {
-            dayColor = adjustColor(
-              theme.colors.background,
-              selectedTheme === "dark" ? 50 : -50
-            );
+            dayColor = theme.colors.foreground;
           } else {
             const index = checks.findIndex((check) => check.date === day);
             if (index === -1) {
-              dayColor = adjustColor(color, -100);
+              dayColor =
+                selectedTheme === "dark"
+                  ? theme.colors.habit[
+                      habitMainColorMap[
+                        color as HabitMainColor
+                      ] as HabitColorTitle
+                    ].dark
+                  : theme.colors.habit[
+                      habitMainColorMap[
+                        color as HabitMainColor
+                      ] as HabitColorTitle
+                    ].light;
             }
           }
           return <YearDay key={day} color={dayColor} />;

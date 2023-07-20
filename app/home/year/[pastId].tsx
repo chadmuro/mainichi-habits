@@ -1,17 +1,17 @@
 import { Pressable, View } from "react-native";
 import dayjs from "dayjs";
-import { Calendar, DateData } from "react-native-calendars";
+import { DateData } from "react-native-calendars";
 import { Link, Stack, useLocalSearchParams } from "expo-router";
 import * as Haptics from "expo-haptics";
 import TabLayout from "../../../components/TabLayout";
 import Text from "../../../components/styled/Text";
-import { adjustColor } from "../../../utils/adjustColor";
 import { useHabitState } from "../../../store/habits";
 import { useCheckState } from "../../../store/checks";
 import { useTheme } from "../../../contexts/themeContext";
+import PastDatesCalendar from "../../../components/PastDatesCalendar";
 
 export default function Past() {
-  const { theme, selectedTheme } = useTheme();
+  const { theme } = useTheme();
   const { habits } = useHabitState();
   const { checks, addCheck, deleteCheck } = useCheckState();
   const params = useLocalSearchParams();
@@ -63,48 +63,11 @@ export default function Past() {
         Select day to add or remove past dates
       </Text>
       <View style={{ width: "100%" }}>
-        <Calendar
-          style={{ width: "100%" }}
-          minDate={habit.start_date}
-          maxDate={today}
+        <PastDatesCalendar
+          habit={habit}
           markedDates={markedDates}
-          enableSwipeMonths={true}
-          onDayPress={(day) => handleDayPress(day)}
-          hideExtraDays={false}
-          disableMonthChange={true}
-          disableAllTouchEventsForInactiveDays={true}
-          theme={{
-            backgroundColor: theme.colors.background,
-            calendarBackground: theme.colors.background,
-            textSectionTitleColor: theme.colors.text,
-            // textSectionTitleDisabledColor: "red",
-            selectedDayBackgroundColor: adjustColor(
-              habit.color,
-              selectedTheme === "dark" ? -100 : 100
-            ),
-            selectedDayTextColor: theme.colors.text,
-            todayTextColor: habit.color,
-            dayTextColor: theme.colors.text,
-            textDisabledColor: adjustColor(
-              theme.colors.background,
-              selectedTheme === "dark" ? 50 : -50
-            ),
-            // dotColor: "#00adf5",
-            // selectedDotColor:theme.colors.background,
-            arrowColor: habit.color,
-            // disabledArrowColor: "#d9e1e8",
-            monthTextColor: habit.color,
-            // indicatorColor: "blue",
-            // textDayFontFamily: "monospace",
-            // textMonthFontFamily: "monospace",
-            // textDayHeaderFontFamily: "monospace",
-            // textDayFontWeight: "300",
-            // textMonthFontWeight: "bold",
-            // textDayHeaderFontWeight: "300",
-            textDayFontSize: 18,
-            textMonthFontSize: 20,
-            // textDayHeaderFontSize: 16,
-          }}
+          today={today}
+          handleDayPress={handleDayPress}
         />
       </View>
     </TabLayout>

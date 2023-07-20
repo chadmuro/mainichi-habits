@@ -1,4 +1,4 @@
-import { ScrollView, View, StyleSheet, TouchableOpacity } from "react-native";
+import { ScrollView, View, StyleSheet, Pressable } from "react-native";
 import TabLayout from "../../../components/TabLayout";
 import { useTheme } from "../../../contexts/themeContext";
 import Text from "../../../components/styled/Text";
@@ -36,7 +36,7 @@ export default function Year() {
             return habit.id === key;
           });
           return (
-            <TouchableOpacity
+            <Pressable
               onPress={() => router.push(`/home/year/${habit.id}`)}
               key={habit.id}
               style={[
@@ -59,7 +59,7 @@ export default function Year() {
                   startDate={habit.start_date}
                 />
               </>
-            </TouchableOpacity>
+            </Pressable>
           );
         })}
       </>

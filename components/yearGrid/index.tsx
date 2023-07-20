@@ -35,7 +35,13 @@ export default function YearGrid({ color, checks, startDate }: Props) {
         scrollViewRef.current?.scrollToEnd({ animated: false })
       }
     >
-      <View style={styles.container}>
+      <View
+        style={styles.container}
+        onStartShouldSetResponder={(event) => true}
+        onTouchEnd={(e) => {
+          e.stopPropagation();
+        }}
+      >
         {days.map((day) => {
           let dayColor = color;
           if (day < startDate || day > todayFormatted) {

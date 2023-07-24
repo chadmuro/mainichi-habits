@@ -1,7 +1,6 @@
 import { ScrollView, View, StyleSheet } from "react-native";
 import YearDay from "./YearDay";
-import { getLast365Days } from "../../utils/getLast365Days";
-import { useMemo, useRef } from "react";
+import { useRef } from "react";
 import { Check } from "../../types";
 import dayjs from "dayjs";
 import { useTheme } from "../../contexts/themeContext";
@@ -10,6 +9,7 @@ import {
   HabitMainColor,
   habitMainColorMap,
 } from "../../theme";
+import { useDates } from "../../contexts/datesContext";
 
 interface Props {
   color: string;
@@ -22,9 +22,7 @@ export default function YearGrid({ color, checks, startDate }: Props) {
   const today = dayjs();
   const todayFormatted = today.format("YYYY-MM-DD");
   const scrollViewRef = useRef<ScrollView | null>(null);
-  const days = useMemo(() => {
-    return getLast365Days(today);
-  }, [todayFormatted]);
+  const { dates } = useDates();
 
   return (
     <ScrollView
@@ -42,7 +40,7 @@ export default function YearGrid({ color, checks, startDate }: Props) {
           e.stopPropagation();
         }}
       >
-        {days.map((day) => {
+        {dates.map((day) => {
           let dayColor = color;
           if (day < startDate || day > todayFormatted) {
             dayColor = theme.colors.foreground;

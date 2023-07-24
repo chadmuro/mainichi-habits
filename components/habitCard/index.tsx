@@ -7,12 +7,16 @@ import dayjs from "dayjs";
 import { Habit } from "../../types";
 import Text from "../styled/Text";
 import { useCheckState } from "../../store/checks";
-import { adjustColor } from "../../utils/adjustColor";
 import { calculateStreak } from "../../utils/calculateStreak";
 import DaysOfTheWeek from "./DaysOfTheWeek";
 import { Link } from "expo-router";
 import { checkDays } from "../../utils/checkDays";
 import { useTheme } from "../../contexts/themeContext";
+import {
+  HabitColorTitle,
+  HabitMainColor,
+  habitMainColorMap,
+} from "../../theme";
 
 interface Props {
   habit: Habit;
@@ -33,10 +37,14 @@ export default function HabitCard({ habit }: Props) {
     return check.date === today;
   });
 
-  const completedColor = adjustColor(
-    habit.color,
-    selectedTheme === "dark" ? -100 : 100
-  );
+  const completedColor =
+    selectedTheme === "dark"
+      ? theme.colors.habit[
+          habitMainColorMap[habit.color as HabitMainColor] as HabitColorTitle
+        ].dark
+      : theme.colors.habit[
+          habitMainColorMap[habit.color as HabitMainColor] as HabitColorTitle
+        ].light;
   const streak = useMemo(() => {
     return calculateStreak({
       checks: habitChecks,

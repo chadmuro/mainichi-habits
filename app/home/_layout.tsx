@@ -21,6 +21,9 @@ export default function TabsLayout() {
         },
         headerShadowVisible: false,
         headerShown: false,
+        // TODO - Check when expo router is fixed
+        // https://github.com/expo/router/issues/688
+        lazy: false,
       }}
     >
       <Tabs.Screen

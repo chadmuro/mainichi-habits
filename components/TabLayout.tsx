@@ -2,11 +2,17 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
 import { useTheme } from "../contexts/themeContext";
 
-export default function TabLayout({ children }: { children: React.ReactNode }) {
+interface Props {
+  children: React.ReactNode;
+  onLayout?: () => void;
+}
+
+export default function TabLayout({ children, onLayout = undefined }: Props) {
   const { selectedTheme, theme } = useTheme();
 
   return (
     <View
+      onLayout={onLayout}
       style={[
         styles.container,
         {

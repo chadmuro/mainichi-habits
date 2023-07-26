@@ -1,24 +1,28 @@
 import { View, ScrollView, RefreshControl } from "react-native";
+import { SplashScreen } from "expo-router";
 import Text from "../../../components/styled/Text";
 import HabitCard from "../../../components/habitCard";
 import TabLayout from "../../../components/TabLayout";
 import { useHabitState } from "../../../store/habits";
 import { useInitialLoad } from "../../../hooks/useInitialLoad";
 import { useTheme } from "../../../contexts/themeContext";
+import { useCallback } from "react";
 
 export default function Today() {
   const { theme } = useTheme();
   const { habits } = useHabitState();
   const { appLoaded, refreshing, refreshData } = useInitialLoad();
 
-  // TODO implemenet logic to keep splash screen visibile while data is fetching
-  // https://github.com/expo/expo/issues/21662
+  SplashScreen.preventAutoHideAsync();
+
+  const onLayoutRootView = useCallback(() => {
+    if (appLoaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [appLoaded]);
+
   if (!appLoaded) {
-    return (
-      <TabLayout>
-        <View></View>
-      </TabLayout>
-    );
+    return null;
   }
 
   let habitCards: React.ReactElement | null = null;
@@ -52,7 +56,7 @@ export default function Today() {
   }
 
   return (
-    <TabLayout>
+    <TabLayout onLayout={onLayoutRootView}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={{ width: "100%" }}

@@ -1,5 +1,5 @@
 import { Alert, Pressable } from "react-native";
-import { Stack, useRouter, useSearchParams } from "expo-router";
+import { Stack, useRouter, useGlobalSearchParams } from "expo-router";
 import * as Haptics from "expo-haptics";
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
@@ -8,7 +8,7 @@ import { useTheme } from "../../../../contexts/themeContext";
 
 export default function Layout() {
   const { theme } = useTheme();
-  const { id } = useSearchParams();
+  const { id } = useGlobalSearchParams();
   const router = useRouter();
   const { habits, deleteHabit } = useHabitState();
   const habit = habits.get().find((habit) => habit.id === id);

@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import { useState } from "react";
 import * as Haptics from "expo-haptics";
-import { Link, Stack, useRouter, useSearchParams } from "expo-router";
+import { Link, Stack, useRouter, useGlobalSearchParams } from "expo-router";
 import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
@@ -26,7 +26,7 @@ const days = [1, 2, 3, 4, 5, 6, 7];
 export default function Edit() {
   const { theme, selectedTheme } = useTheme();
   const router = useRouter();
-  const { id } = useSearchParams();
+  const { id } = useGlobalSearchParams();
   const { habits, updateHabit } = useHabitState();
   const habit = habits.get().find((habit) => habit.id === id);
 

@@ -1,4 +1,4 @@
-import { Link, Stack, useRouter, useSearchParams } from "expo-router";
+import { Link, Stack, useRouter, useGlobalSearchParams } from "expo-router";
 import * as Haptics from "expo-haptics";
 import {
   Pressable,
@@ -24,7 +24,7 @@ import { useNotificationState } from "../../../../store/notifications";
 import TextError from "../../../../components/styled/TextError";
 
 export default function Notification() {
-  const { id } = useSearchParams();
+  const { id } = useGlobalSearchParams();
   const router = useRouter();
   const { theme, selectedTheme } = useTheme();
   const [error, setError] = useState("");
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
   },
   buttonsContainer: {
     flexDirection: "row",
-    gap: 10,
+    gap: 8,
     flexWrap: "wrap",
   },
   color: {

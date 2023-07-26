@@ -35,6 +35,9 @@
         "projectId": "753662ab-efde-4f03-ad48-e5f47e273432"
       }
     },
-    "owner": "chadmuro"
+    "owner": "chadmuro",
+    "plugins": [
+      "expo-router"
+    ]
   }
 }

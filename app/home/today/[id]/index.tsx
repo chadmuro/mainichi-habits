@@ -1,4 +1,4 @@
-import { useSearchParams, useRouter } from "expo-router";
+import { useGlobalSearchParams, useRouter } from "expo-router";
 import { Alert, ScrollView, View, StyleSheet, Linking } from "react-native";
 import Text from "../../../../components/styled/Text";
 import TabLayout from "../../../../components/TabLayout";
@@ -16,7 +16,7 @@ import { useNotifications } from "../../../../hooks/useNotifications";
 export default function Details() {
   const { theme } = useTheme();
   const router = useRouter();
-  const { id } = useSearchParams();
+  const { id } = useGlobalSearchParams();
   const { habits } = useHabitState();
   const { requestPermissionsAsync } = useNotifications();
   const habit = habits.get().find((habit) => habit.id === id);

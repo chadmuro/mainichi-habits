@@ -1,5 +1,16 @@
-import { createContext, PropsWithChildren, useContext, useEffect } from "react";
-import { useColorScheme } from "react-native";
+import {
+  createContext,
+  PropsWithChildren,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import {
+  Appearance,
+  AppState,
+  ColorSchemeName,
+  // useColorScheme,
+} from "react-native";
 import { theme, darkTheme } from "../theme";
 import { useSettingsState } from "../store/settings";
 import { Theme } from "../types";
@@ -13,12 +24,34 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 const ThemeProvider = ({ children }: PropsWithChildren<{}>) => {
   const { settings } = useSettingsState();
-  const colorScheme = useColorScheme();
+  // const currentTheme = useColorScheme();
+
+  // TODO - update to useColorScheme when fixed
+  // https://github.com/facebook/react-native/issues/35972
+  const [currentTheme, setTheme] = useState<ColorSchemeName>(
+    Appearance.getColorScheme()
+  );
+
+  useEffect(() => {
+    const eventSubscription = AppState.addEventListener(
+      "change",
+      (nextAppState) => {
+        if (nextAppState === "active") {
+          const theme = Appearance.getColorScheme();
+          setTheme(theme);
+        }
+      }
+    );
+
+    return () => {
+      eventSubscription.remove();
+    };
+  }, []);
 
   let selectedTheme: Theme = "dark";
 
   if (settings.get()?.theme == "auto") {
-    selectedTheme = colorScheme ?? "dark";
+    selectedTheme = currentTheme ?? "dark";
   } else {
     selectedTheme = (settings.get()?.theme as Theme) ?? "dark";
   }

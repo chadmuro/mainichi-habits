@@ -1,5 +1,6 @@
 import { View, StyleSheet, Pressable } from "react-native";
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
+import LottieView from "lottie-react-native";
 import * as Haptics from "expo-haptics";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -23,6 +24,7 @@ interface Props {
 }
 
 export default function HabitCard({ habit }: Props) {
+  const animation = useRef<LottieView | null>(null);
   const { theme, selectedTheme } = useTheme();
   const { addCheck, deleteCheck, checks } = useCheckState();
   const today = dayjs().format("YYYY-MM-DD");
@@ -61,12 +63,18 @@ export default function HabitCard({ habit }: Props) {
     if (checkedToday !== today) {
       addCheck(habit.id, checkedToday);
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      if (checkedDays.length + 1 >= habit.days_per_week) {
+        animation.current?.play();
+      }
       return;
     }
 
     if (!checked) {
       addCheck(habit.id, today);
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      if (checkedDays.length + 1 >= habit.days_per_week) {
+        animation.current?.play();
+      }
     } else {
       deleteCheck(checked.id);
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
@@ -162,6 +170,18 @@ export default function HabitCard({ habit }: Props) {
           )}
         </View>
         <DaysOfTheWeek days={days} color={completedColor} />
+        <LottieView
+          loop={false}
+          ref={animation}
+          style={{
+            position: "absolute",
+            top: 5,
+            left: 5,
+            height: "100%",
+            backgroundColor: "transparent",
+          }}
+          source={require("../../assets/lottie/celebration.json")}
+        />
       </Pressable>
     </Link>
   );

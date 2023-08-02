@@ -29,7 +29,7 @@ export const useSettingsState = () => {
     );
   }
 
-  function updateSettings(column: string, value: string) {
+  function updateSettings(column: string, value: string | number) {
     db.transaction((tx) => {
       tx.executeSql(`update settings set ${column} = ? where id = 1;`, [value]);
       tx.executeSql(`select * from settings;`, [], (_, { rows: { _array } }) =>

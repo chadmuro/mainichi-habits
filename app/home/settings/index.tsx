@@ -1,12 +1,12 @@
 import { View, StyleSheet, ScrollView, Alert, Linking } from "react-native";
 import * as Clipboard from "expo-clipboard";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import * as Haptics from "expo-haptics";
 import Text from "../../../components/styled/Text";
 import TabLayout from "../../../components/TabLayout";
 import { useTheme } from "../../../contexts/themeContext";
 import SmallButton from "../../../components/styled/SmallButton";
 import { useSettingsState } from "../../../store/settings";
-import { Habit, SettingsTheme, weekday } from "../../../types";
+import { Habit, SettingsTheme, WeekStart } from "../../../types";
 import { useHabitState } from "../../../store/habits";
 import SortHabits from "../../../components/SortHabits";
 import Button from "../../../components/styled/Button";
@@ -22,9 +22,16 @@ export default function Settings() {
   const { notifications } = useNotificationState();
 
   const settingsTheme = settings.get()?.theme;
+  const weekStart = settings.get()?.week_start;
 
   function onThemePress(settingTheme: SettingsTheme) {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     updateSettings("theme", settingTheme);
+  }
+
+  function onWeekStartPress(weekStart: WeekStart) {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    updateSettings("week_start", weekStart);
   }
 
   const copyToClipboard = async () => {
@@ -71,6 +78,32 @@ export default function Settings() {
                   </SmallButton>
                 );
               })}
+            </View>
+          </View>
+          <View
+            style={[
+              styles.container,
+              { borderColor: theme.colors.text, padding: theme.spacing.m },
+            ]}
+          >
+            <Text style={styles.title}>Theme</Text>
+            <View style={{ flexDirection: "row", gap: 10 }}>
+              <SmallButton
+                color={
+                  weekStart === 0 ? theme.colors.primary : theme.colors.text
+                }
+                onPress={() => onWeekStartPress(0)}
+              >
+                Sunday
+              </SmallButton>
+              <SmallButton
+                color={
+                  weekStart === 1 ? theme.colors.primary : theme.colors.text
+                }
+                onPress={() => onWeekStartPress(1)}
+              >
+                Monday
+              </SmallButton>
             </View>
           </View>
           <View

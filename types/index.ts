@@ -17,8 +17,11 @@ export type Theme = "dark" | "light";
 
 export type SettingsTheme = Theme | "auto";
 
+export type WeekStart = 0 | 1;
+
 export type Settings = {
   theme: SettingsTheme;
+  week_start: WeekStart;
 };
 
 export type Notification = {

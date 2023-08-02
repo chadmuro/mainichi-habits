@@ -2,6 +2,7 @@ import { Calendar, DateData } from "react-native-calendars";
 import { Habit } from "../types";
 import { useTheme } from "../contexts/themeContext";
 import { HabitColorTitle, HabitMainColor, habitMainColorMap } from "../theme";
+import { useSettingsState } from "../store/settings";
 
 interface Props {
   habit: Habit;
@@ -16,6 +17,9 @@ export default function PastDatesCalendar({
   handleDayPress,
 }: Props) {
   const { theme, selectedTheme } = useTheme();
+  const { settings } = useSettingsState();
+
+  const weekStart = settings.get()?.week_start;
 
   return (
     <Calendar
@@ -28,6 +32,7 @@ export default function PastDatesCalendar({
       hideExtraDays={false}
       disableMonthChange={true}
       disableAllTouchEventsForInactiveDays={true}
+      firstDay={weekStart}
       theme={{
         backgroundColor: theme.colors.background,
         calendarBackground: theme.colors.background,

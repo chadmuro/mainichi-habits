@@ -5,7 +5,7 @@ import * as Haptics from "expo-haptics";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import dayjs from "dayjs";
-import { Habit } from "../../types";
+import { Habit, WeekStart } from "../../types";
 import Text from "../styled/Text";
 import { useCheckState } from "../../store/checks";
 import { calculateStreak } from "../../utils/calculateStreak";
@@ -18,6 +18,7 @@ import {
   HabitMainColor,
   habitMainColorMap,
 } from "../../theme";
+import { useSettingsState } from "../../store/settings";
 
 interface Props {
   habit: Habit;
@@ -28,6 +29,9 @@ export default function HabitCard({ habit }: Props) {
   const { theme, selectedTheme } = useTheme();
   const { addCheck, deleteCheck, checks } = useCheckState();
   const today = dayjs().format("YYYY-MM-DD");
+  const { settings } = useSettingsState();
+
+  const weekStart = settings.get()?.week_start;
 
   const habitChecks = checks.get().filter((check) => {
     return check.habit_id === habit.id;
@@ -55,7 +59,7 @@ export default function HabitCard({ habit }: Props) {
     });
   }, [numHabitChecks, habit.days_per_week]);
 
-  const { checkedDays, days } = checkDays(habitChecks);
+  const { checkedDays, days } = checkDays(habitChecks, weekStart as WeekStart);
 
   function onCheckPress() {
     // If midnight has passed, checking habit card will add new day check

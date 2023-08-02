@@ -4,7 +4,7 @@ import * as SQLite from "expo-sqlite";
 
 type DatabaseContextType = {
   db:
-    | SQLite.WebSQLDatabase
+    | SQLite.SQLiteDatabase
     | {
         transaction: () => {
           executeSql: () => void;

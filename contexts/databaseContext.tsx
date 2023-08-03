@@ -4,7 +4,7 @@ import * as SQLite from "expo-sqlite";
 
 type DatabaseContextType = {
   db:
-    | SQLite.WebSQLDatabase
+    | SQLite.SQLiteDatabase
     | {
         transaction: () => {
           executeSql: () => void;
@@ -48,6 +48,11 @@ const DatabaseProvider = ({ children }: PropsWithChildren<{}>) => {
       tx.executeSql("insert or ignore into settings (id) values('1')");
       tx.executeSql(
         "create table if not exists notifications (id string primary key not null, habit_id string, days text, identifiers text, hour integer, minute integer);"
+      );
+
+      // Add week_start row to settings
+      tx.executeSql(
+        "alter table settings add column week_start integer default 0 not null"
       );
     });
   }, []);

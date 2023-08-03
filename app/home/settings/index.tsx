@@ -86,7 +86,7 @@ export default function Settings() {
               { borderColor: theme.colors.text, padding: theme.spacing.m },
             ]}
           >
-            <Text style={styles.title}>Theme</Text>
+            <Text style={styles.title}>Week starts on</Text>
             <View style={{ flexDirection: "row", gap: 10 }}>
               <SmallButton
                 color={

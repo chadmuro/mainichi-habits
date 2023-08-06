@@ -6,9 +6,10 @@ import {
   useState,
 } from "react";
 import dayjs from "dayjs";
+import weekday from "dayjs/plugin/weekday";
+import updateLocale from "dayjs/plugin/updateLocale";
 import { getLast365Days } from "../utils/getLast365Days";
 import { useSettingsState } from "../store/settings";
-import { WeekStart } from "../types";
 
 type DateContextType = {
   dates: string[];
@@ -27,7 +28,13 @@ const DatesProvider = ({ children }: PropsWithChildren<{}>) => {
 
   useEffect(() => {
     if (weekStart !== undefined) {
-      const lastDates = getLast365Days(today, weekStart as WeekStart);
+      // set dayjs global weekday and locale
+      dayjs.extend(weekday);
+      dayjs.extend(updateLocale);
+      dayjs.updateLocale("en", {
+        weekStart: weekStart,
+      });
+      const lastDates = getLast365Days(today);
       setDates(lastDates);
     }
   }, [todayFormatted, weekStart]);

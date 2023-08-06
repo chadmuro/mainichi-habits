@@ -12,6 +12,7 @@ import YearGrid from "../../../../components/yearGrid";
 import { useTheme } from "../../../../contexts/themeContext";
 import { Habit } from "../../../../types";
 import { useNotifications } from "../../../../hooks/useNotifications";
+import { useSettingsState } from "../../../../store/settings";
 
 export default function Details() {
   const { theme } = useTheme();
@@ -20,6 +21,8 @@ export default function Details() {
   const { habits } = useHabitState();
   const { requestPermissionsAsync } = useNotifications();
   const habit = habits.get().find((habit) => habit.id === id);
+  const { settings } = useSettingsState();
+  const weekStart = settings.get()?.week_start;
 
   // TODO: Show no data page
   if (!habit) {
@@ -40,7 +43,7 @@ export default function Details() {
       daysPerWeek: habit.days_per_week,
       today,
     });
-  }, [numHabitChecks, habit.days_per_week]);
+  }, [numHabitChecks, habit.days_per_week, weekStart]);
 
   async function onNotificationPress(habit: Habit) {
     const permission = await requestPermissionsAsync();

@@ -57,7 +57,7 @@ export default function HabitCard({ habit }: Props) {
       daysPerWeek: habit.days_per_week,
       today,
     });
-  }, [numHabitChecks, habit.days_per_week]);
+  }, [numHabitChecks, habit.days_per_week, weekStart]);
 
   const { checkedDays, days } = checkDays(habitChecks, weekStart as WeekStart);
 

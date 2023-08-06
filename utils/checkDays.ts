@@ -15,7 +15,7 @@ function checkDayOfTheWeek(date: string, checks: Check[]) {
 
 export function checkDays(checks: Check[], weekStart: WeekStart) {
   if (weekStart === 1) {
-    const firstDay = dayjs().startOf("week").add(1, "day");
+    const firstDay = dayjs().startOf("week");
     const monday = firstDay.format("YYYY-MM-DD");
     const tuesday = firstDay.add(1, "day").format("YYYY-MM-DD");
     const wednesday = firstDay.add(2, "day").format("YYYY-MM-DD");

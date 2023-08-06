@@ -1,6 +1,7 @@
 import { View, StyleSheet, ScrollView, Alert, Linking } from "react-native";
 import * as Clipboard from "expo-clipboard";
 import * as Haptics from "expo-haptics";
+import dayjs from "dayjs";
 import Text from "../../../components/styled/Text";
 import TabLayout from "../../../components/TabLayout";
 import { useTheme } from "../../../contexts/themeContext";
@@ -32,6 +33,9 @@ export default function Settings() {
   function onWeekStartPress(weekStart: WeekStart) {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     updateSettings("week_start", weekStart);
+    dayjs.updateLocale("en", {
+      weekStart: weekStart,
+    });
   }
 
   const copyToClipboard = async () => {

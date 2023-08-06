@@ -36,7 +36,7 @@ export type Notification = {
 
 export type Weekday = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
-type Day = { val: Weekday; text: string };
+export type Day = { val: Weekday; text: string };
 
 export const days: Day[] = [
   { val: 1, text: "Sun" },

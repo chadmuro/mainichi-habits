@@ -5,6 +5,7 @@ import { formatTime } from "../../utils/formatTime";
 import { Notification, weekday } from "../../types";
 import { useNotifications } from "../../hooks/useNotifications";
 import { useRouter } from "expo-router";
+import { useSettingsState } from "../../store/settings";
 
 interface Props {
   notification: Notification;
@@ -14,6 +15,9 @@ export default function NotificationButton({ notification }: Props) {
   const { theme } = useTheme();
   const router = useRouter();
   const { requestPermissionsAsync } = useNotifications();
+  const { settings } = useSettingsState();
+
+  const weekStart = settings.get()?.week_start;
 
   async function onNotificationPress() {
     const permission = await requestPermissionsAsync();
@@ -34,6 +38,13 @@ export default function NotificationButton({ notification }: Props) {
       );
     }
     router.push(`/home/settings/notifications/${notification.habit_id}`);
+  }
+
+  let displayDays = notification.days
+    .split(",")
+    .sort((a, b) => Number(a) - Number(b));
+  if (weekStart === 1 && displayDays[0] === "1") {
+    displayDays.push(displayDays.shift() as string);
   }
 
   return (
@@ -64,25 +75,22 @@ export default function NotificationButton({ notification }: Props) {
         )}`}</Text>
       </View>
       <View style={{ flexDirection: "row", gap: 5 }}>
-        {notification.days
-          .split(",")
-          .sort((a, b) => Number(a) - Number(b))
-          .map((day) => (
-            <View
-              key={day}
-              style={{
-                borderColor: theme.colors.text,
-                borderWidth: 1,
-                borderRadius: 10,
-                padding: theme.spacing.xs,
-                minWidth: 35,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Text style={{ fontSize: 12 }}>{weekday[day]}</Text>
-            </View>
-          ))}
+        {displayDays.map((day) => (
+          <View
+            key={day}
+            style={{
+              borderColor: theme.colors.text,
+              borderWidth: 1,
+              borderRadius: 10,
+              padding: theme.spacing.xs,
+              minWidth: 35,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Text style={{ fontSize: 12 }}>{weekday[day]}</Text>
+          </View>
+        ))}
       </View>
     </TouchableOpacity>
   );

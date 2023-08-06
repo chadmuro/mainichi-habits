@@ -19,9 +19,10 @@ import { useState } from "react";
 import { useTheme } from "../../../../contexts/themeContext";
 import Button from "../../../../components/styled/Button";
 import { useNotifications } from "../../../../hooks/useNotifications";
-import { Weekday, days } from "../../../../types";
+import { Day, Weekday, days } from "../../../../types";
 import { useNotificationState } from "../../../../store/notifications";
 import TextError from "../../../../components/styled/TextError";
+import { useSettingsState } from "../../../../store/settings";
 
 export default function Notification() {
   const { id } = useGlobalSearchParams();
@@ -45,6 +46,9 @@ export default function Notification() {
   }
   const [selectedDays, setSelectedDays] = useState<Weekday[]>(defaultDays);
   const [reminderTime, setReminderTime] = useState(defaultDate);
+  const { settings } = useSettingsState();
+
+  const weekStart = settings.get()?.week_start;
 
   // TODO: Show no data page
   if (!habit) {
@@ -123,6 +127,13 @@ export default function Notification() {
     }
   }
 
+  let displayDays = days;
+  if (weekStart === 1 && displayDays[0].val === 1) {
+    displayDays.push(displayDays.shift() as Day);
+  } else if (weekStart === 0 && displayDays[0].val === 2) {
+    displayDays.unshift(displayDays.pop() as Day);
+  }
+
   return (
     <TabLayout>
       <Stack.Screen
@@ -160,7 +171,7 @@ export default function Notification() {
         <View style={[styles.inputWrapper, { marginBottom: theme.spacing.m }]}>
           <TextLabel title="Days" />
           <View style={styles.buttonsContainer}>
-            {days.map((day) => (
+            {displayDays.map((day) => (
               <TouchableOpacity
                 key={day.val}
                 onPress={() => onDaySelect(day.val)}

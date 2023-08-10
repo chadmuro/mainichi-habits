@@ -36,6 +36,10 @@ const DatabaseProvider = ({ children }: PropsWithChildren<{}>) => {
 
   useEffect(() => {
     db.transaction((tx) => {
+      // tx.executeSql("drop table habits");
+      // tx.executeSql("drop table checks");
+      // tx.executeSql("drop table notifications");
+      // tx.executeSql("drop table settings");
       tx.executeSql(
         "create table if not exists habits (id string primary key not null, title text, days_per_week int, color text, start_date text, seq integer);"
       );
@@ -48,11 +52,6 @@ const DatabaseProvider = ({ children }: PropsWithChildren<{}>) => {
       tx.executeSql("insert or ignore into settings (id) values('1')");
       tx.executeSql(
         "create table if not exists notifications (id string primary key not null, habit_id string, days text, identifiers text, hour integer, minute integer);"
-      );
-
-      // Add week_start row to settings
-      tx.executeSql(
-        "alter table settings add column week_start integer default 0 not null"
       );
     });
   }, []);

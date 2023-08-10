@@ -13,6 +13,7 @@ import { useSettingsState } from "../store/settings";
 
 type DateContextType = {
   dates: string[];
+  setTodayFormatted: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const DatesContext = createContext<DateContextType | undefined>(undefined);
@@ -22,10 +23,12 @@ const DatesProvider = ({ children }: PropsWithChildren<{}>) => {
 
   const weekStart = settings.get()?.week_start;
   const today = dayjs();
-  const todayFormatted = today.format("YYYY-MM-DD");
+
+  const [todayFormatted, setTodayFormatted] = useState(
+    today.format("YYYY-MM-DD")
+  );
 
   const [dates, setDates] = useState<string[]>([]);
-
   useEffect(() => {
     if (weekStart !== undefined) {
       // set dayjs global weekday and locale
@@ -34,12 +37,12 @@ const DatesProvider = ({ children }: PropsWithChildren<{}>) => {
       dayjs.updateLocale("en", {
         weekStart: weekStart,
       });
-      const lastDates = getLast365Days(today);
+      const lastDates = getLast365Days(todayFormatted);
       setDates(lastDates);
     }
   }, [todayFormatted, weekStart]);
 
-  const value = { dates };
+  const value = { dates, setTodayFormatted };
 
   return (
     <DatesContext.Provider value={value}>{children}</DatesContext.Provider>

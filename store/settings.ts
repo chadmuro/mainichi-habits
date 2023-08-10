@@ -26,7 +26,7 @@ export const useSettingsState = () => {
       },
       () => {
         setLoaded(true);
-        // Add week_start row to settings
+        // Add week_start column to settings
         if (settings.get()?.week_start === undefined) {
           db.transaction((tx) => {
             tx.executeSql(
@@ -40,7 +40,7 @@ export const useSettingsState = () => {
           });
         }
 
-        // // Add last_login row to settings
+        // Add last_login column to settings
         if (!settings.get()?.last_login) {
           const today = dayjs().format("YYYY-MM-DD");
           db.transaction((tx) => {
@@ -48,6 +48,20 @@ export const useSettingsState = () => {
             tx.executeSql("update settings set last_login = ? where id = 1;", [
               today,
             ]);
+            tx.executeSql(
+              `select * from settings;`,
+              [],
+              (_, { rows: { _array } }) => settings.set(_array[0])
+            );
+          });
+        }
+
+        // Add ask_review column to settings
+        if (settings.get()?.ask_review === undefined) {
+          db.transaction((tx) => {
+            tx.executeSql(
+              "alter table settings add column ask_review default 0 not null"
+            );
             tx.executeSql(
               `select * from settings;`,
               [],

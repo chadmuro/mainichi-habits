@@ -1,5 +1,6 @@
 import { View, ScrollView, RefreshControl, AppState } from "react-native";
 import { SplashScreen } from "expo-router";
+import * as Notifications from "expo-notifications";
 import dayjs from "dayjs";
 import Text from "../../../components/styled/Text";
 import HabitCard from "../../../components/habitCard";
@@ -46,6 +47,7 @@ export default function Today() {
 
   const onLayoutRootView = useCallback(() => {
     if (appLoaded) {
+      Notifications.dismissAllNotificationsAsync();
       SplashScreen.hideAsync();
       const loginDate = dayjs().format("YYYY-MM-DD");
       // On app open, update last_login date if needed

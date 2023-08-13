@@ -22,6 +22,8 @@ export type WeekStart = 0 | 1;
 export type Settings = {
   theme: SettingsTheme;
   week_start: WeekStart;
+  last_login: string;
+  ask_review: number;
 };
 
 export type Notification = {

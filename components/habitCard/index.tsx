@@ -19,6 +19,7 @@ import {
   habitMainColorMap,
 } from "../../theme";
 import { useSettingsState } from "../../store/settings";
+import { useAskReview } from "../../hooks/useAskReview";
 
 interface Props {
   habit: Habit;
@@ -30,6 +31,7 @@ export default function HabitCard({ habit }: Props) {
   const { addCheck, deleteCheck, checks } = useCheckState();
   const today = dayjs().format("YYYY-MM-DD");
   const { settings } = useSettingsState();
+  const { askReview } = useAskReview();
 
   const weekStart = settings.get()?.week_start;
 
@@ -69,6 +71,7 @@ export default function HabitCard({ habit }: Props) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       if (checkedDays.length + 1 >= habit.days_per_week) {
         animation.current?.play();
+        askReview();
       }
       return;
     }
@@ -78,6 +81,7 @@ export default function HabitCard({ habit }: Props) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       if (checkedDays.length + 1 >= habit.days_per_week) {
         animation.current?.play();
+        askReview();
       }
     } else {
       deleteCheck(checked.id);

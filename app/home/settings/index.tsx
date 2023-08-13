@@ -174,6 +174,16 @@ export default function Settings() {
               <Button color={theme.colors.primary} onPress={copyToClipboard}>
                 Copy email to clipboard
               </Button>
+              <Button
+                color={theme.colors.primary}
+                onPress={() =>
+                  Linking.openURL(
+                    `itms-apps://itunes.apple.com/app/viewContentsUserReviews/id6451048200?action=write-review`
+                  )
+                }
+              >
+                Write a review
+              </Button>
             </View>
           </View>
         </View>

@@ -13,6 +13,7 @@ import SortHabits from "../../../components/SortHabits";
 import Button from "../../../components/styled/Button";
 import { useNotificationState } from "../../../store/notifications";
 import NotificationButton from "../../../components/settings/NotificationButton";
+import { useFileSystem } from "../../../hooks/useFileSystem";
 
 const themes: SettingsTheme[] = ["auto", "dark", "light"];
 
@@ -21,6 +22,7 @@ export default function Settings() {
   const { settings, updateSettings } = useSettingsState();
   const { habits } = useHabitState();
   const { notifications } = useNotificationState();
+  const { exportData } = useFileSystem();
 
   const settingsTheme = settings.get()?.theme;
   const weekStart = settings.get()?.week_start;
@@ -155,6 +157,25 @@ export default function Settings() {
               ) : (
                 <Text>No reminders</Text>
               )}
+            </View>
+          </View>
+          <View
+            style={[
+              styles.container,
+              { borderColor: theme.colors.text, padding: theme.spacing.m },
+            ]}
+          >
+            <Text style={styles.title}>Import / Export</Text>
+            <View style={{ width: "100%", gap: 10 }}>
+              <Button color={theme.colors.primary} onPress={() => exportData()}>
+                Export data
+              </Button>
+              <Button
+                color={theme.colors.primary}
+                onPress={() => console.log("import")}
+              >
+                Import data
+              </Button>
             </View>
           </View>
           <View

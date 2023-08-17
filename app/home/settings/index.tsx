@@ -139,13 +139,6 @@ export default function Settings() {
               }}
             >
               <Text style={styles.title}>Reminders</Text>
-              {/* <Pressable onPress={() => onNotificationPress()}>
-                <Ionicons
-                  name="add-outline"
-                  size={24}
-                  color={theme.colors.primary}
-                />
-              </Pressable> */}
             </View>
             <View style={{ width: "100%", gap: 10 }}>
               {notifications.get().length > 0 ? (
@@ -167,10 +160,40 @@ export default function Settings() {
           >
             <Text style={styles.title}>Import / Export</Text>
             <View style={{ width: "100%", gap: 10 }}>
-              <Button color={theme.colors.primary} onPress={() => exportData()}>
+              <Button
+                color={theme.colors.primary}
+                onPress={() =>
+                  Alert.alert(
+                    "Export data",
+                    "Save the file to your phone or send to another device. Then import that file into a new phone",
+                    [
+                      {
+                        text: "Cancel",
+                        style: "cancel",
+                      },
+                      { text: "Continue", onPress: exportData },
+                    ]
+                  )
+                }
+              >
                 Export data
               </Button>
-              <Button color={theme.colors.primary} onPress={() => importData()}>
+              <Button
+                color={theme.colors.primary}
+                onPress={() =>
+                  Alert.alert(
+                    "Are you sure you want to import data?",
+                    "Your current data will be overwritten and is not recoverable.",
+                    [
+                      {
+                        text: "Cancel",
+                        style: "cancel",
+                      },
+                      { text: "Select file", onPress: importData },
+                    ]
+                  )
+                }
+              >
                 Import data
               </Button>
             </View>

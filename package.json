@@ -17,6 +17,7 @@
     "expo-clipboard": "~4.3.0",
     "expo-constants": "~14.4.2",
     "expo-crypto": "~12.4.1",
+    "expo-document-picker": "~11.5.4",
     "expo-file-system": "~15.4.3",
     "expo-haptics": "~12.4.0",
     "expo-linking": "~5.0.2",

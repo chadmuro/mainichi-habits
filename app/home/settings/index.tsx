@@ -22,7 +22,7 @@ export default function Settings() {
   const { settings, updateSettings } = useSettingsState();
   const { habits } = useHabitState();
   const { notifications } = useNotificationState();
-  const { exportData } = useFileSystem();
+  const { exportData, importData } = useFileSystem();
 
   const settingsTheme = settings.get()?.theme;
   const weekStart = settings.get()?.week_start;
@@ -170,10 +170,7 @@ export default function Settings() {
               <Button color={theme.colors.primary} onPress={() => exportData()}>
                 Export data
               </Button>
-              <Button
-                color={theme.colors.primary}
-                onPress={() => console.log("import")}
-              >
+              <Button color={theme.colors.primary} onPress={() => importData()}>
                 Import data
               </Button>
             </View>

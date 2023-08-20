@@ -5,6 +5,8 @@ import * as DocumentPicker from "expo-document-picker";
 
 export function useFileSystem() {
   async function exportData() {
+    // delete notifications table and clear notifications on device
+
     // save db file to phone
     try {
       const dbInfo = await FileSystem.getInfoAsync(
@@ -28,6 +30,10 @@ export function useFileSystem() {
     });
 
     if (!file || !file.assets) return;
+
+    if (!file.assets[0].name.includes(".db")) {
+      return console.log("error");
+    }
     let filePath = file.assets[0].uri;
 
     const dbFileInfo = await FileSystem.getInfoAsync(filePath);

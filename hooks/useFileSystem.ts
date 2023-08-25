@@ -2,10 +2,14 @@ import { DevSettings } from "react-native";
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
 import * as DocumentPicker from "expo-document-picker";
+import { useNotifications } from "./useNotifications";
 
 export function useFileSystem() {
+  const { deleteAllNotifications } = useNotifications();
+
   async function exportData() {
     // delete notifications table and clear notifications on device
+    await deleteAllNotifications();
 
     // save db file to phone
     try {
@@ -34,6 +38,10 @@ export function useFileSystem() {
     if (!file.assets[0].name.includes(".db")) {
       return console.log("error");
     }
+
+    // delete notifications table and clear notifications on device
+    await deleteAllNotifications();
+
     let filePath = file.assets[0].uri;
 
     const dbFileInfo = await FileSystem.getInfoAsync(filePath);

@@ -2,7 +2,7 @@ import BottomSheet from "@gorhom/bottom-sheet";
 import { useMemo } from "react";
 import { View, StyleSheet } from "react-native";
 import { useTheme } from "../../contexts/themeContext";
-import SmallButton from "../styled/SmallButton";
+import Button from "../../components/styled/Button";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import Text from "../../components/styled/Text";
 
@@ -18,7 +18,7 @@ export function ImportExportInfo({
 }: Props) {
   const { theme } = useTheme();
 
-  const snapPoints = useMemo(() => [400], []);
+  const snapPoints = useMemo(() => [460], []);
 
   return (
     <BottomSheet
@@ -39,44 +39,40 @@ export function ImportExportInfo({
     >
       <View>
         <Text style={styles.header}>Got a new phone? No Worries 👌</Text>
-        <Text>
+        <Text style={styles.body}>
           You can export your data from one phone and import it into another.
         </Text>
       </View>
       <View style={styles.container}>
         <Text style={styles.header}>Export your data:</Text>
-        <Text>
-          Select the Export Data button and save the db.db file to your phone or
-          send to your new device
+        <Text style={styles.body}>
+          Press the Export Data button and save the db.db file to your phone or
+          send to your new device.
         </Text>
-        <Text>
+        <Text style={styles.body}>
           * If you export your data, all of your reminders will be cleared from
           this device
         </Text>
       </View>
       <View style={styles.container}>
         <Text style={styles.header}>Import your data:</Text>
-        <Text>
-          Select the Import Data button select the db.db file sent from your
-          previous device
+        <Text style={styles.body}>
+          Press the Import Data button and select the db.db file sent from your
+          previous device.
         </Text>
-        <Text>
+        <Text style={styles.body}>
           * Be sure to import the correct file, or the app may not function
           properly
         </Text>
-        <Text>
-          * When importing data, your current data will be overwritten. This
-          data cannot be recovered. You will also need to add reminders to your
-          new device
+        <Text style={styles.body}>
+          * Your current data will be overwritten. This data cannot be
+          recovered. You will also need to add reminders to your new device
         </Text>
       </View>
       <View style={styles.container}>
-        <SmallButton
-          color={theme.colors.primary}
-          onPress={() => handleClosePress()}
-        >
+        <Button color={theme.colors.primary} onPress={() => handleClosePress()}>
           Got it!
-        </SmallButton>
+        </Button>
       </View>
     </BottomSheet>
   );
@@ -89,5 +85,8 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 16,
     fontWeight: "700",
+  },
+  body: {
+    lineHeight: 20,
   },
 });

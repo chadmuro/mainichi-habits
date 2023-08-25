@@ -203,7 +203,7 @@ export default function Settings() {
                   width: "100%",
                 }}
               >
-                <Text style={styles.title}>Import / Export</Text>
+                <Text style={styles.title}>Export / Import</Text>
                 <Pressable
                   onPress={isOpen ? handleClosePress : handleOpenPress}
                 >

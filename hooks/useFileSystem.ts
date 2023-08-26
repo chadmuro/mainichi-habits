@@ -1,7 +1,7 @@
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
-import * as Updates from "expo-updates";
 import { DevSettings } from "react-native";
+import RNRestart from "react-native-restart";
 import * as DocumentPicker from "expo-document-picker";
 import { useNotifications } from "./useNotifications";
 import { Alert } from "react-native";
@@ -68,7 +68,7 @@ export function useFileSystem() {
           if (__DEV__) {
             DevSettings.reload();
           } else {
-            await Updates.reloadAsync();
+            RNRestart.restart();
           }
         },
       },

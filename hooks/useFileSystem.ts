@@ -1,6 +1,7 @@
-import { DevSettings } from "react-native";
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
+import * as Updates from "expo-updates";
+import { DevSettings } from "react-native";
 import * as DocumentPicker from "expo-document-picker";
 import { useNotifications } from "./useNotifications";
 
@@ -58,7 +59,12 @@ export function useFileSystem() {
       from: dbFileInfo.uri,
       to: FileSystem.documentDirectory + "SQLite/db.db",
     });
-    DevSettings.reload();
+
+    if (__DEV__) {
+      DevSettings.reload();
+    } else {
+      Updates.reloadAsync();
+    }
   }
 
   return { exportData, importData };

@@ -4,6 +4,7 @@ import * as Updates from "expo-updates";
 import { DevSettings } from "react-native";
 import * as DocumentPicker from "expo-document-picker";
 import { useNotifications } from "./useNotifications";
+import { Alert } from "react-native";
 
 export function useFileSystem() {
   const { deleteAllNotifications } = useNotifications();
@@ -60,11 +61,18 @@ export function useFileSystem() {
       to: FileSystem.documentDirectory + "SQLite/db.db",
     });
 
-    if (__DEV__) {
-      DevSettings.reload();
-    } else {
-      Updates.reloadAsync();
-    }
+    Alert.alert("Data imported", "Please restart the app to continue", [
+      {
+        text: "Restart",
+        onPress: async () => {
+          if (__DEV__) {
+            DevSettings.reload();
+          } else {
+            await Updates.reloadAsync();
+          }
+        },
+      },
+    ]);
   }
 
   return { exportData, importData };

@@ -18,7 +18,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.chadmuro.mainichi",
-      "buildNumber": "2"
+      "buildNumber": "3"
     },
     "android": {
       "adaptiveIcon": {
@@ -37,7 +37,8 @@
     },
     "owner": "chadmuro",
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "expo-updates"
     ]
   }
 }

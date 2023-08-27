@@ -38,7 +38,20 @@ export function useFileSystem() {
     if (!file || !file.assets) return;
 
     if (!file.assets[0].name.includes(".db")) {
-      return console.log("error");
+      return Alert.alert(
+        "Please select the correct file",
+        "File name must end with .db",
+        [
+          {
+            text: "Cancel",
+            style: "cancel",
+          },
+          {
+            text: "Try again",
+            onPress: importData,
+          },
+        ]
+      );
     }
 
     // delete notifications table and clear notifications on device

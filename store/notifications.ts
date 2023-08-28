@@ -99,6 +99,14 @@ export const useNotificationState = () => {
     });
   }
 
+  function deleteAllDbNotifications() {
+    db.transaction((tx) => {
+      tx.executeSql("delete from notifications");
+
+      notifications.set([]);
+    });
+  }
+
   return {
     loaded,
     getNotifications,
@@ -106,5 +114,6 @@ export const useNotificationState = () => {
     addNotification,
     updateDbNotification,
     deleteDbNotification,
+    deleteAllDbNotifications,
   };
 };

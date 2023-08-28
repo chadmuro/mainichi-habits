@@ -1,7 +1,16 @@
-import { View, StyleSheet, ScrollView, Alert, Linking } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  Alert,
+  Linking,
+  Pressable,
+} from "react-native";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import * as Clipboard from "expo-clipboard";
 import * as Haptics from "expo-haptics";
 import dayjs from "dayjs";
+import BottomSheet from "@gorhom/bottom-sheet";
 import Text from "../../../components/styled/Text";
 import TabLayout from "../../../components/TabLayout";
 import { useTheme } from "../../../contexts/themeContext";
@@ -13,6 +22,10 @@ import SortHabits from "../../../components/SortHabits";
 import Button from "../../../components/styled/Button";
 import { useNotificationState } from "../../../store/notifications";
 import NotificationButton from "../../../components/settings/NotificationButton";
+import { useFileSystem } from "../../../hooks/useFileSystem";
+import { useCallback, useRef, useState } from "react";
+import { ImportExportInfo } from "../../../components/settings/ImportExportInfo";
+import { useFocusEffect } from "expo-router";
 
 const themes: SettingsTheme[] = ["auto", "dark", "light"];
 
@@ -21,6 +34,27 @@ export default function Settings() {
   const { settings, updateSettings } = useSettingsState();
   const { habits } = useHabitState();
   const { notifications } = useNotificationState();
+  const { exportData, importData } = useFileSystem();
+  const [isOpen, setIsOpen] = useState(false);
+
+  // handle bottom sheet
+  const bottomSheetRef = useRef<BottomSheet>(null);
+  const handleOpenPress = () => bottomSheetRef.current?.snapToIndex(0);
+  const handleClosePress = () => bottomSheetRef.current?.close();
+
+  useFocusEffect(
+    useCallback(() => {
+      return () => handleClosePress();
+    }, [])
+  );
+
+  const handleSheetChanges = useCallback((index: number) => {
+    if (index === 0) {
+      setIsOpen(true);
+    } else {
+      setIsOpen(false);
+    }
+  }, []);
 
   const settingsTheme = settings.get()?.theme;
   const weekStart = settings.get()?.week_start;
@@ -47,148 +81,213 @@ export default function Settings() {
   };
 
   return (
-    <TabLayout>
-      <ScrollView
-        style={{ width: "100%" }}
-        showsVerticalScrollIndicator={false}
-      >
-        <View
-          style={{
-            width: "100%",
-            height: "100%",
-            gap: theme.spacing.m,
-          }}
+    <>
+      <ImportExportInfo
+        bottomSheetRef={bottomSheetRef}
+        handleClosePress={handleClosePress}
+        handleSheetChanges={handleSheetChanges}
+      />
+      <TabLayout>
+        <ScrollView
+          style={{ width: "100%" }}
+          showsVerticalScrollIndicator={false}
         >
           <View
-            style={[
-              styles.container,
-              { borderColor: theme.colors.text, padding: theme.spacing.m },
-            ]}
-          >
-            <Text style={styles.title}>Theme</Text>
-            <View style={{ flexDirection: "row", gap: 10 }}>
-              {themes.map((themeText) => {
-                let color = theme.colors.text;
-                if (themeText === settingsTheme) {
-                  color = theme.colors.primary;
-                }
-                return (
-                  <SmallButton
-                    key={themeText}
-                    color={color}
-                    onPress={() => onThemePress(themeText)}
-                  >
-                    {themeText}
-                  </SmallButton>
-                );
-              })}
-            </View>
-          </View>
-          <View
-            style={[
-              styles.container,
-              { borderColor: theme.colors.text, padding: theme.spacing.m },
-            ]}
-          >
-            <Text style={styles.title}>Week starts on</Text>
-            <View style={{ flexDirection: "row", gap: 10 }}>
-              <SmallButton
-                color={
-                  weekStart === 0 ? theme.colors.primary : theme.colors.text
-                }
-                onPress={() => onWeekStartPress(0)}
-              >
-                Sunday
-              </SmallButton>
-              <SmallButton
-                color={
-                  weekStart === 1 ? theme.colors.primary : theme.colors.text
-                }
-                onPress={() => onWeekStartPress(1)}
-              >
-                Monday
-              </SmallButton>
-            </View>
-          </View>
-          <View
-            style={[
-              styles.container,
-              { borderColor: theme.colors.text, padding: theme.spacing.m },
-            ]}
-          >
-            <Text style={styles.title}>Reorder habits</Text>
-            {habits.get().length > 0 ? (
-              <SortHabits habits={habits.get() as Habit[]} />
-            ) : (
-              <Text>No habits</Text>
-            )}
-          </View>
-          <View
-            style={[
-              styles.container,
-              { borderColor: theme.colors.text, padding: theme.spacing.m },
-            ]}
+            style={{
+              width: "100%",
+              height: "100%",
+              gap: theme.spacing.m,
+            }}
           >
             <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                width: "100%",
-              }}
+              style={[
+                styles.container,
+                { borderColor: theme.colors.text, padding: theme.spacing.m },
+              ]}
             >
-              <Text style={styles.title}>Reminders</Text>
-              {/* <Pressable onPress={() => onNotificationPress()}>
-                <Ionicons
-                  name="add-outline"
-                  size={24}
-                  color={theme.colors.primary}
-                />
-              </Pressable> */}
+              <Text style={styles.title}>Theme</Text>
+              <View style={{ flexDirection: "row", gap: 10 }}>
+                {themes.map((themeText) => {
+                  let color = theme.colors.text;
+                  if (themeText === settingsTheme) {
+                    color = theme.colors.primary;
+                  }
+                  return (
+                    <SmallButton
+                      key={themeText}
+                      color={color}
+                      onPress={() => onThemePress(themeText)}
+                    >
+                      {themeText}
+                    </SmallButton>
+                  );
+                })}
+              </View>
             </View>
-            <View style={{ width: "100%", gap: 10 }}>
-              {notifications.get().length > 0 ? (
-                notifications
-                  .get()
-                  ?.map((notif) => (
-                    <NotificationButton notification={notif} key={notif.id} />
-                  ))
+            <View
+              style={[
+                styles.container,
+                { borderColor: theme.colors.text, padding: theme.spacing.m },
+              ]}
+            >
+              <Text style={styles.title}>Week starts on</Text>
+              <View style={{ flexDirection: "row", gap: 10 }}>
+                <SmallButton
+                  color={
+                    weekStart === 0 ? theme.colors.primary : theme.colors.text
+                  }
+                  onPress={() => onWeekStartPress(0)}
+                >
+                  Sunday
+                </SmallButton>
+                <SmallButton
+                  color={
+                    weekStart === 1 ? theme.colors.primary : theme.colors.text
+                  }
+                  onPress={() => onWeekStartPress(1)}
+                >
+                  Monday
+                </SmallButton>
+              </View>
+            </View>
+            <View
+              style={[
+                styles.container,
+                { borderColor: theme.colors.text, padding: theme.spacing.m },
+              ]}
+            >
+              <Text style={styles.title}>Reorder habits</Text>
+              {habits.get().length > 0 ? (
+                <SortHabits habits={habits.get() as Habit[]} />
               ) : (
-                <Text>No reminders</Text>
+                <Text>No habits</Text>
               )}
             </View>
-          </View>
-          <View
-            style={[
-              styles.container,
-              { borderColor: theme.colors.text, padding: theme.spacing.m },
-            ]}
-          >
-            <Text style={styles.title}>Contact me</Text>
-            <View style={{ width: "100%", gap: 10 }}>
-              <Button
-                color={theme.colors.primary}
-                onPress={() => Linking.openURL("mailto:chadmurodev@gmail.com")}
+            <View
+              style={[
+                styles.container,
+                { borderColor: theme.colors.text, padding: theme.spacing.m },
+              ]}
+            >
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
               >
-                Open default mail app
-              </Button>
-              <Button color={theme.colors.primary} onPress={copyToClipboard}>
-                Copy email to clipboard
-              </Button>
-              <Button
-                color={theme.colors.primary}
-                onPress={() =>
-                  Linking.openURL(
-                    `itms-apps://itunes.apple.com/app/viewContentsUserReviews/id6451048200?action=write-review`
-                  )
-                }
+                <Text style={styles.title}>Reminders</Text>
+              </View>
+              <View style={{ width: "100%", gap: 10 }}>
+                {notifications.get().length > 0 ? (
+                  notifications
+                    .get()
+                    ?.map((notif) => (
+                      <NotificationButton notification={notif} key={notif.id} />
+                    ))
+                ) : (
+                  <Text>No reminders</Text>
+                )}
+              </View>
+            </View>
+            <View
+              style={[
+                styles.container,
+                { borderColor: theme.colors.text, padding: theme.spacing.m },
+              ]}
+            >
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
               >
-                Write a review
-              </Button>
+                <Text style={styles.title}>Export / Import</Text>
+                <Pressable
+                  onPress={isOpen ? handleClosePress : handleOpenPress}
+                >
+                  <Ionicons
+                    name="information-circle-outline"
+                    size={24}
+                    color={theme.colors.primary}
+                  />
+                </Pressable>
+              </View>
+              <View style={{ width: "100%", gap: 10 }}>
+                <Button
+                  color={theme.colors.primary}
+                  onPress={() =>
+                    Alert.alert(
+                      "Are you sure you want to export data?",
+                      "All reminders will be reset on this device.",
+                      [
+                        {
+                          text: "Cancel",
+                          style: "cancel",
+                        },
+                        { text: "Continue", onPress: exportData },
+                      ]
+                    )
+                  }
+                >
+                  Export data
+                </Button>
+                <Button
+                  color={theme.colors.primary}
+                  onPress={() =>
+                    Alert.alert(
+                      "Are you sure you want to import data?",
+                      "Your current data will be overwritten and is not recoverable.",
+                      [
+                        {
+                          text: "Cancel",
+                          style: "cancel",
+                        },
+                        { text: "Select file", onPress: importData },
+                      ]
+                    )
+                  }
+                >
+                  Import data
+                </Button>
+              </View>
+            </View>
+            <View
+              style={[
+                styles.container,
+                { borderColor: theme.colors.text, padding: theme.spacing.m },
+              ]}
+            >
+              <Text style={styles.title}>Contact me</Text>
+              <View style={{ width: "100%", gap: 10 }}>
+                <Button
+                  color={theme.colors.primary}
+                  onPress={() =>
+                    Linking.openURL("mailto:chadmurodev@gmail.com")
+                  }
+                >
+                  Open default mail app
+                </Button>
+                <Button color={theme.colors.primary} onPress={copyToClipboard}>
+                  Copy email to clipboard
+                </Button>
+                <Button
+                  color={theme.colors.primary}
+                  onPress={() =>
+                    Linking.openURL(
+                      `itms-apps://itunes.apple.com/app/viewContentsUserReviews/id6451048200?action=write-review`
+                    )
+                  }
+                >
+                  Write a review
+                </Button>
+              </View>
             </View>
           </View>
-        </View>
-      </ScrollView>
-    </TabLayout>
+        </ScrollView>
+      </TabLayout>
+    </>
   );
 }
 

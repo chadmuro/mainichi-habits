@@ -3,8 +3,12 @@ import { Weekday } from "../types";
 import { useNotificationState } from "../store/notifications";
 
 export function useNotifications() {
-  const { addNotification, deleteDbNotification, updateDbNotification } =
-    useNotificationState();
+  const {
+    addNotification,
+    deleteDbNotification,
+    updateDbNotification,
+    deleteAllDbNotifications,
+  } = useNotificationState();
   async function requestPermissionsAsync() {
     return await Notifications.requestPermissionsAsync({
       ios: {
@@ -159,10 +163,16 @@ export function useNotifications() {
     deleteDbNotification(notificationId);
   }
 
+  async function deleteAllNotifications() {
+    await Notifications.cancelAllScheduledNotificationsAsync();
+    deleteAllDbNotifications();
+  }
+
   return {
     requestPermissionsAsync,
     createNotification,
     updateNotification,
     deleteNotification,
+    deleteAllNotifications,
   };
 }
